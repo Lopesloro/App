@@ -11,4 +11,4 @@ Regra do projeto: **todo teste executado vira registro em markdown nesta pasta**
 
 | Data | Arquivo | Escopo | Resultado |
 |---|---|---|---|
-| — | — | Nenhum teste executado ainda (fase de documentação) | — |
+| 2026-08-11 | [`2026-08-11-setup-repositorio.md`](2026-08-11-setup-repositorio.md) | Setup do repositório, CI e proteções (Fase 0, issue #48) | ✅ 10/11 passou, 1 corrigido |
