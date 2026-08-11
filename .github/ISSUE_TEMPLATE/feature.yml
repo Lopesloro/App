@@ -1,0 +1,49 @@
+name: Nova funcionalidade
+description: Proposta de feature ou melhoria
+title: "[FEAT] "
+labels: ["feature"]
+body:
+  - type: textarea
+    id: historia
+    attributes:
+      label: Historia de usuaria
+      placeholder: "Como usuaria, quero ... para ..."
+    validations:
+      required: true
+  - type: textarea
+    id: criterios
+    attributes:
+      label: Criterios de aceite
+      placeholder: |
+        - [ ] criterio 1
+        - [ ] criterio 2
+    validations:
+      required: true
+  - type: dropdown
+    id: epico
+    attributes:
+      label: Epico
+      options:
+        - EP-01 Auth
+        - EP-02 Armario virtual
+        - EP-03 Montador de looks
+        - EP-04 Indicacoes/feed
+        - EP-05 Mercado
+        - EP-06 Assinaturas
+        - EP-07 Seguranca/LGPD
+        - EP-08 Social
+        - EP-09 Admin
+        - EP-10 Infra
+    validations:
+      required: true
+  - type: dropdown
+    id: milestone
+    attributes:
+      label: Milestone sugerido
+      options: [MVP, v2]
+  - type: checkboxes
+    id: privacidade
+    attributes:
+      label: Checagem de privacidade
+      options:
+        - label: Esta feature toca em foto ou dado pessoal de usuaria (labels `seguranca`/`lgpd` obrigatorias; ver docs/06-seguranca.md)

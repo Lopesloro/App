@@ -1,0 +1,129 @@
+name: ci
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Detecta se o codigo do app ja existe (Fase 1+). Enquanto o repo for
+  # somente documentacao, os jobs de build/teste passam sem executar.
+  detectar:
+    name: detectar
+    runs-on: ubuntu-latest
+    outputs:
+      tem_app: ${{ steps.check.outputs.tem_app }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: check
+        run: |
+          if [ -f package.json ]; then
+            echo "tem_app=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "tem_app=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  qualidade:
+    name: qualidade
+    needs: detectar
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - if: needs.detectar.outputs.tem_app == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - if: needs.detectar.outputs.tem_app == 'true'
+        run: npm ci
+      - name: Lint
+        if: needs.detectar.outputs.tem_app == 'true'
+        run: npm run lint
+      - name: Typecheck
+        if: needs.detectar.outputs.tem_app == 'true'
+        run: npm run typecheck
+      - name: Commitlint (Conventional Commits)
+        if: needs.detectar.outputs.tem_app == 'true' && github.event_name == 'pull_request'
+        run: npx commitlint --from ${{ github.event.pull_request.base.sha }} --to HEAD
+      - name: Testes com cobertura
+        if: needs.detectar.outputs.tem_app == 'true'
+        run: npm test -- --coverage
+      - name: Guardar cobertura
+        if: needs.detectar.outputs.tem_app == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage/
+      - name: Somente docs — nada a testar
+        if: needs.detectar.outputs.tem_app == 'false'
+        run: echo "Repo em fase de documentacao (sem package.json). Job passa sem executar."
+
+  seguranca-sast:
+    name: seguranca-sast
+    needs: detectar
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Secret scanning (gitleaks)
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: SAST (semgrep)
+        if: needs.detectar.outputs.tem_app == 'true'
+        run: |
+          pip install semgrep
+          semgrep ci --config p/default --config p/react --config p/owasp-top-ten
+
+  codeql:
+    name: codeql
+    needs: detectar
+    if: needs.detectar.outputs.tem_app == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: github/codeql-action/init@v3
+        with:
+          languages: javascript-typescript
+      - uses: github/codeql-action/analyze@v3
+
+  dependency-review:
+    name: dependency-review
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: high
+
+  build-eas:
+    name: build-eas
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.detectar.outputs.tem_app == 'true'
+    needs: [detectar, qualidade, seguranca-sast]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+      - name: Build preview (Android + iOS)
+        run: eas build --profile preview --platform all --non-interactive --no-wait

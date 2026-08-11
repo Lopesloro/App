@@ -1,0 +1,56 @@
+name: Reportar bug
+description: Algo nao funciona como esperado no app
+title: "[BUG] "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: descricao
+    attributes:
+      label: Descricao do bug
+      description: O que aconteceu? O que voce esperava que acontecesse?
+    validations:
+      required: true
+  - type: textarea
+    id: passos
+    attributes:
+      label: Passos para reproduzir
+      placeholder: |
+        1. Abrir a tela ...
+        2. Tocar em ...
+        3. Observar o erro ...
+    validations:
+      required: true
+  - type: dropdown
+    id: plataforma
+    attributes:
+      label: Plataforma
+      options: [Android, iOS, Ambas, Backend/Admin]
+    validations:
+      required: true
+  - type: input
+    id: versao
+    attributes:
+      label: Versao do app / build
+      placeholder: "ex: 1.2.0 (build 45)"
+  - type: dropdown
+    id: severidade
+    attributes:
+      label: Severidade
+      options:
+        - p0-critica (crash, perda de dados, falha de seguranca)
+        - p1-alta (funcionalidade principal quebrada)
+        - p2-media (com workaround)
+        - p3-baixa (cosmetico)
+    validations:
+      required: true
+  - type: checkboxes
+    id: seguranca
+    attributes:
+      label: Impacto de seguranca/privacidade
+      options:
+        - label: Este bug pode expor foto ou dado pessoal de usuaria (adicionar label `seguranca` e tratar como p0)
+  - type: textarea
+    id: evidencias
+    attributes:
+      label: Screenshots / logs
+      description: NUNCA anexar foto real de usuaria ou dado pessoal — use conta de teste.
