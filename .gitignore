@@ -1,0 +1,30 @@
+# deps
+node_modules/
+
+# expo / builds
+.expo/
+dist/
+web-build/
+*.ipa
+*.apk
+*.aab
+
+# env e segredos — NUNCA commitar
+.env
+.env.*
+*.pem
+*.key
+google-services.json
+GoogleService-Info.plist
+
+# testes / cobertura
+coverage/
+
+# logs e SO
+*.log
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/

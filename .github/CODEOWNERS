@@ -1,0 +1,10 @@
+# Padrao: fundador revisa tudo
+*                               @Lopesloro
+
+# Caminhos sensiveis exigem revisao de seguranca
+# (adicionar @revisor-seguranca quando o segundo dev entrar no time)
+/src/services/auth/             @Lopesloro
+/src/services/storage/          @Lopesloro
+/src/services/pagamentos/       @Lopesloro
+/backend/                       @Lopesloro
+/.github/                       @Lopesloro
