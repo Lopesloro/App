@@ -71,7 +71,7 @@ export default function Login() {
           />
           {forca ? (
             <Texto variante="legenda" tom={forca === 'fraca' ? 'erro' : 'suave'}>
-              Forca da senha: {forca}
+              Força da senha: {forca}
             </Texto>
           ) : null}
         </View>

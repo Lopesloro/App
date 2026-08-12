@@ -9,7 +9,7 @@ export const emailSchema = z
   .string()
   .trim()
   .min(1, 'Informe seu e-mail')
-  .email('E-mail invalido');
+  .email('E-mail inválido');
 
 /**
  * Minimo de 8 caracteres conforme criterio da issue #6. O medidor de forca e

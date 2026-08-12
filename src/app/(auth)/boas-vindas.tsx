@@ -14,21 +14,21 @@ export default function BoasVindas() {
       <View style={estilos.conteudo}>
         <Texto variante="displayGrande">Seu look de hoje,{'\n'}resolvido.</Texto>
         <Texto variante="corpo" tom="suave" style={estilos.subtitulo}>
-          Indicacoes com foto, feitas para o seu estilo — e suas fotos ficam
+          Indicações com foto, feitas para o seu estilo — e suas fotos ficam
           privadas de verdade.
         </Texto>
       </View>
 
       <View style={estilos.acoes}>
-        <Botao titulo="Comecar" onPress={() => router.push('/login')} />
+        <Botao titulo="Começar" onPress={() => router.push('/login')} />
         <Botao
-          titulo="Ja tenho conta"
+          titulo="Já tenho conta"
           variante="texto"
           onPress={() => router.push('/login')}
         />
         <Link href="/login" style={estilos.link}>
           <Texto variante="legenda" tom="suave">
-            Ao continuar, voce aceita nossos termos e a politica de privacidade.
+            Ao continuar, você aceita nossos termos e a política de privacidade.
           </Texto>
         </Link>
       </View>
