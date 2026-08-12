@@ -22,7 +22,7 @@ jobs:
     outputs:
       tem_app: ${{ steps.check.outputs.tem_app }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - id: check
         run: |
           if [ -f package.json ]; then
@@ -37,7 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Historico completo: o commitlint precisa alcancar o commit base do PR.
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - if: needs.detectar.outputs.tem_app == 'true'
@@ -82,7 +82,7 @@ jobs:
     needs: detectar
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - name: Secret scanning (gitleaks)
@@ -104,7 +104,7 @@ jobs:
       security-events: write
       contents: read
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: github/codeql-action/init@v3
         with:
           languages: javascript-typescript
@@ -115,7 +115,7 @@ jobs:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/dependency-review-action@v4
         with:
           fail-on-severity: high
@@ -138,7 +138,7 @@ jobs:
     needs: [detectar, qualidade, seguranca-sast]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-node@v4
         with:
           node-version: 24
