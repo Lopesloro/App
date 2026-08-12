@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
+import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { CartaoLook } from '@/components/look/cartao-look';
@@ -19,6 +20,7 @@ const ROTULO_OCASIAO: Record<Ocasiao, string> = {
 };
 
 export default function Feed() {
+  const router = useRouter();
   const [ocasiao, setOcasiao] = useState<Ocasiao | undefined>();
   const { looks, carregando, erro, carregarMais, carregandoMais, recarregar, recarregando } =
     useFeed({ ocasiao });
@@ -78,7 +80,10 @@ export default function Feed() {
           numColumns={2}
           renderItem={({ item }) => (
             <View style={estilos.celula}>
-              <CartaoLook look={item} />
+              <CartaoLook
+                look={item}
+                onPress={(look) => router.push(`/look/${look.id}`)}
+              />
             </View>
           )}
           contentContainerStyle={estilos.lista}
