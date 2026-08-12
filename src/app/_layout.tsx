@@ -6,14 +6,17 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { queryClient } from '@/lib/query-client';
 import { useSessao } from '@/features/auth/sessao-store';
+import { useSalvos } from '@/features/salvos/salvos-store';
 import { paleta } from '@/theme/tokens';
 
 export default function LayoutRaiz() {
   const restaurar = useSessao((estado) => estado.restaurar);
+  const restaurarSalvos = useSalvos((estado) => estado.restaurar);
 
   useEffect(() => {
     void restaurar();
-  }, [restaurar]);
+    void restaurarSalvos();
+  }, [restaurar, restaurarSalvos]);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>

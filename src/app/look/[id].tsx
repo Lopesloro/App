@@ -1,21 +1,38 @@
+import { useState } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import * as WebBrowser from 'expo-web-browser';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { BotaoSalvar } from '@/components/look/botao-salvar';
 import { Botao } from '@/components/ui/botao';
 import { Texto } from '@/components/ui/texto';
 import { formatarPreco } from '@/features/assinatura/planos';
+import { useSessao } from '@/features/auth/sessao-store';
 import { AVISO_COMISSAO, montarUrlCompra } from '@/features/feed/afiliado';
 import { useLook } from '@/features/feed/use-look';
 import { precoTotalLook, type Peca, type Look } from '@/features/feed/tipos';
+import { mensagemLimite } from '@/features/salvos/limites';
+import { useSalvos } from '@/features/salvos/salvos-store';
 import { espaco, paleta, raio, PROPORCAO_FOTO } from '@/theme/tokens';
 
 export default function DetalheLook() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const { look, carregando } = useLook(id);
+  const plano = useSessao((estado) => estado.usuaria?.plano ?? 'gratis');
+  const ids = useSalvos((estado) => estado.ids);
+  const alternarSalvo = useSalvos((estado) => estado.alternar);
+  const [avisoLimite, setAvisoLimite] = useState<string | null>(null);
+
+  async function aoSalvar() {
+    if (!look) return;
+    const resultado = await alternarSalvo(look.id, plano);
+    if (!resultado.ok) {
+      setAvisoLimite(mensagemLimite(plano));
+    }
+  }
 
   if (carregando) {
     return (
@@ -82,7 +99,28 @@ export default function DetalheLook() {
       </ScrollView>
 
       <View style={estilos.rodape}>
-        <Botao titulo="Voltar" variante="secundario" onPress={() => router.back()} />
+        {avisoLimite ? (
+          <Pressable
+            onPress={() => router.push('/paywall')}
+            accessibilityRole="button"
+            style={estilos.avisoLimite}
+          >
+            <Texto variante="corpoPequeno" tom="destaque">
+              {avisoLimite}
+            </Texto>
+          </Pressable>
+        ) : null}
+
+        <View style={estilos.acoesRodape}>
+          <BotaoSalvar
+            salvo={ids.includes(look.id)}
+            onPress={aoSalvar}
+            testID={`salvar-${look.id}`}
+          />
+          <View style={estilos.botaoVoltar}>
+            <Botao titulo="Voltar" variante="secundario" onPress={() => router.back()} />
+          </View>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -165,5 +203,13 @@ const estilos = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: paleta.border,
     backgroundColor: paleta.surface,
+    gap: espaco.md,
+  },
+  acoesRodape: { flexDirection: 'row', alignItems: 'center', gap: espaco.md },
+  botaoVoltar: { flex: 1 },
+  avisoLimite: {
+    padding: espaco.md,
+    backgroundColor: paleta.primarySoft,
+    borderRadius: raio.card,
   },
 });

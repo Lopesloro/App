@@ -2,6 +2,11 @@
 // mais `extend-expect` para importar.
 
 // Modulos nativos que nao existem no ambiente de teste.
+jest.mock(
+  '@react-native-async-storage/async-storage',
+  () => require('@react-native-async-storage/async-storage/jest/async-storage-mock') as unknown,
+);
+
 jest.mock('expo-secure-store', () => {
   const cofre = new Map<string, string>();
   return {
