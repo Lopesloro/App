@@ -1,7 +1,13 @@
 import { api } from '@/lib/api-client';
 import { config } from '@/lib/config';
 import { LOOKS_EXEMPLO } from './dados-exemplo';
-import { looksPaginaSchema, type LooksPagina, type Ocasiao } from './tipos';
+import {
+  lookSchema,
+  looksPaginaSchema,
+  type Look,
+  type LooksPagina,
+  type Ocasiao,
+} from './tipos';
 
 /**
  * Fonte de dados do feed.
@@ -51,4 +57,17 @@ export async function buscarLooks(
 
   const resposta = await api.get<unknown>(`/looks?${parametros.toString()}`);
   return looksPaginaSchema.parse(resposta);
+}
+
+/** Busca um look pelo id. Devolve null quando nao existe. */
+export async function buscarLook(id: string): Promise<Look | null> {
+  if (USAR_EXEMPLO) {
+    const look = LOOKS_EXEMPLO.find((l) => l.id === id);
+    return look ? lookSchema.parse(look) : null;
+  }
+
+  // O id vai no caminho da URL: precisa ser escapado para nao permitir que
+  // um valor com barra ou query mude a rota chamada.
+  const resposta = await api.get<unknown>(`/looks/${encodeURIComponent(id)}`);
+  return lookSchema.parse(resposta);
 }
