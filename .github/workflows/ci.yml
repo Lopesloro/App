@@ -42,8 +42,16 @@ jobs:
         with:
           node-version: 24
           cache: npm
+      # `npm ci` seria o ideal, mas ele exige que o lock ja contenha as
+      # dependencias opcionais de TODAS as plataformas. O fallback wasm do
+      # resolver do eslint (@unrs/resolver-binding-wasm32-wasi -> @emnapi/*)
+      # so e resolvido no Linux, e nao ha como gerar essas entradas a partir
+      # do Windows — nem com --os/--cpu/--libc. `npm install` respeita o
+      # package-lock.json para tudo que esta travado e apenas reconcilia os
+      # binarios da plataforma. Voltar para `npm ci` quando o lock puder ser
+      # gerado no Linux (CI ou dev em Linux). Rastreado na issue #63.
       - if: needs.detectar.outputs.tem_app == 'true'
-        run: npm ci
+        run: npm install --no-audit --no-fund
       - name: Lint
         if: needs.detectar.outputs.tem_app == 'true'
         run: npm run lint
@@ -132,7 +140,8 @@ jobs:
         with:
           node-version: 24
           cache: npm
-      - run: npm ci
+      # Mesmo motivo do job `qualidade` (issue #63).
+      - run: npm install --no-audit --no-fund
       - uses: expo/expo-github-action@v8
         with:
           eas-version: latest
