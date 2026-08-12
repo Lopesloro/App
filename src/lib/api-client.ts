@@ -26,12 +26,12 @@ export class ErroApi extends Error {
 
 /** Mensagens em pt-BR; nada de detalhe tecnico vazando para a usuaria. */
 function mensagemPorStatus(status: number): string {
-  if (status === 401) return 'Sua sessao expirou. Entre novamente.';
-  if (status === 403) return 'Voce nao tem acesso a este conteudo.';
-  if (status === 404) return 'Nao encontramos o que voce procura.';
+  if (status === 401) return 'Sua sessão expirou. Entre novamente.';
+  if (status === 403) return 'Você não tem acesso a este conteúdo.';
+  if (status === 404) return 'Não encontramos o que você procura.';
   if (status === 429) return 'Muitas tentativas. Aguarde um instante.';
   if (status >= 500) return 'Tivemos um problema. Tente de novo em instantes.';
-  return 'Nao foi possivel completar a acao.';
+  return 'Não foi possível completar a ação.';
 }
 
 type Opcoes = Omit<RequestInit, 'body'> & {
@@ -76,9 +76,9 @@ export async function requisitar<T>(caminho: string, opcoes: Opcoes = {}): Promi
     });
   } catch (erro) {
     if (erro instanceof Error && erro.name === 'AbortError') {
-      throw new ErroApi(0, 'timeout', 'A conexao demorou demais. Tente de novo.');
+      throw new ErroApi(0, 'timeout', 'A conexão demorou demais. Tente de novo.');
     }
-    throw new ErroApi(0, 'rede', 'Sem conexao. Verifique sua internet.');
+    throw new ErroApi(0, 'rede', 'Sem conexão. Verifique sua internet.');
   } finally {
     clearTimeout(timeout);
   }

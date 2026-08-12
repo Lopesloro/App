@@ -15,6 +15,10 @@ App brasileiro que monta looks para mulheres, com **indicações fotográficas**
 > [!important] Comece por aqui
 > Regras e convenções do projeto estão em [[AGENTS]]. Mapa visual do projeto: [[MontaLooks.canvas]].
 
+## O que já está construído
+
+- [[features/README|Features do app]] — uma pasta por feature, explicando em linguagem simples o que faz e por quê
+
 ## Produto
 
 - [[01-visao-e-ideias]] — visão, personas e banco de 35+ ideias por fase (MVP/v2/v3) e tier
