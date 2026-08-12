@@ -90,10 +90,28 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           fetch-depth: 0
+      # O gitleaks roda direto do binario oficial, nao pela action.
+      # Motivo: a action deriva o intervalo de commits do evento de push, o
+      # que quebra quando o intervalo comeca no commit raiz (`raiz^` nao
+      # existe) e faz a varredura depender do formato do evento. Rodando o
+      # binario, varremos o HISTORICO INTEIRO em toda execucao — mais forte,
+      # porque pega segredo commitado em qualquer ponto do passado, e
+      # deterministico.
+      # A versao e fixada e o download e conferido por checksum antes de
+      # executar: baixar e rodar binario sem verificar seria exatamente o
+      # tipo de brecha de supply chain que este job existe para evitar.
       - name: Secret scanning (gitleaks)
-        uses: gitleaks/gitleaks-action@ff98106e4c7b2bc287b24eaf42907196329070c7 # v2
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_VERSAO: 8.30.1
+          GITLEAKS_SHA256: 551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb
+        run: |
+          set -euo pipefail
+          arquivo="gitleaks_${GITLEAKS_VERSAO}_linux_x64.tar.gz"
+          curl -sSfL -o "$arquivo" \
+            "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSAO}/${arquivo}"
+          echo "${GITLEAKS_SHA256}  ${arquivo}" | sha256sum -c -
+          tar -xzf "$arquivo" gitleaks
+          ./gitleaks git . --redact --no-banner --exit-code 1
       - name: SAST (semgrep)
         if: needs.detectar.outputs.tem_app == 'true'
         run: |
