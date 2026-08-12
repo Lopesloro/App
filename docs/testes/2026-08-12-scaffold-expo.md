@@ -39,13 +39,16 @@
 | `.env.example` invisível ao git | Padrão `.env.*` no `.gitignore` | Exceção `!.env.example` |
 | CI: `npm ci` falhou com pacotes `@emnapi/*` faltando no lock | Lockfile inconsistente — resíduo do `npm install` que estourou o disco | `node_modules` e `package-lock.json` apagados e regerados do zero |
 | CI: `dependency-review` reprovou por `image-size@1.2.1` (2 advisories *high*, DoS) | Dependência transitiva do Metro, fixado pelo Expo SDK 57 | Tentado `override` para 2.0.2 → **quebrou o Metro** (`expo export` falha em PNG). Revertido; exceção `allow-ghsas` documentada no CI + issue #62 para remover |
+| CI: `npm ci` seguiu falhando (`@emnapi/core@1.11.3` faltando) mesmo com lock regerado | Fallback wasm do resolver do eslint só resolve no Linux; impossível gerar essas entradas a partir do Windows | Tentado `--os=linux --cpu=x64 --libc=glibc --include=optional` e alinhar o Node do CI (20 → 24): nenhum resolveu. Trocado por `npm install` (respeita o lock, reconcilia binários de plataforma) + issue #63 |
+| CI: commitlint com `Invalid revision range` | Checkout raso não alcança o commit base do PR | `fetch-depth: 0` no job `qualidade` |
 
 ## Pendências abertas
 
 - **NativeWind não adotado neste scaffold** — `docs/05-frontend.md` especifica NativeWind v4, mas a compatibilidade com SDK 57 não foi verificada e o risco de quebrar o CI não se justifica agora. O design system usa `StyleSheet` alimentado por `src/theme/tokens.ts`, que segue sendo a fonte única — migrar depois é mecânico. **Decisão do fundador pendente.**
 - **Direção estética ativa: "Editorial Areia"** (`paleta` em `tokens.ts`). "Vinho Moderno" fica versionada ao lado; trocar após teste de preferência com 5–8 usuárias.
 - `codeql` ainda não está nos required status checks — agora que existe código, deve ser adicionado.
-- Sem teste em device real ainda: nenhum build EAS foi gerado nesta etapa.
+- Sem teste em device real ainda: nenhum build EAS foi gerado nesta etapa. O job `build-eas` só roda em `main` e precisa do segredo `EXPO_TOKEN`, que ainda não existe.
+- Duas exceções de infraestrutura abertas com justificativa e rastreamento: [#62](https://github.com/Lopesloro/App/issues/62) (`image-size`) e [#63](https://github.com/Lopesloro/App/issues/63) (`npm ci`).
 
 ## Evidências
 
