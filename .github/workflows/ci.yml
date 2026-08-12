@@ -108,6 +108,18 @@ jobs:
       - uses: actions/dependency-review-action@v4
         with:
           fail-on-severity: high
+          # EXCECAO DOCUMENTADA — image-size@1.2.1 (DoS por loop infinito nos
+          # parsers JXL/HEIF/ICNS). Motivo de aceitar, revisado em 12/08/2026:
+          #  - e dependencia transitiva do Metro, usada em tempo de BUILD para
+          #    ler a dimensao dos nossos proprios assets; nao processa imagem
+          #    enviada por usuaria em runtime, entao o vetor exigiria commitar
+          #    uma imagem maliciosa no proprio repositorio;
+          #  - nao ha correcao aplicavel: o conserto so existe no image-size 2.x,
+          #    que quebra o Metro (testado — `expo export` falha com
+          #    "The list argument must be an instance of SharedArrayBuffer"),
+          #    e o Metro 0.84.4 e fixado pelo Expo SDK 57.
+          # Remover esta linha quando o Expo subir o Metro. Rastreado na issue #62.
+          allow-ghsas: GHSA-5p2g-fcmc-qvqq, GHSA-w3rx-r6r6-pgpr
 
   build-eas:
     name: build-eas

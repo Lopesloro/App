@@ -22,7 +22,8 @@
 | 8 | `limparCredenciais()` não deixa nenhuma das 3 chaves para trás | ✅ Passou |
 | 9 | Validação de e-mail/senha (mín. 8 chars, máx. 128, trim) e medidor de força | ✅ Passou |
 | 10 | `.env.example` versionado e `.env` real bloqueado pelo `.gitignore` | ✅ Passou |
-| 11 | Gates de CI no PR (`qualidade`, `seguranca-sast`, `dependency-review`, `codeql`) | Ver PR — evidência é o merge |
+| 11 | `npx expo export --platform android` empacota o app | ✅ Passou — bundle Hermes de 4,4 MB |
+| 12 | Gates de CI no PR (`qualidade`, `seguranca-sast`, `dependency-review`, `codeql`) | ✅ Passou na 2ª rodada (1ª expôs 2 problemas reais, corrigidos abaixo) |
 
 ## Problemas encontrados e resolvidos
 
@@ -36,6 +37,8 @@
 | Import de `@testing-library/react-native/extend-expect` não resolvia | Removido na v13 (matchers já embutidos) | Import excluído do `jest-setup.ts` |
 | `newArchEnabled` rejeitado pelo tipo `ExpoConfig` | Padrão no SDK 57, não é mais opção | Removido do `app.config.ts` |
 | `.env.example` invisível ao git | Padrão `.env.*` no `.gitignore` | Exceção `!.env.example` |
+| CI: `npm ci` falhou com pacotes `@emnapi/*` faltando no lock | Lockfile inconsistente — resíduo do `npm install` que estourou o disco | `node_modules` e `package-lock.json` apagados e regerados do zero |
+| CI: `dependency-review` reprovou por `image-size@1.2.1` (2 advisories *high*, DoS) | Dependência transitiva do Metro, fixado pelo Expo SDK 57 | Tentado `override` para 2.0.2 → **quebrou o Metro** (`expo export` falha em PNG). Revertido; exceção `allow-ghsas` documentada no CI + issue #62 para remover |
 
 ## Pendências abertas
 
