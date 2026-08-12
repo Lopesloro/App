@@ -5,13 +5,17 @@ node_modules/
 .expo/
 dist/
 web-build/
+android/
+ios/
 *.ipa
 *.apk
 *.aab
+expo-env.d.ts
 
 # env e segredos — NUNCA commitar
 .env
 .env.*
+!.env.example
 *.pem
 *.key
 google-services.json
