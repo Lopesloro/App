@@ -1,3 +1,8 @@
+# Toda action e fixada em SHA de commit, nao em tag.
+# Uma tag como @v4 pode ser reapontada pelo dono do repositorio (ou por quem
+# o comprometer) para codigo diferente, que rodaria aqui com acesso aos
+# segredos do repositorio. SHA de commit e imutavel. O comentario ao lado
+# registra a versao correspondente, e o Dependabot atualiza os dois juntos.
 name: ci
 
 on:
@@ -22,7 +27,7 @@ jobs:
     outputs:
       tem_app: ${{ steps.check.outputs.tem_app }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - id: check
         run: |
           if [ -f package.json ]; then
@@ -37,11 +42,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Historico completo: o commitlint precisa alcancar o commit base do PR.
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           fetch-depth: 0
       - if: needs.detectar.outputs.tem_app == 'true'
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 24
           cache: npm
@@ -69,7 +74,7 @@ jobs:
         run: npm test -- --coverage
       - name: Guardar cobertura
         if: needs.detectar.outputs.tem_app == 'true'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: coverage
           path: coverage/
@@ -82,11 +87,11 @@ jobs:
     needs: detectar
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           fetch-depth: 0
       - name: Secret scanning (gitleaks)
-        uses: gitleaks/gitleaks-action@v2
+        uses: gitleaks/gitleaks-action@ff98106e4c7b2bc287b24eaf42907196329070c7 # v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: SAST (semgrep)
@@ -104,19 +109,19 @@ jobs:
       security-events: write
       contents: read
     steps:
-      - uses: actions/checkout@v4
-      - uses: github/codeql-action/init@v3
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: github/codeql-action/init@c4dd10e44af883a891fe31ced449bcb4a6728b9b # v3
         with:
           languages: javascript-typescript
-      - uses: github/codeql-action/analyze@v3
+      - uses: github/codeql-action/analyze@c4dd10e44af883a891fe31ced449bcb4a6728b9b # v3
 
   dependency-review:
     name: dependency-review
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/dependency-review-action@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/dependency-review-action@2031cfc080254a8a887f58cffee85186f0e49e48 # v4.9.0
         with:
           fail-on-severity: high
           # EXCECAO DOCUMENTADA — image-size@1.2.1 (DoS por loop infinito nos
@@ -138,14 +143,14 @@ jobs:
     needs: [detectar, qualidade, seguranca-sast]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 24
           cache: npm
       # Mesmo motivo do job `qualidade` (issue #63).
       - run: npm install --no-audit --no-fund
-      - uses: expo/expo-github-action@v8
+      - uses: expo/expo-github-action@c7b66a9c327a43a8fa7c0158e7f30d6040d2481e # v8
         with:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}

@@ -7,9 +7,21 @@ updates:
     open-pull-requests-limit: 10
     labels:
       - debito-tecnico
+    # Carencia antes de propor uma versao nova.
+    # Ataque de supply chain costuma seguir o roteiro: publicar versao com
+    # codigo malicioso, ser detectado e removido em horas. Sem carencia, o
+    # Dependabot abriria PR nessa janela e alguem poderia mesclar. Esperar
+    # alguns dias faz a versao envenenada ja ter sido retirada.
+    cooldown:
+      default-days: 7
+      semver-major-days: 14
+
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
       interval: monthly
     labels:
       - debito-tecnico
+    cooldown:
+      default-days: 7
+      semver-major-days: 14
