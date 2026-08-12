@@ -52,12 +52,18 @@ const config: ExpoConfig = {
     },
     permissions: ['android.permission.USE_BIOMETRIC'],
   },
-  // Sem plataforma web: o produto e exclusivamente de celular.
-  // docs/05-frontend.md descartou PWA como produto principal — sem compra
-  // dentro do app, camera fraca no iOS e push limitado. Manter a web ativa
-  // custaria testar e manter uma versao que ninguem usa. A web volta so como
-  // landing page separada (Next.js), fora deste projeto.
-  platforms: ['ios', 'android'],
+  // O PRODUTO e exclusivamente de celular (iOS e Android). A web esta aqui
+  // apenas como FERRAMENTA DE PREVIA para desenvolvimento: permite abrir a
+  // interface no navegador do celular sem depender da versao do Expo Go.
+  //
+  // docs/05-frontend.md descartou a web como produto: sem compra dentro do
+  // app, camera fraca no iOS e push limitado. Nada de foto pessoal, login ou
+  // cobranca deve depender dela, e ela nao vai para loja nenhuma.
+  platforms: ['ios', 'android', 'web'],
+  web: {
+    output: 'single',
+    favicon: './assets/images/favicon.png',
+  },
   plugins: [
     'expo-router',
     'expo-secure-store',

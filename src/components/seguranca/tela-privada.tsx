@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import { usePreventScreenCapture } from 'expo-screen-capture';
 
 /**
@@ -12,13 +13,17 @@ import { usePreventScreenCapture } from 'expo-screen-capture';
  *
  * LIMITE IMPORTANTE: no Android o bloqueio e real (FLAG_SECURE); no iOS o
  * sistema nao permite impedir a captura — o modulo apenas notifica o app.
- * Portanto isto reduz risco casual e NAO substitui as barreiras reais:
- * URL assinada de curta duracao e autorizacao por objeto no backend.
+ * Na web nao existe bloqueio nenhum. Portanto isto reduz risco casual e NAO
+ * substitui as barreiras reais: URL assinada de curta duracao e autorizacao
+ * por objeto no backend.
  *
  * @param chave identifica a tela; use um valor estavel e unico por rota.
  */
 export function useTelaPrivada(chave: string): void {
-  usePreventScreenCapture(chave);
+  // A previa web nao tem o modulo nativo. Chamar o hook sempre (regra dos
+  // hooks) e deixar a plataforma decidir o efeito: na web, chave vazia
+  // desliga o bloqueio em vez de quebrar a tela.
+  usePreventScreenCapture(Platform.OS === 'web' ? undefined : chave);
 }
 
 /** Versao declarativa, para usar dentro do JSX de uma rota. */
