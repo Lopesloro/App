@@ -36,7 +36,10 @@ jobs:
     needs: detectar
     runs-on: ubuntu-latest
     steps:
+      # Historico completo: o commitlint precisa alcancar o commit base do PR.
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - if: needs.detectar.outputs.tem_app == 'true'
         uses: actions/setup-node@v4
         with:
