@@ -6,7 +6,8 @@ import {
   View,
 } from 'react-native';
 
-import { espaco, paleta, raio, tipografia } from '@/theme/tokens';
+import { useTema } from '@/theme/tema-store';
+import { espaco } from '@/theme/tokens';
 import { Texto } from './texto';
 
 type Variante = 'primario' | 'secundario' | 'texto';
@@ -24,7 +25,18 @@ export function Botao({
   disabled,
   ...props
 }: BotaoProps) {
+  const { paleta, raio } = useTema();
   const inativo = disabled === true || carregando;
+
+  const fundo = {
+    primario: { backgroundColor: paleta.primary },
+    secundario: {
+      backgroundColor: 'transparent',
+      borderWidth: 1,
+      borderColor: paleta.primary,
+    },
+    texto: { backgroundColor: 'transparent' },
+  }[variante];
 
   return (
     <Pressable
@@ -34,7 +46,9 @@ export function Botao({
       disabled={inativo}
       style={({ pressed }) => [
         estilos.base,
-        estilos[variante],
+        { borderRadius: raio.botao },
+        fundo,
+        variante === 'texto' ? estilos.compacto : null,
         pressed && !inativo ? estilos.pressionado : null,
         inativo ? estilos.inativo : null,
       ]}
@@ -49,8 +63,7 @@ export function Botao({
         ) : (
           <Texto
             variante="titulo"
-            tom={variante === 'primario' ? 'principal' : 'destaque'}
-            style={variante === 'primario' ? estilos.textoPrimario : undefined}
+            tom={variante === 'primario' ? 'sobreDestaque' : 'destaque'}
           >
             {titulo}
           </Texto>
@@ -62,26 +75,18 @@ export function Botao({
 
 const estilos = StyleSheet.create({
   base: {
-    borderRadius: raio.botao,
     paddingVertical: espaco.lg,
     paddingHorizontal: espaco.xl,
-    minHeight: 52, // alvo de toque confortavel
+    minHeight: 52, // alvo de toque confortavel com o polegar
     justifyContent: 'center',
   },
+  compacto: { paddingVertical: espaco.sm, minHeight: 44 },
   conteudo: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: espaco.sm,
   },
-  primario: { backgroundColor: paleta.primary },
-  secundario: {
-    backgroundColor: 'transparent',
-    borderWidth: 1,
-    borderColor: paleta.primary,
-  },
-  texto: { backgroundColor: 'transparent', paddingVertical: espaco.sm },
-  textoPrimario: { color: paleta.surface, fontWeight: tipografia.titulo.fontWeight },
   pressionado: { opacity: 0.85 },
   inativo: { opacity: 0.5 },
 });

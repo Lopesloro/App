@@ -1,11 +1,12 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Botao } from '@/components/ui/botao';
 import { Texto } from '@/components/ui/texto';
 import { credenciaisSchema, forcaSenha } from '@/features/auth/schemas';
-import { espaco, paleta, raio, tipografia } from '@/theme/tokens';
+import { usePaleta } from '@/theme/tema-store';
+import { espaco, raio, tipografia, type Paleta } from '@/theme/tokens';
 
 /**
  * Tela de login/cadastro.
@@ -14,6 +15,8 @@ import { espaco, paleta, raio, tipografia } from '@/theme/tokens';
  * mas a chamada de rede fica pendente ate a API de auth existir — issues #6 e #7.
  */
 export default function Login() {
+  const paleta = usePaleta();
+  const estilos = useMemo(() => criarEstilos(paleta), [paleta]);
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [erro, setErro] = useState<string | null>(null);
@@ -88,7 +91,8 @@ export default function Login() {
   );
 }
 
-const estilos = StyleSheet.create({
+const criarEstilos = (paleta: Paleta) =>
+  StyleSheet.create({
   tela: { flex: 1, padding: espaco.xl, gap: espaco.xl },
   campos: { flex: 1, gap: espaco.lg, marginTop: espaco.xl },
   input: {

@@ -1,11 +1,12 @@
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { Image } from 'expo-image';
 
 import { Texto } from '@/components/ui/texto';
 import { formatarPreco } from '@/features/assinatura/planos';
 import { precoTotalLook, type Look } from '@/features/feed/tipos';
-import { espaco, paleta, raio, PROPORCAO_FOTO } from '@/theme/tokens';
+import { usePaleta } from '@/theme/tema-store';
+import { espaco, raio, PROPORCAO_FOTO, type Paleta } from '@/theme/tokens';
 
 type Props = {
   look: Look;
@@ -25,6 +26,8 @@ export function descreverPecas(quantidade: number): string {
 }
 
 function CartaoLookBase({ look, onPress, aoSalvar, salvo = false }: Props) {
+  const paleta = usePaleta();
+  const estilos = useMemo(() => criarEstilos(paleta), [paleta]);
   const total = precoTotalLook(look);
   const pecas = descreverPecas(look.pecas.length);
 
@@ -88,7 +91,8 @@ function CartaoLookBase({ look, onPress, aoSalvar, salvo = false }: Props) {
 
 export const CartaoLook = memo(CartaoLookBase);
 
-const estilos = StyleSheet.create({
+const criarEstilos = (paleta: Paleta) =>
+  StyleSheet.create({
   cartao: {
     backgroundColor: paleta.surface,
     borderRadius: raio.card,

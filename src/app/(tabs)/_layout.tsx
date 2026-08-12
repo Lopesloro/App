@@ -1,8 +1,11 @@
 import { Tabs } from 'expo-router';
 
-import { paleta, tipografia } from '@/theme/tokens';
+import { usePaleta } from '@/theme/tema-store';
+import { tipografia } from '@/theme/tokens';
 
 export default function LayoutTabs() {
+  const paleta = usePaleta();
+
   return (
     <Tabs
       screenOptions={{

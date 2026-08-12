@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
 import { useRouter } from 'expo-router';
@@ -10,10 +11,13 @@ import { useSessao } from '@/features/auth/sessao-store';
 import { limiteDoPlano, vagasRestantes } from '@/features/salvos/limites';
 import { useSalvos } from '@/features/salvos/salvos-store';
 import { useLooksSalvos } from '@/features/salvos/use-looks-salvos';
-import { espaco, paleta } from '@/theme/tokens';
+import { usePaleta } from '@/theme/tema-store';
+import { espaco, type Paleta } from '@/theme/tokens';
 
 /** Tela "Meus looks": a colecao que a usuaria montou. */
 export default function Salvos() {
+  const paleta = usePaleta();
+  const estilos = useMemo(() => criarEstilos(paleta), [paleta]);
   const router = useRouter();
   const plano = useSessao((estado) => estado.usuaria?.plano ?? 'gratis');
   const alternarSalvo = useSalvos((estado) => estado.alternar);
@@ -90,7 +94,8 @@ export default function Salvos() {
   );
 }
 
-const estilos = StyleSheet.create({
+const criarEstilos = (paleta: Paleta) =>
+  StyleSheet.create({
   tela: { flex: 1 },
   cabecalho: { paddingHorizontal: espaco.xl, paddingTop: espaco.sm, gap: espaco.xs },
   centro: {

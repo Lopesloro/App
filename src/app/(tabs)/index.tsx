@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
 import { useRouter } from 'expo-router';
@@ -11,7 +11,8 @@ import { useFeed } from '@/features/feed/use-feed';
 import { OCASIOES, type Ocasiao, type Look } from '@/features/feed/tipos';
 import { mensagemLimite } from '@/features/salvos/limites';
 import { useSalvos } from '@/features/salvos/salvos-store';
-import { espaco, paleta, raio } from '@/theme/tokens';
+import { usePaleta } from '@/theme/tema-store';
+import { espaco, raio, type Paleta } from '@/theme/tokens';
 
 const ROTULO_OCASIAO: Record<Ocasiao, string> = {
   trabalho: 'Trabalho',
@@ -23,6 +24,8 @@ const ROTULO_OCASIAO: Record<Ocasiao, string> = {
 };
 
 export default function Feed() {
+  const paleta = usePaleta();
+  const estilos = useMemo(() => criarEstilos(paleta), [paleta]);
   const router = useRouter();
   const [ocasiao, setOcasiao] = useState<Ocasiao | undefined>();
   const { looks, carregando, erro, carregarMais, carregandoMais, recarregar, recarregando } =
@@ -140,6 +143,8 @@ function Chip({
   ativo: boolean;
   onPress: () => void;
 }) {
+  const paleta = usePaleta();
+  const estilos = useMemo(() => criarEstilos(paleta), [paleta]);
   return (
     <Pressable
       onPress={onPress}
@@ -154,7 +159,8 @@ function Chip({
   );
 }
 
-const estilos = StyleSheet.create({
+const criarEstilos = (paleta: Paleta) =>
+  StyleSheet.create({
   tela: { flex: 1 },
   cabecalho: { paddingHorizontal: espaco.xl, paddingTop: espaco.sm },
   chipsArea: { flexGrow: 0 },

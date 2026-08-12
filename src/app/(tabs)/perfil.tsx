@@ -5,12 +5,14 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Botao } from '@/components/ui/botao';
 import { Texto } from '@/components/ui/texto';
 import { useSessao } from '@/features/auth/sessao-store';
+import { useTema } from '@/theme/tema-store';
 import { espaco } from '@/theme/tokens';
 
 export default function Perfil() {
   const router = useRouter();
   const usuaria = useSessao((estado) => estado.usuaria);
   const sair = useSessao((estado) => estado.sair);
+  const tema = useTema();
 
   async function encerrarSessao() {
     await sair();
@@ -25,6 +27,11 @@ export default function Perfil() {
       </Texto>
 
       <View style={estilos.acoes}>
+        <Botao
+          titulo={`Visual: ${tema.nome}`}
+          variante="secundario"
+          onPress={() => router.push('/escolher-visual')}
+        />
         <Botao
           titulo="Ver planos"
           variante="secundario"

@@ -1,7 +1,9 @@
+import { useMemo } from 'react';
 import { Pressable, StyleSheet } from 'react-native';
 
 import { Texto } from '@/components/ui/texto';
-import { espaco, paleta, raio } from '@/theme/tokens';
+import { usePaleta } from '@/theme/tema-store';
+import { espaco, raio, type Paleta } from '@/theme/tokens';
 
 type Props = {
   salvo: boolean;
@@ -17,6 +19,9 @@ type Props = {
  * em vez de deixar a usuaria adivinhando se ja esta salvo.
  */
 export function BotaoSalvar({ salvo, onPress, testID }: Props) {
+  const paleta = usePaleta();
+  const estilos = useMemo(() => criarEstilos(paleta), [paleta]);
+
   return (
     <Pressable
       onPress={onPress}
@@ -37,7 +42,8 @@ export function BotaoSalvar({ salvo, onPress, testID }: Props) {
   );
 }
 
-const estilos = StyleSheet.create({
+const criarEstilos = (paleta: Paleta) =>
+  StyleSheet.create({
   botao: {
     paddingHorizontal: espaco.lg,
     paddingVertical: espaco.sm,
