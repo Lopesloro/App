@@ -21,14 +21,14 @@ export default function Closet() {
 
       <View style={estilos.aviso}>
         <Texto variante="corpoPequeno">
-          Suas fotos sao privadas. Ficam criptografadas, nunca em endereco
-          publico, e voce pode apagar tudo quando quiser.
+          Suas fotos são privadas. Ficam criptografadas, nunca em endereço
+          público, e você pode apagar tudo quando quiser.
         </Texto>
       </View>
 
       <View style={estilos.vazio}>
         <Texto variante="corpo" tom="suave">
-          Adicionar pecas por foto chega na issue #11.
+          Adicionar peças por foto chega na issue #11.
         </Texto>
       </View>
     </SafeAreaView>
