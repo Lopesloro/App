@@ -155,6 +155,10 @@ jobs:
           # Remover esta linha quando o Expo subir o Metro. Rastreado na issue #62.
           allow-ghsas: GHSA-5p2g-fcmc-qvqq, GHSA-w3rx-r6r6-pgpr
 
+  # Gera o build de preview a cada merge na main. Enquanto nao existir conta
+  # Expo (segredo EXPO_TOKEN), o job avisa e termina verde em vez de falhar:
+  # CI vermelho por segredo ausente, em toda merge, treina o time a ignorar
+  # alerta — e ai a falha que importa passa batida.
   build-eas:
     name: build-eas
     if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.detectar.outputs.tem_app == 'true'
@@ -162,15 +166,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+      - id: credencial
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: |
+          if [ -n "$EXPO_TOKEN" ]; then
+            echo "tem=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "tem=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::EXPO_TOKEN nao configurado — build de preview pulado. Crie a conta Expo e adicione o segredo para ativar."
+          fi
+      - if: steps.credencial.outputs.tem == 'true'
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 24
           cache: npm
       # Mesmo motivo do job `qualidade` (issue #63).
-      - run: npm install --no-audit --no-fund
-      - uses: expo/expo-github-action@c7b66a9c327a43a8fa7c0158e7f30d6040d2481e # v8
+      - if: steps.credencial.outputs.tem == 'true'
+        run: npm install --no-audit --no-fund
+      - if: steps.credencial.outputs.tem == 'true'
+        uses: expo/expo-github-action@c7b66a9c327a43a8fa7c0158e7f30d6040d2481e # v8
         with:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
       - name: Build preview (Android + iOS)
+        if: steps.credencial.outputs.tem == 'true'
         run: eas build --profile preview --platform all --non-interactive --no-wait
