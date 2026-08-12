@@ -76,7 +76,24 @@ export function buscarPlano(id: IdPlano): Plano {
   return plano;
 }
 
-/** Formata centavos no padrao brasileiro: 1990 -> "R$ 19,90". */
+/**
+ * Formata centavos no padrao brasileiro: 1990 -> "R$ 19,90".
+ *
+ * Inclui separador de milhar: um look completo passa facil de R$ 1.000, e
+ * "R$ 1049,70" nao e como se escreve dinheiro no Brasil.
+ *
+ * Nao usamos Intl.NumberFormat porque em React Native o suporte a locale
+ * depende do build (Hermes sem ICU completo devolveria formato de outro
+ * pais). Formatacao manual e previsivel em qualquer aparelho.
+ */
 export function formatarPreco(centavos: number): string {
-  return `R$ ${(centavos / 100).toFixed(2).replace('.', ',')}`;
+  const negativo = centavos < 0;
+  const absoluto = Math.abs(centavos);
+
+  const reais = Math.floor(absoluto / 100);
+  const resto = String(absoluto % 100).padStart(2, '0');
+
+  const comMilhar = String(reais).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+  return `${negativo ? '-' : ''}R$ ${comMilhar},${resto}`;
 }
