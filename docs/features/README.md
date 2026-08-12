@@ -29,12 +29,12 @@ Cada feature do app tem uma pasta aqui. Dentro dela, três coisas:
 | 01 | [[01-feed-de-indicacoes/o-que-e\|Feed de indicações]] | A tela principal: looks com foto que a usuária rola e escolhe | ✅ Pronta com dados de exemplo |
 | 02 | [[02-detalhe-do-look/o-que-e\|Detalhe do look]] | As peças do look com marca, preço e link pra loja — onde entra a receita | ✅ Pronta com dados de exemplo |
 | 03 | [[03-salvar-looks/o-que-e\|Salvar looks]] | Guardar os looks que gostou, com limite por plano | ✅ Pronta (só neste celular) |
+| 04 | [[04-meus-looks-salvos/o-que-e\|Meus looks salvos]] | A aba com a coleção dela, e coração direto no cartão | ✅ Pronta |
 
 ## Ainda não construídas
 
 Estas estão no backlog e viram pasta aqui quando forem feitas:
 
-- Tela "Meus looks salvos" (ver a coleção)
 - Meu closet (fotografar suas roupas)
 - Montador de looks
 - Login de verdade

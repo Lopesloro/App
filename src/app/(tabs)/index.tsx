@@ -6,8 +6,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { CartaoLook } from '@/components/look/cartao-look';
 import { Texto } from '@/components/ui/texto';
+import { useSessao } from '@/features/auth/sessao-store';
 import { useFeed } from '@/features/feed/use-feed';
-import { OCASIOES, type Ocasiao } from '@/features/feed/tipos';
+import { OCASIOES, type Ocasiao, type Look } from '@/features/feed/tipos';
+import { mensagemLimite } from '@/features/salvos/limites';
+import { useSalvos } from '@/features/salvos/salvos-store';
 import { espaco, paleta, raio } from '@/theme/tokens';
 
 const ROTULO_OCASIAO: Record<Ocasiao, string> = {
@@ -25,11 +28,33 @@ export default function Feed() {
   const { looks, carregando, erro, carregarMais, carregandoMais, recarregar, recarregando } =
     useFeed({ ocasiao });
 
+  const plano = useSessao((estado) => estado.usuaria?.plano ?? 'gratis');
+  const salvos = useSalvos((estado) => estado.ids);
+  const alternarSalvo = useSalvos((estado) => estado.alternar);
+  const [avisoLimite, setAvisoLimite] = useState<string | null>(null);
+
+  async function aoSalvar(look: Look) {
+    const resultado = await alternarSalvo(look.id, plano);
+    setAvisoLimite(resultado.ok ? null : mensagemLimite(plano));
+  }
+
   return (
     <SafeAreaView style={estilos.tela} edges={['top', 'left', 'right']}>
       <View style={estilos.cabecalho}>
         <Texto variante="display">Seus looks</Texto>
       </View>
+
+      {avisoLimite ? (
+        <Pressable
+          onPress={() => router.push('/paywall')}
+          accessibilityRole="button"
+          style={estilos.avisoLimite}
+        >
+          <Texto variante="corpoPequeno" tom="destaque">
+            {avisoLimite}
+          </Texto>
+        </Pressable>
+      ) : null}
 
       <ScrollView
         horizontal
@@ -82,7 +107,9 @@ export default function Feed() {
             <View style={estilos.celula}>
               <CartaoLook
                 look={item}
-                onPress={(look) => router.push(`/look/${look.id}`)}
+                onPress={(look) => router.push(`/look/${encodeURIComponent(look.id)}`)}
+                aoSalvar={aoSalvar}
+                salvo={salvos.includes(item.id)}
               />
             </View>
           )}
@@ -145,4 +172,11 @@ const estilos = StyleSheet.create({
   celula: { flex: 1, padding: espaco.sm },
   centro: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: espaco.md },
   rodape: { paddingVertical: espaco.xl },
+  avisoLimite: {
+    marginHorizontal: espaco.xl,
+    marginTop: espaco.sm,
+    padding: espaco.md,
+    backgroundColor: paleta.primarySoft,
+    borderRadius: raio.card,
+  },
 });

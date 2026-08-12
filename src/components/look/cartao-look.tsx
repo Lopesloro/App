@@ -10,6 +10,9 @@ import { espaco, paleta, raio, PROPORCAO_FOTO } from '@/theme/tokens';
 type Props = {
   look: Look;
   onPress?: (look: Look) => void;
+  /** Mostra o coracao de salvar sobre a foto. */
+  aoSalvar?: (look: Look) => void;
+  salvo?: boolean;
 };
 
 /**
@@ -21,7 +24,7 @@ export function descreverPecas(quantidade: number): string {
   return quantidade === 1 ? '1 peça' : `${quantidade} peças`;
 }
 
-function CartaoLookBase({ look, onPress }: Props) {
+function CartaoLookBase({ look, onPress, aoSalvar, salvo = false }: Props) {
   const total = precoTotalLook(look);
   const pecas = descreverPecas(look.pecas.length);
 
@@ -51,6 +54,24 @@ function CartaoLookBase({ look, onPress }: Props) {
             Imagem gerada por IA
           </Texto>
         </View>
+      ) : null}
+
+      {aoSalvar ? (
+        <Pressable
+          onPress={() => aoSalvar(look)}
+          accessibilityRole="button"
+          accessibilityState={{ selected: salvo }}
+          accessibilityLabel={salvo ? 'Remover dos salvos' : 'Salvar look'}
+          testID={`salvar-cartao-${look.id}`}
+          // Area de toque generosa: o coracao fica sobre a foto, e alvo
+          // pequeno em cima de outro botao gera toque errado.
+          hitSlop={8}
+          style={estilos.coracao}
+        >
+          <Texto variante="titulo" tom={salvo ? 'destaque' : 'principal'}>
+            {salvo ? '♥' : '♡'}
+          </Texto>
+        </Pressable>
       ) : null}
 
       <View style={estilos.info}>
@@ -85,11 +106,22 @@ const estilos = StyleSheet.create({
   selo: {
     position: 'absolute',
     top: espaco.sm,
-    right: espaco.sm,
+    left: espaco.sm,
     backgroundColor: paleta.surface,
     paddingHorizontal: espaco.sm,
     paddingVertical: espaco.xs,
     borderRadius: raio.chip,
+  },
+  coracao: {
+    position: 'absolute',
+    top: espaco.sm,
+    right: espaco.sm,
+    width: 40,
+    height: 40,
+    borderRadius: raio.chip,
+    backgroundColor: paleta.surface,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   info: { padding: espaco.md, gap: espaco.xs },
 });
