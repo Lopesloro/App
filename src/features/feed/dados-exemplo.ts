@@ -13,7 +13,7 @@ import type { Look } from './tipos';
 export const LOOKS_EXEMPLO: Look[] = [
   {
     id: 'look-001',
-    titulo: 'Alfaiataria leve para o escritorio',
+    titulo: 'Alfaiataria leve para o escritório',
     ocasiao: 'trabalho',
     estilo: 'classico',
     fotoUrl: null,
@@ -21,7 +21,7 @@ export const LOOKS_EXEMPLO: Look[] = [
     geradoPorIa: false,
     pecas: [
       { id: 'p-001', nome: 'Blazer de alfaiataria', marca: 'Renner', precoCentavos: 18990, urlLoja: 'https://www.lojasrenner.com.br/p/blazer-alfaiataria/1001' },
-      { id: 'p-002', nome: 'Calca wide leg', marca: 'C&A', precoCentavos: 12990, urlLoja: 'https://www.cea.com.br/p/calca-wide-leg/1002' },
+      { id: 'p-002', nome: 'Calça wide leg', marca: 'C&A', precoCentavos: 12990, urlLoja: 'https://www.cea.com.br/p/calca-wide-leg/1002' },
       { id: 'p-003', nome: 'Mule bico fino', marca: 'Arezzo', precoCentavos: 29990, urlLoja: 'https://www.arezzo.com.br/p/mule-bico-fino/1003' },
     ],
   },
@@ -49,7 +49,7 @@ export const LOOKS_EXEMPLO: Look[] = [
     geradoPorIa: true,
     pecas: [
       { id: 'p-007', nome: 'Vestido midi de cetim', marca: 'Amaro', precoCentavos: 39990, urlLoja: 'https://www.amaro.com/p/vestido-midi-cetim/1007' },
-      { id: 'p-008', nome: 'Sandalia de tira fina', marca: 'Schutz', precoCentavos: 44990, urlLoja: 'https://www.schutz.com.br/p/sandalia-tira-fina/1008' },
+      { id: 'p-008', nome: 'Sandália de tira fina', marca: 'Schutz', precoCentavos: 44990, urlLoja: 'https://www.schutz.com.br/p/sandalia-tira-fina/1008' },
     ],
   },
   {
@@ -62,19 +62,19 @@ export const LOOKS_EXEMPLO: Look[] = [
     geradoPorIa: true,
     pecas: [
       { id: 'p-009', nome: 'Body de malha canelada', marca: 'Farm', precoCentavos: 21990, urlLoja: 'https://www.farmrio.com.br/p/body-canelado/1009' },
-      { id: 'p-010', nome: 'Saia lapis', marca: 'Zara', precoCentavos: 25990, urlLoja: null },
+      { id: 'p-010', nome: 'Saia lápis', marca: 'Zara', precoCentavos: 25990, urlLoja: null },
     ],
   },
   {
     id: 'look-005',
-    titulo: 'Conforto para o treino da manha',
+    titulo: 'Conforto para o treino da manhã',
     ocasiao: 'academia',
     estilo: 'esportivo',
     fotoUrl: null,
     blurhash: 'LNAdApj[00aymkj[?bj[D%ayt7of',
     geradoPorIa: false,
     pecas: [
-      { id: 'p-011', nome: 'Top de sustentacao media', marca: 'Track&Field', precoCentavos: 15990, urlLoja: 'https://www.trackfield.com.br/p/top-sustentacao/1011' },
+      { id: 'p-011', nome: 'Top de sustentação média', marca: 'Track&Field', precoCentavos: 15990, urlLoja: 'https://www.trackfield.com.br/p/top-sustentacao/1011' },
       { id: 'p-012', nome: 'Legging cintura alta', marca: 'Alto Giro', precoCentavos: 17990, urlLoja: 'https://www.altogiro.com.br/p/legging-cintura-alta/1012' },
     ],
   },
@@ -87,20 +87,20 @@ export const LOOKS_EXEMPLO: Look[] = [
     blurhash: 'LlMF%n00%#MwS|WCWEM{R*bbWBbH',
     geradoPorIa: false,
     pecas: [
-      { id: 'p-013', nome: 'Saida de praia de croche', marca: 'Osklen', precoCentavos: 32990, urlLoja: null },
-      { id: 'p-014', nome: 'Chapeu de palha', marca: 'Riachuelo', precoCentavos: 7990, urlLoja: null },
+      { id: 'p-013', nome: 'Saída de praia de crochê', marca: 'Osklen', precoCentavos: 32990, urlLoja: null },
+      { id: 'p-014', nome: 'Chapéu de palha', marca: 'Riachuelo', precoCentavos: 7990, urlLoja: null },
     ],
   },
   {
     id: 'look-007',
-    titulo: 'Tricot e trench para dia frio',
+    titulo: 'Tricô e trench para dia frio',
     ocasiao: 'trabalho',
     estilo: 'classico',
     fotoUrl: null,
     blurhash: 'LGF5]+Yk^6#M@-5c,1J5@[or[Q6.',
     geradoPorIa: false,
     pecas: [
-      { id: 'p-015', nome: 'Tricot gola alta', marca: 'Renner', precoCentavos: 13990, urlLoja: 'https://www.lojasrenner.com.br/p/tricot-gola-alta/1015' },
+      { id: 'p-015', nome: 'Tricô gola alta', marca: 'Renner', precoCentavos: 13990, urlLoja: 'https://www.lojasrenner.com.br/p/tricot-gola-alta/1015' },
       { id: 'p-016', nome: 'Trench coat', marca: 'Zara', precoCentavos: 49990, urlLoja: null },
       { id: 'p-017', nome: 'Bota de cano curto', marca: 'Arezzo', precoCentavos: 45990, urlLoja: null },
     ],

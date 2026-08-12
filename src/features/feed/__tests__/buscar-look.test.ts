@@ -6,7 +6,7 @@ describe('buscarLook', () => {
   it('encontra um look pelo id', async () => {
     const look = await buscarLook('look-001');
     expect(look?.id).toBe('look-001');
-    expect(look?.titulo).toBe('Alfaiataria leve para o escritorio');
+    expect(look?.titulo).toBe('Alfaiataria leve para o escritório');
   });
 
   it('devolve null para id inexistente em vez de quebrar', async () => {
