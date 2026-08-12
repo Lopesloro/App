@@ -69,7 +69,24 @@ describe('formatarPreco', () => {
     [2490, 'R$ 24,90'],
     [19900, 'R$ 199,00'],
     [5, 'R$ 0,05'],
+    [50, 'R$ 0,50'],
   ])('formata %i centavos como %s', (centavos, esperado) => {
     expect(formatarPreco(centavos)).toBe(esperado);
+  });
+
+  // Look completo passa facil de R$ 1.000 — sem separador viraria
+  // "R$ 1049,70", que nao e como se escreve dinheiro no Brasil.
+  it.each([
+    [104970, 'R$ 1.049,70'],
+    [100000, 'R$ 1.000,00'],
+    [99999, 'R$ 999,99'],
+    [1234567, 'R$ 12.345,67'],
+    [123456789, 'R$ 1.234.567,89'],
+  ])('usa separador de milhar: %i vira %s', (centavos, esperado) => {
+    expect(formatarPreco(centavos)).toBe(esperado);
+  });
+
+  it('formata valor negativo (estorno) sem quebrar', () => {
+    expect(formatarPreco(-1990)).toBe('-R$ 19,90');
   });
 });
