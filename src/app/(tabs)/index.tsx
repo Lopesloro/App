@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
 import { useRouter } from 'expo-router';
@@ -6,9 +6,13 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { CartaoLook } from '@/components/look/cartao-look';
 import { Texto } from '@/components/ui/texto';
+import { useSessao } from '@/features/auth/sessao-store';
 import { useFeed } from '@/features/feed/use-feed';
-import { OCASIOES, type Ocasiao } from '@/features/feed/tipos';
-import { espaco, paleta, raio } from '@/theme/tokens';
+import { OCASIOES, type Ocasiao, type Look } from '@/features/feed/tipos';
+import { mensagemLimite } from '@/features/salvos/limites';
+import { useSalvos } from '@/features/salvos/salvos-store';
+import { usePaleta } from '@/theme/tema-store';
+import { espaco, raio, type Paleta } from '@/theme/tokens';
 
 const ROTULO_OCASIAO: Record<Ocasiao, string> = {
   trabalho: 'Trabalho',
@@ -20,16 +24,40 @@ const ROTULO_OCASIAO: Record<Ocasiao, string> = {
 };
 
 export default function Feed() {
+  const paleta = usePaleta();
+  const estilos = useMemo(() => criarEstilos(paleta), [paleta]);
   const router = useRouter();
   const [ocasiao, setOcasiao] = useState<Ocasiao | undefined>();
   const { looks, carregando, erro, carregarMais, carregandoMais, recarregar, recarregando } =
     useFeed({ ocasiao });
+
+  const plano = useSessao((estado) => estado.usuaria?.plano ?? 'gratis');
+  const salvos = useSalvos((estado) => estado.ids);
+  const alternarSalvo = useSalvos((estado) => estado.alternar);
+  const [avisoLimite, setAvisoLimite] = useState<string | null>(null);
+
+  async function aoSalvar(look: Look) {
+    const resultado = await alternarSalvo(look.id, plano);
+    setAvisoLimite(resultado.ok ? null : mensagemLimite(plano));
+  }
 
   return (
     <SafeAreaView style={estilos.tela} edges={['top', 'left', 'right']}>
       <View style={estilos.cabecalho}>
         <Texto variante="display">Seus looks</Texto>
       </View>
+
+      {avisoLimite ? (
+        <Pressable
+          onPress={() => router.push('/paywall')}
+          accessibilityRole="button"
+          style={estilos.avisoLimite}
+        >
+          <Texto variante="corpoPequeno" tom="destaque">
+            {avisoLimite}
+          </Texto>
+        </Pressable>
+      ) : null}
 
       <ScrollView
         horizontal
@@ -82,7 +110,9 @@ export default function Feed() {
             <View style={estilos.celula}>
               <CartaoLook
                 look={item}
-                onPress={(look) => router.push(`/look/${look.id}`)}
+                onPress={(look) => router.push(`/look/${encodeURIComponent(look.id)}`)}
+                aoSalvar={aoSalvar}
+                salvo={salvos.includes(item.id)}
               />
             </View>
           )}
@@ -113,6 +143,8 @@ function Chip({
   ativo: boolean;
   onPress: () => void;
 }) {
+  const paleta = usePaleta();
+  const estilos = useMemo(() => criarEstilos(paleta), [paleta]);
   return (
     <Pressable
       onPress={onPress}
@@ -127,7 +159,8 @@ function Chip({
   );
 }
 
-const estilos = StyleSheet.create({
+const criarEstilos = (paleta: Paleta) =>
+  StyleSheet.create({
   tela: { flex: 1 },
   cabecalho: { paddingHorizontal: espaco.xl, paddingTop: espaco.sm },
   chipsArea: { flexGrow: 0 },
@@ -145,4 +178,11 @@ const estilos = StyleSheet.create({
   celula: { flex: 1, padding: espaco.sm },
   centro: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: espaco.md },
   rodape: { paddingVertical: espaco.xl },
+  avisoLimite: {
+    marginHorizontal: espaco.xl,
+    marginTop: espaco.sm,
+    padding: espaco.md,
+    backgroundColor: paleta.primarySoft,
+    borderRadius: raio.card,
+  },
 });

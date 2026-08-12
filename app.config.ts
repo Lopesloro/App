@@ -52,10 +52,12 @@ const config: ExpoConfig = {
     },
     permissions: ['android.permission.USE_BIOMETRIC'],
   },
-  web: {
-    output: 'static',
-    favicon: './assets/images/favicon.png',
-  },
+  // Sem plataforma web: o produto e exclusivamente de celular.
+  // docs/05-frontend.md descartou PWA como produto principal — sem compra
+  // dentro do app, camera fraca no iOS e push limitado. Manter a web ativa
+  // custaria testar e manter uma versao que ninguem usa. A web volta so como
+  // landing page separada (Next.js), fora deste projeto.
+  platforms: ['ios', 'android'],
   plugins: [
     'expo-router',
     'expo-secure-store',

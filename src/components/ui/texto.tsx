@@ -1,16 +1,10 @@
-import { Text as TextoRN, type TextProps, StyleSheet } from 'react-native';
+import { Text as TextoRN, type TextProps } from 'react-native';
 
-import { paleta, tipografia } from '@/theme/tokens';
+import { usePaleta } from '@/theme/tema-store';
+import { tipografia } from '@/theme/tokens';
 
 type Variante = keyof typeof tipografia;
-type Tom = 'principal' | 'suave' | 'destaque' | 'erro';
-
-const CORES: Record<Tom, string> = {
-  principal: paleta.ink,
-  suave: paleta.inkSoft,
-  destaque: paleta.primary,
-  erro: paleta.danger,
-};
+type Tom = 'principal' | 'suave' | 'destaque' | 'erro' | 'sobreDestaque';
 
 export type TextoProps = TextProps & {
   variante?: Variante;
@@ -23,12 +17,20 @@ export function Texto({
   style,
   ...props
 }: TextoProps) {
+  const paleta = usePaleta();
+
+  const cores: Record<Tom, string> = {
+    principal: paleta.ink,
+    suave: paleta.inkSoft,
+    destaque: paleta.primary,
+    erro: paleta.danger,
+    /** Texto sobre fundo colorido (botao primario). */
+    sobreDestaque: paleta.surface,
+  };
+
   return (
     <TextoRN
-      style={StyleSheet.compose(
-        { ...tipografia[variante], color: CORES[tom] } as TextProps['style'],
-        style,
-      )}
+      style={[{ ...tipografia[variante], color: cores[tom] }, style]}
       {...props}
     />
   );

@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -5,13 +6,16 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Botao } from '@/components/ui/botao';
 import { Texto } from '@/components/ui/texto';
 import { PLANOS } from '@/features/assinatura/planos';
-import { espaco, paleta, raio } from '@/theme/tokens';
+import { usePaleta } from '@/theme/tema-store';
+import { espaco, raio, type Paleta } from '@/theme/tokens';
 
 /**
  * Tela de planos. O motor de compra (RevenueCat) entra na issue #30;
  * aqui fica a apresentacao, ja com os precos oficiais do projeto.
  */
 export default function Paywall() {
+  const paleta = usePaleta();
+  const estilos = useMemo(() => criarEstilos(paleta), [paleta]);
   const router = useRouter();
 
   return (
@@ -45,7 +49,8 @@ export default function Paywall() {
   );
 }
 
-const estilos = StyleSheet.create({
+const criarEstilos = (paleta: Paleta) =>
+  StyleSheet.create({
   tela: { flex: 1, padding: espaco.xl, gap: espaco.lg },
   planos: { flex: 1, gap: espaco.md },
   cartao: {

@@ -32,10 +32,28 @@ export const VINHO_MODERNO = {
   border: '#EADCD9',
 } as const;
 
-/** Direcao ativa. Trocar aqui apos o teste de preferencia com usuarias. */
-export const paleta = EDITORIAL_AREIA;
+/**
+ * Forma de uma paleta. Tipo estrutural (string), nao literal: as duas
+ * direcoes precisam ser intercambiaveis em tempo de execucao.
+ */
+export type Paleta = {
+  readonly bg: string;
+  readonly surface: string;
+  readonly ink: string;
+  readonly inkSoft: string;
+  readonly primary: string;
+  readonly primarySoft: string;
+  readonly accent: string;
+  readonly gold: string;
+  readonly danger: string;
+  readonly border: string;
+};
 
-export type Paleta = typeof EDITORIAL_AREIA;
+/**
+ * Paleta padrao para uso FORA de componente (constantes de modulo).
+ * Dentro de componente, use `usePaleta()` — so ele acompanha a troca de tema.
+ */
+export const paleta: Paleta = EDITORIAL_AREIA;
 
 /** Escala de espacamento em multiplos de 4 (docs/05-frontend.md). */
 export const espaco = {

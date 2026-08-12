@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -15,9 +15,12 @@ import { useLook } from '@/features/feed/use-look';
 import { precoTotalLook, type Peca, type Look } from '@/features/feed/tipos';
 import { mensagemLimite } from '@/features/salvos/limites';
 import { useSalvos } from '@/features/salvos/salvos-store';
-import { espaco, paleta, raio, PROPORCAO_FOTO } from '@/theme/tokens';
+import { usePaleta } from '@/theme/tema-store';
+import { espaco, raio, PROPORCAO_FOTO, type Paleta } from '@/theme/tokens';
 
 export default function DetalheLook() {
+  const paleta = usePaleta();
+  const estilos = useMemo(() => criarEstilos(paleta), [paleta]);
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const { look, carregando } = useLook(id);
@@ -127,6 +130,8 @@ export default function DetalheLook() {
 }
 
 function LinhaPeca({ peca, look }: { peca: Peca; look: Look }) {
+  const paleta = usePaleta();
+  const estilos = useMemo(() => criarEstilos(paleta), [paleta]);
   const url = montarUrlCompra(peca, look, { origemInterna: 'detalhe-look' });
 
   async function abrirLoja() {
@@ -165,7 +170,8 @@ function LinhaPeca({ peca, look }: { peca: Peca; look: Look }) {
   );
 }
 
-const estilos = StyleSheet.create({
+const criarEstilos = (paleta: Paleta) =>
+  StyleSheet.create({
   tela: { flex: 1, backgroundColor: paleta.bg },
   centro: {
     flex: 1,

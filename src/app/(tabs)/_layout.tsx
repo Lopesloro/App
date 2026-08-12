@@ -1,8 +1,11 @@
 import { Tabs } from 'expo-router';
 
-import { paleta, tipografia } from '@/theme/tokens';
+import { usePaleta } from '@/theme/tema-store';
+import { tipografia } from '@/theme/tokens';
 
 export default function LayoutTabs() {
+  const paleta = usePaleta();
+
   return (
     <Tabs
       screenOptions={{
@@ -19,6 +22,7 @@ export default function LayoutTabs() {
     >
       <Tabs.Screen name="index" options={{ title: 'Looks' }} />
       <Tabs.Screen name="explorar" options={{ title: 'Explorar' }} />
+      <Tabs.Screen name="salvos" options={{ title: 'Salvos' }} />
       <Tabs.Screen name="closet" options={{ title: 'Closet' }} />
       <Tabs.Screen name="perfil" options={{ title: 'Perfil' }} />
     </Tabs>

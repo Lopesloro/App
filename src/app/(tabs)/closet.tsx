@@ -1,9 +1,11 @@
+import { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { TelaPrivada } from '@/components/seguranca/tela-privada';
 import { Texto } from '@/components/ui/texto';
-import { espaco, paleta, raio } from '@/theme/tokens';
+import { usePaleta } from '@/theme/tema-store';
+import { espaco, raio, type Paleta } from '@/theme/tokens';
 
 /**
  * Meu closet — exibe fotos pessoais da usuaria.
@@ -13,6 +15,8 @@ import { espaco, paleta, raio } from '@/theme/tokens';
  * fotos chegarem (issue #11). Ver docs/06-seguranca.md.
  */
 export default function Closet() {
+  const paleta = usePaleta();
+  const estilos = useMemo(() => criarEstilos(paleta), [paleta]);
   return (
     <SafeAreaView style={estilos.tela}>
       <TelaPrivada chave="closet" />
@@ -35,7 +39,8 @@ export default function Closet() {
   );
 }
 
-const estilos = StyleSheet.create({
+const criarEstilos = (paleta: Paleta) =>
+  StyleSheet.create({
   tela: { flex: 1, padding: espaco.xl },
   aviso: {
     marginTop: espaco.lg,
