@@ -69,8 +69,13 @@ describe('look vindo de catalogo hostil', () => {
     ).toBe(false);
   });
 
-  it('recusa peca com link javascript', () => {
-    const pecaHostil = { ...base.pecas[0], urlLoja: 'javascript:alert(1)' };
+  it('recusa peca com id que muda a rota', () => {
+    const pecaHostil = { ...base.pecas[0], id: '../perfil' };
+    expect(lookSchema.safeParse({ ...base, pecas: [pecaHostil] }).success).toBe(false);
+  });
+
+  it('recusa peca com categoria inventada', () => {
+    const pecaHostil = { ...base.pecas[0], categoria: 'armadura' };
     expect(lookSchema.safeParse({ ...base, pecas: [pecaHostil] }).success).toBe(false);
   });
 

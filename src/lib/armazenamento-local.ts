@@ -16,6 +16,7 @@ export const CHAVES_LOCAIS = {
   looksSalvos: 'ml.looks_salvos',
   ocasiaoPreferida: 'ml.ocasiao_preferida',
   tema: 'ml.tema',
+  pecasCloset: 'ml.pecas_closet',
 } as const;
 
 export type ChaveLocal = (typeof CHAVES_LOCAIS)[keyof typeof CHAVES_LOCAIS];

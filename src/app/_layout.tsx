@@ -6,6 +6,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { queryClient } from '@/lib/query-client';
 import { useSessao } from '@/features/auth/sessao-store';
+import { useCloset } from '@/features/closet/closet-store';
 import { useSalvos } from '@/features/salvos/salvos-store';
 import { usePaleta, useTemaStore } from '@/theme/tema-store';
 
@@ -13,13 +14,15 @@ export default function LayoutRaiz() {
   const restaurar = useSessao((estado) => estado.restaurar);
   const restaurarSalvos = useSalvos((estado) => estado.restaurar);
   const restaurarTema = useTemaStore((estado) => estado.restaurar);
+  const restaurarCloset = useCloset((estado) => estado.restaurar);
   const paleta = usePaleta();
 
   useEffect(() => {
     void restaurar();
     void restaurarSalvos();
     void restaurarTema();
-  }, [restaurar, restaurarSalvos, restaurarTema]);
+    void restaurarCloset();
+  }, [restaurar, restaurarSalvos, restaurarTema, restaurarCloset]);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>

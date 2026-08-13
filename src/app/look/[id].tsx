@@ -1,18 +1,18 @@
-import { useState, useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import * as WebBrowser from 'expo-web-browser';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { IlustracaoPeca } from '@/components/closet/ilustracao-peca';
 import { BotaoSalvar } from '@/components/look/botao-salvar';
+import { IlustracaoLook } from '@/components/look/ilustracao-look';
 import { Botao } from '@/components/ui/botao';
 import { Texto } from '@/components/ui/texto';
-import { formatarPreco } from '@/features/assinatura/planos';
 import { useSessao } from '@/features/auth/sessao-store';
-import { AVISO_COMISSAO, montarUrlCompra } from '@/features/feed/afiliado';
+import { ROTULO_CATEGORIA } from '@/features/closet/tipos';
 import { useLook } from '@/features/feed/use-look';
-import { precoTotalLook, type Peca, type Look } from '@/features/feed/tipos';
+import { resumoPecas, tamanhosDoLook, type Peca } from '@/features/feed/tipos';
 import { mensagemLimite } from '@/features/salvos/limites';
 import { useSalvos } from '@/features/salvos/salvos-store';
 import { usePaleta } from '@/theme/tema-store';
@@ -21,9 +21,11 @@ import { espaco, raio, PROPORCAO_FOTO, type Paleta } from '@/theme/tokens';
 export default function DetalheLook() {
   const paleta = usePaleta();
   const estilos = useMemo(() => criarEstilos(paleta), [paleta]);
+
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const { look, carregando } = useLook(id);
+
   const plano = useSessao((estado) => estado.usuaria?.plano ?? 'gratis');
   const ids = useSalvos((estado) => estado.ids);
   const alternarSalvo = useSalvos((estado) => estado.alternar);
@@ -32,9 +34,7 @@ export default function DetalheLook() {
   async function aoSalvar() {
     if (!look) return;
     const resultado = await alternarSalvo(look.id, plano);
-    if (!resultado.ok) {
-      setAvisoLimite(mensagemLimite(plano));
-    }
+    setAvisoLimite(resultado.ok ? null : mensagemLimite(plano));
   }
 
   if (carregando) {
@@ -56,27 +56,29 @@ export default function DetalheLook() {
     );
   }
 
-  const total = precoTotalLook(look);
-  const disponiveis = look.pecas.filter((p) => p.urlLoja !== null).length;
-
   return (
     <SafeAreaView style={estilos.tela} edges={['bottom', 'left', 'right']}>
       <ScrollView contentContainerStyle={estilos.conteudo}>
-        <Image
-          source={look.fotoUrl}
-          placeholder={{ blurhash: look.blurhash }}
-          contentFit="cover"
-          transition={200}
-          cachePolicy="memory-disk"
-          style={estilos.foto}
-          accessible={false}
-        />
+        {look.fotoUrl ? (
+          <Image
+            source={look.fotoUrl}
+            placeholder={{ blurhash: look.blurhash }}
+            contentFit="cover"
+            transition={200}
+            cachePolicy="memory-disk"
+            style={estilos.foto}
+            accessible={false}
+          />
+        ) : (
+          <View style={estilos.foto}>
+            <IlustracaoLook look={look} altura={360} />
+          </View>
+        )}
 
         <View style={estilos.corpo}>
           <Texto variante="display">{look.titulo}</Texto>
           <Texto variante="corpoPequeno" tom="suave">
-            {look.pecas.length === 1 ? '1 peça' : `${look.pecas.length} peças`} · total{' '}
-            {formatarPreco(total)}
+            {resumoPecas(look)} · tamanhos {tamanhosDoLook(look)}
           </Texto>
 
           {look.geradoPorIa ? (
@@ -90,14 +92,15 @@ export default function DetalheLook() {
           </Texto>
 
           {look.pecas.map((peca) => (
-            <LinhaPeca key={peca.id} peca={peca} look={look} />
+            <LinhaPeca key={peca.id} peca={peca} />
           ))}
 
-          {disponiveis > 0 ? (
-            <Texto variante="legenda" tom="suave" style={estilos.aviso}>
-              {AVISO_COMISSAO}
+          <View style={estilos.nota}>
+            <Texto variante="legenda" tom="suave">
+              Ainda não vendemos nada por aqui. Estas são sugestões de
+              composição — use o que você já tem no closet.
             </Texto>
-          ) : null}
+          </View>
         </View>
       </ScrollView>
 
@@ -129,93 +132,73 @@ export default function DetalheLook() {
   );
 }
 
-function LinhaPeca({ peca, look }: { peca: Peca; look: Look }) {
+function LinhaPeca({ peca }: { peca: Peca }) {
   const paleta = usePaleta();
   const estilos = useMemo(() => criarEstilos(paleta), [paleta]);
-  const url = montarUrlCompra(peca, look, { origemInterna: 'detalhe-look' });
-
-  async function abrirLoja() {
-    if (!url) return;
-    // Navegador dentro do app: a usuaria nao perde o contexto do look.
-    await WebBrowser.openBrowserAsync(url);
-  }
 
   return (
     <View style={estilos.peca} testID={`peca-${peca.id}`}>
+      <View style={estilos.miniaturaPeca}>
+        <IlustracaoPeca categoria={peca.categoria} cor={peca.cor} tamanho={40} />
+      </View>
       <View style={estilos.pecaInfo}>
         <Texto variante="corpo">{peca.nome}</Texto>
         <Texto variante="corpoPequeno" tom="suave">
-          {peca.marca} · {formatarPreco(peca.precoCentavos)}
+          {ROTULO_CATEGORIA[peca.categoria]} · tamanho {peca.tamanho}
         </Texto>
       </View>
-
-      {url ? (
-        <Pressable
-          onPress={abrirLoja}
-          accessibilityRole="link"
-          accessibilityLabel={`Ver ${peca.nome} da ${peca.marca} na loja`}
-          testID={`comprar-${peca.id}`}
-          style={estilos.botaoLoja}
-        >
-          <Texto variante="corpoPequeno" tom="destaque">
-            Ver na loja
-          </Texto>
-        </Pressable>
-      ) : (
-        <Texto variante="legenda" tom="suave">
-          Indisponível
-        </Texto>
-      )}
     </View>
   );
 }
 
 const criarEstilos = (paleta: Paleta) =>
   StyleSheet.create({
-  tela: { flex: 1, backgroundColor: paleta.bg },
-  centro: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: espaco.md,
-    backgroundColor: paleta.bg,
-  },
-  conteudo: { paddingBottom: espaco.xl },
-  foto: { width: '100%', aspectRatio: PROPORCAO_FOTO, backgroundColor: paleta.primarySoft },
-  corpo: { padding: espaco.xl, gap: espaco.xs },
-  secao: { marginTop: espaco.lg, marginBottom: espaco.sm },
-  peca: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: espaco.md,
-    paddingVertical: espaco.md,
-    borderBottomWidth: 1,
-    borderBottomColor: paleta.border,
-  },
-  pecaInfo: { flex: 1, gap: 2 },
-  botaoLoja: {
-    paddingHorizontal: espaco.lg,
-    paddingVertical: espaco.sm,
-    borderRadius: raio.chip,
-    borderWidth: 1,
-    borderColor: paleta.primary,
-    minHeight: 44,
-    justifyContent: 'center',
-  },
-  aviso: { marginTop: espaco.lg },
-  rodape: {
-    padding: espaco.lg,
-    borderTopWidth: 1,
-    borderTopColor: paleta.border,
-    backgroundColor: paleta.surface,
-    gap: espaco.md,
-  },
-  acoesRodape: { flexDirection: 'row', alignItems: 'center', gap: espaco.md },
-  botaoVoltar: { flex: 1 },
-  avisoLimite: {
-    padding: espaco.md,
-    backgroundColor: paleta.primarySoft,
-    borderRadius: raio.card,
-  },
-});
+    tela: { flex: 1, backgroundColor: paleta.bg },
+    centro: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: espaco.md,
+      backgroundColor: paleta.bg,
+    },
+    conteudo: { paddingBottom: espaco.xl },
+    foto: {
+      width: '100%',
+      aspectRatio: PROPORCAO_FOTO,
+      backgroundColor: paleta.primarySoft,
+    },
+    corpo: { padding: espaco.xl, gap: espaco.xs },
+    secao: { marginTop: espaco.lg, marginBottom: espaco.sm },
+    peca: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: espaco.md,
+      paddingVertical: espaco.md,
+      borderBottomWidth: 1,
+      borderBottomColor: paleta.border,
+    },
+    miniaturaPeca: {
+      width: 52,
+      height: 52,
+      borderRadius: raio.botao,
+      backgroundColor: paleta.primarySoft,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    pecaInfo: { flex: 1, gap: 2 },
+    nota: { marginTop: espaco.lg },
+    rodape: {
+      padding: espaco.lg,
+      borderTopWidth: 1,
+      borderTopColor: paleta.border,
+      backgroundColor: paleta.surface,
+      gap: espaco.md,
+    },
+    acoesRodape: { flexDirection: 'row', alignItems: 'center', gap: espaco.md },
+    botaoVoltar: { flex: 1 },
+    avisoLimite: {
+      padding: espaco.md,
+      backgroundColor: paleta.primarySoft,
+      borderRadius: raio.card,
+    },
+  });

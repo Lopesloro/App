@@ -1,5 +1,10 @@
 import { z } from 'zod';
 
+import { categoriaSchema as categoriaPecaSchema, corSchema as corPecaSchema } from '@/features/closet/tipos';
+import { idSeguroSchema, urlSeguraSchema } from '@/lib/schemas-comuns';
+
+export { idSeguroSchema, urlSeguraSchema };
+
 /**
  * Tipos do feed de indicacoes — o coracao do produto.
  *
@@ -31,50 +36,15 @@ export const ESTILOS = [
 export const estiloSchema = z.enum(ESTILOS);
 export type Estilo = z.infer<typeof estiloSchema>;
 
-/**
- * Identificador seguro para uso em rota.
- *
- * O id vai direto na URL de navegacao (`/look/{id}`) e na chamada da API.
- * `z.string()` puro aceitaria `../paywall` ou `x?y=z`, que mudariam a rota
- * chamada. Restringimos ao conjunto que um id de verdade usa.
- */
-export const idSeguroSchema = z
-  .string()
-  .min(1)
-  .max(64)
-  .regex(/^[A-Za-z0-9_-]+$/, 'Identificador com caracteres nao permitidos');
-
-/**
- * URL segura para carregar ou abrir.
- *
- * ATENCAO: `z.string().url()` do zod aceita `javascript:`, `file:` e `data:`
- * — verificado em teste. Um catalogo de parceiro comprometido poderia servir
- * `file:///...` e fazer o app tentar ler arquivo local do aparelho. Por isso
- * exigimos explicitamente http/https.
- */
-export const urlSeguraSchema = z
-  .string()
-  .url()
-  .refine(
-    (valor) => {
-      try {
-        const protocolo = new URL(valor).protocol;
-        return protocolo === 'https:' || protocolo === 'http:';
-      } catch {
-        return false;
-      }
-    },
-    { message: 'Endereco precisa ser http ou https' },
-  );
-
-/** Uma peca que compoe o look, com link de compra (pilar 3). */
+/** Uma peca que compoe o look. */
 export const pecaSchema = z.object({
   id: idSeguroSchema,
   nome: z.string().min(1),
-  marca: z.string().min(1),
-  precoCentavos: z.number().int().nonnegative(),
-  /** Link de afiliado. Vazio quando a peca nao esta a venda. */
-  urlLoja: urlSeguraSchema.nullable(),
+  /** Tipo da peca — define como ela e desenhada e onde entra no look. */
+  categoria: categoriaPecaSchema,
+  cor: corPecaSchema,
+  /** Tamanho sugerido para o look. */
+  tamanho: z.string().min(1).max(10),
 });
 
 export type Peca = z.infer<typeof pecaSchema>;
@@ -107,7 +77,19 @@ export const looksPaginaSchema = z.object({
 
 export type LooksPagina = z.infer<typeof looksPaginaSchema>;
 
-/** Soma o preco de todas as pecas do look. */
-export function precoTotalLook(look: Look): number {
-  return look.pecas.reduce((soma, peca) => soma + peca.precoCentavos, 0);
+/**
+ * Resumo das pecas do look, em texto.
+ *
+ * Substituiu a soma de precos: nada e vendido no app por enquanto (nao ha
+ * contrato com loja), entao mostrar valor daria a entender que da para
+ * comprar. Aqui a informacao util e o que compoe o look.
+ */
+export function resumoPecas(look: Look): string {
+  const total = look.pecas.length;
+  return total === 1 ? '1 peça' : `${total} peças`;
+}
+
+/** Tamanhos presentes no look, sem repetir. Ex.: "M · 38 · 37". */
+export function tamanhosDoLook(look: Look): string {
+  return [...new Set(look.pecas.map((p) => p.tamanho))].join(' · ');
 }

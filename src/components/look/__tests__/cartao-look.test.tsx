@@ -8,12 +8,17 @@ const lookSemIa: Look = { ...LOOKS_EXEMPLO[0], geradoPorIa: false };
 const lookComIa: Look = { ...LOOKS_EXEMPLO[2], geradoPorIa: true };
 
 describe('CartaoLook', () => {
-  it('mostra titulo, quantidade de pecas e preco total', () => {
+  it('mostra titulo, quantidade de pecas e tamanhos', () => {
     render(<CartaoLook look={lookSemIa} />);
 
     expect(screen.getByText(lookSemIa.titulo)).toBeOnTheScreen();
-    // Look 1: 189,90 + 129,90 + 299,90 = 619,70
-    expect(screen.getByText('3 peças · R$ 619,70')).toBeOnTheScreen();
+    // Nao mostra preco: nada e vendido no app.
+    expect(screen.getByText('3 peças · M · 40 · 37')).toBeOnTheScreen();
+  });
+
+  it('nao mostra preco em lugar nenhum do cartao', () => {
+    render(<CartaoLook look={lookSemIa} />);
+    expect(screen.queryByText(/R\$/)).not.toBeOnTheScreen();
   });
 
   it('avisa quando a imagem foi gerada por IA', () => {
@@ -29,7 +34,7 @@ describe('CartaoLook', () => {
   it('descreve o look inteiro para o leitor de tela', () => {
     render(<CartaoLook look={lookSemIa} />);
     expect(
-      screen.getByLabelText(`${lookSemIa.titulo}. 3 peças, total R$ 619,70.`),
+      screen.getByLabelText(`${lookSemIa.titulo}. 3 peças, tamanhos M · 40 · 37.`),
     ).toBeOnTheScreen();
   });
 
@@ -52,7 +57,7 @@ describe('CartaoLook', () => {
   it('usa o singular quando o look tem uma peca so', () => {
     const umaPeca: Look = { ...lookSemIa, pecas: [lookSemIa.pecas[0]] };
     render(<CartaoLook look={umaPeca} />);
-    expect(screen.getByText('1 peça · R$ 189,90')).toBeOnTheScreen();
+    expect(screen.getByText('1 peça · M')).toBeOnTheScreen();
   });
 
   it('pluraliza corretamente em qualquer quantidade', () => {

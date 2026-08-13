@@ -31,12 +31,12 @@ Cada feature do app tem uma pasta aqui. Dentro dela, três coisas:
 | 03 | [[03-salvar-looks/o-que-e\|Salvar looks]] | Guardar os looks que gostou, com limite por plano | ✅ Pronta (só neste celular) |
 | 04 | [[04-meus-looks-salvos/o-que-e\|Meus looks salvos]] | A aba com a coleção dela, e coração direto no cartão | ✅ Pronta |
 | 05 | [[05-dois-visuais/o-que-e\|Dois visuais]] | Duas caras completas do app, trocáveis pela usuária | ✅ Pronta (falta testar em celular) |
+| 06 | [[06-meu-closet/o-que-e\|Meu closet]] | Roupas dela: escanear por foto ou escolher de lista pronta, com tamanhos | ✅ Pronta (só neste celular) |
 
 ## Ainda não construídas
 
 Estas estão no backlog e viram pasta aqui quando forem feitas:
 
-- Meu closet (fotografar suas roupas)
 - Montador de looks
 - Login de verdade
 - Assinatura e cobrança

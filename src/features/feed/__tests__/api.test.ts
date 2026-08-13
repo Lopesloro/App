@@ -1,6 +1,6 @@
 import { buscarLooks, TAMANHO_PAGINA } from '../api';
 import { LOOKS_EXEMPLO } from '../dados-exemplo';
-import { looksPaginaSchema, precoTotalLook } from '../tipos';
+import { looksPaginaSchema, resumoPecas, tamanhosDoLook } from '../tipos';
 
 describe('paginacao do feed', () => {
   it('devolve a primeira pagina com o tamanho definido', async () => {
@@ -88,14 +88,29 @@ describe('validacao dos dados', () => {
   });
 });
 
-describe('precoTotalLook', () => {
-  it('soma o preco de todas as pecas', () => {
+describe('resumo das pecas', () => {
+  it('descreve quantas pecas o look tem', () => {
     const look = LOOKS_EXEMPLO[0];
-    const esperado = look.pecas.reduce((s, p) => s + p.precoCentavos, 0);
-    expect(precoTotalLook(look)).toBe(esperado);
+    expect(resumoPecas(look)).toBe(`${look.pecas.length} peças`);
   });
 
-  it('devolve zero para look sem pecas', () => {
-    expect(precoTotalLook({ ...LOOKS_EXEMPLO[0], pecas: [] })).toBe(0);
+  it('usa singular para look de uma peca so', () => {
+    expect(resumoPecas({ ...LOOKS_EXEMPLO[0], pecas: [LOOKS_EXEMPLO[0].pecas[0]] })).toBe('1 peça');
+  });
+
+  it('lista os tamanhos do look sem repetir', () => {
+    const look = LOOKS_EXEMPLO[0];
+    const esperado = [...new Set(look.pecas.map((p) => p.tamanho))].join(' · ');
+    expect(tamanhosDoLook(look)).toBe(esperado);
+  });
+
+  it('nao mostra preco: nada e vendido no app', () => {
+    // Trava de produto: se alguem reintroduzir preco na peca, este teste cai.
+    for (const look of LOOKS_EXEMPLO) {
+      for (const peca of look.pecas) {
+        expect(peca).not.toHaveProperty('precoCentavos');
+        expect(peca).not.toHaveProperty('urlLoja');
+      }
+    }
   });
 });

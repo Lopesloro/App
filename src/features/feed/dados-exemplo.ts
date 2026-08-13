@@ -3,12 +3,13 @@ import type { Look } from './tipos';
 /**
  * Looks de exemplo para desenvolver e demonstrar o app antes da API existir.
  *
- * As fotos ainda sao nulas de proposito: quem publica imagem e a curadoria
- * (issue #22), e inventar URL de foto aqui criaria dependencia de servico
- * externo que quebra sem aviso. Ate la o cartao mostra o blurhash, que ja da
- * a cor e o ritmo visual do feed.
+ * As pecas trazem categoria, cor e tamanho — e com isso o app DESENHA o look
+ * (ver `IlustracaoLook`). Nao dependemos de foto de catalogo, que exigiria
+ * licenca de imagem de cada marca, nem de servico externo que sai do ar.
+ * Quando a curadoria tiver fotos licenciadas, `fotoUrl` passa a valer e o
+ * desenho vira so o estado de carregamento.
  *
- * Marcas e faixas de preco seguem o varejo brasileiro real (docs/03-concorrentes.md).
+ * Sem marca e sem preco de proposito: nada e vendido no app por enquanto.
  */
 export const LOOKS_EXEMPLO: Look[] = [
   {
@@ -20,9 +21,9 @@ export const LOOKS_EXEMPLO: Look[] = [
     blurhash: 'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
     geradoPorIa: false,
     pecas: [
-      { id: 'p-001', nome: 'Blazer de alfaiataria', marca: 'Renner', precoCentavos: 18990, urlLoja: 'https://www.lojasrenner.com.br/p/blazer-alfaiataria/1001' },
-      { id: 'p-002', nome: 'Calça wide leg', marca: 'C&A', precoCentavos: 12990, urlLoja: 'https://www.cea.com.br/p/calca-wide-leg/1002' },
-      { id: 'p-003', nome: 'Mule bico fino', marca: 'Arezzo', precoCentavos: 29990, urlLoja: 'https://www.arezzo.com.br/p/mule-bico-fino/1003' },
+      { id: 'p-001', nome: 'Blazer de alfaiataria', categoria: 'blazer', cor: 'bege', tamanho: 'M' },
+      { id: 'p-002', nome: 'Calça wide leg', categoria: 'calca', cor: 'preto', tamanho: '40' },
+      { id: 'p-003', nome: 'Mule bico fino', categoria: 'sapato', cor: 'preto', tamanho: '37' },
     ],
   },
   {
@@ -34,9 +35,9 @@ export const LOOKS_EXEMPLO: Look[] = [
     blurhash: 'L6PZfSi_.AyE_3t7t7R**0o#DgR4',
     geradoPorIa: false,
     pecas: [
-      { id: 'p-004', nome: 'Camisa de linho', marca: 'Hering', precoCentavos: 9990, urlLoja: 'https://www.hering.com.br/p/camisa-linho/1004' },
-      { id: 'p-005', nome: 'Jeans reto', marca: 'Levis', precoCentavos: 34990, urlLoja: 'https://www.levi.com.br/p/jeans-reto/1005' },
-      { id: 'p-006', nome: 'Tenis branco', marca: 'Vert', precoCentavos: 59990, urlLoja: null },
+      { id: 'p-004', nome: 'Camisa de linho', categoria: 'camisa', cor: 'branco', tamanho: 'M' },
+      { id: 'p-005', nome: 'Jeans reto', categoria: 'calca', cor: 'azul', tamanho: '40' },
+      { id: 'p-006', nome: 'Tênis branco', categoria: 'sapato', cor: 'branco', tamanho: '37' },
     ],
   },
   {
@@ -48,8 +49,9 @@ export const LOOKS_EXEMPLO: Look[] = [
     blurhash: 'LKO2?U%2Tw=w]~RBVZRi};RPxuwH',
     geradoPorIa: true,
     pecas: [
-      { id: 'p-007', nome: 'Vestido midi de cetim', marca: 'Amaro', precoCentavos: 39990, urlLoja: 'https://www.amaro.com/p/vestido-midi-cetim/1007' },
-      { id: 'p-008', nome: 'Sandália de tira fina', marca: 'Schutz', precoCentavos: 44990, urlLoja: 'https://www.schutz.com.br/p/sandalia-tira-fina/1008' },
+      { id: 'p-007', nome: 'Vestido midi de cetim', categoria: 'vestido', cor: 'rosa', tamanho: 'M' },
+      { id: 'p-008', nome: 'Sandália de tira fina', categoria: 'sapato', cor: 'bege', tamanho: '37' },
+      { id: 'p-020', nome: 'Bolsa pequena', categoria: 'bolsa', cor: 'bege', tamanho: 'Único' },
     ],
   },
   {
@@ -61,8 +63,9 @@ export const LOOKS_EXEMPLO: Look[] = [
     blurhash: 'L03[?[t7fQt7~qofayof9Ffk?bj[',
     geradoPorIa: true,
     pecas: [
-      { id: 'p-009', nome: 'Body de malha canelada', marca: 'Farm', precoCentavos: 21990, urlLoja: 'https://www.farmrio.com.br/p/body-canelado/1009' },
-      { id: 'p-010', nome: 'Saia lápis', marca: 'Zara', precoCentavos: 25990, urlLoja: null },
+      { id: 'p-009', nome: 'Blusa de malha canelada', categoria: 'blusa', cor: 'preto', tamanho: 'P' },
+      { id: 'p-010', nome: 'Saia lápis', categoria: 'saia', cor: 'preto', tamanho: '38' },
+      { id: 'p-021', nome: 'Colar dourado', categoria: 'acessorio', cor: 'amarelo', tamanho: 'Único' },
     ],
   },
   {
@@ -74,8 +77,9 @@ export const LOOKS_EXEMPLO: Look[] = [
     blurhash: 'LNAdApj[00aymkj[?bj[D%ayt7of',
     geradoPorIa: false,
     pecas: [
-      { id: 'p-011', nome: 'Top de sustentação média', marca: 'Track&Field', precoCentavos: 15990, urlLoja: 'https://www.trackfield.com.br/p/top-sustentacao/1011' },
-      { id: 'p-012', nome: 'Legging cintura alta', marca: 'Alto Giro', precoCentavos: 17990, urlLoja: 'https://www.altogiro.com.br/p/legging-cintura-alta/1012' },
+      { id: 'p-011', nome: 'Camiseta de treino', categoria: 'camiseta', cor: 'cinza', tamanho: 'P' },
+      { id: 'p-012', nome: 'Legging cintura alta', categoria: 'calca', cor: 'preto', tamanho: '38' },
+      { id: 'p-022', nome: 'Tênis de corrida', categoria: 'sapato', cor: 'branco', tamanho: '37' },
     ],
   },
   {
@@ -87,8 +91,9 @@ export const LOOKS_EXEMPLO: Look[] = [
     blurhash: 'LlMF%n00%#MwS|WCWEM{R*bbWBbH',
     geradoPorIa: false,
     pecas: [
-      { id: 'p-013', nome: 'Saída de praia de crochê', marca: 'Osklen', precoCentavos: 32990, urlLoja: null },
-      { id: 'p-014', nome: 'Chapéu de palha', marca: 'Riachuelo', precoCentavos: 7990, urlLoja: null },
+      { id: 'p-013', nome: 'Saída de praia', categoria: 'vestido', cor: 'branco', tamanho: 'M' },
+      { id: 'p-014', nome: 'Bolsa de palha', categoria: 'bolsa', cor: 'amarelo', tamanho: 'Único' },
+      { id: 'p-023', nome: 'Rasteirinha', categoria: 'sapato', cor: 'bege', tamanho: '37' },
     ],
   },
   {
@@ -100,9 +105,9 @@ export const LOOKS_EXEMPLO: Look[] = [
     blurhash: 'LGF5]+Yk^6#M@-5c,1J5@[or[Q6.',
     geradoPorIa: false,
     pecas: [
-      { id: 'p-015', nome: 'Tricô gola alta', marca: 'Renner', precoCentavos: 13990, urlLoja: 'https://www.lojasrenner.com.br/p/tricot-gola-alta/1015' },
-      { id: 'p-016', nome: 'Trench coat', marca: 'Zara', precoCentavos: 49990, urlLoja: null },
-      { id: 'p-017', nome: 'Bota de cano curto', marca: 'Arezzo', precoCentavos: 45990, urlLoja: null },
+      { id: 'p-015', nome: 'Tricô gola alta', categoria: 'blusa', cor: 'bege', tamanho: 'M' },
+      { id: 'p-016', nome: 'Trench coat', categoria: 'casaco', cor: 'bege', tamanho: 'M' },
+      { id: 'p-017', nome: 'Bota de cano curto', categoria: 'sapato', cor: 'marrom', tamanho: '37' },
     ],
   },
   {
@@ -114,8 +119,9 @@ export const LOOKS_EXEMPLO: Look[] = [
     blurhash: 'LTI};?WB00of%MayIUj[00fQ~qay',
     geradoPorIa: true,
     pecas: [
-      { id: 'p-018', nome: 'Slip dress acetinado', marca: 'Amaro', precoCentavos: 27990, urlLoja: 'https://www.amaro.com/p/slip-dress/1018' },
-      { id: 'p-019', nome: 'Jaqueta jeans oversized', marca: 'C&A', precoCentavos: 15990, urlLoja: null },
+      { id: 'p-018', nome: 'Slip dress acetinado', categoria: 'vestido', cor: 'verde', tamanho: 'M' },
+      { id: 'p-019', nome: 'Jaqueta jeans oversized', categoria: 'jaqueta', cor: 'azul', tamanho: 'G' },
+      { id: 'p-024', nome: 'Tênis branco', categoria: 'sapato', cor: 'branco', tamanho: '37' },
     ],
   },
 ];

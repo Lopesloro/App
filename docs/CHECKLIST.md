@@ -30,7 +30,11 @@ Ordem de execução. Cada bloco depende do anterior. Marque `[x]` conforme fecha
 - [x] Salvar looks com limite por plano
 - [x] Aba "Meus looks salvos"
 - [x] Dois visuais completos, trocáveis dentro do app
-- [x] 146 testes automatizados, todos passando
+- [x] 174 testes automatizados, todos passando
+- [x] Meu closet: escanear roupa por foto ou escolher de lista com 46 peças prontas
+- [x] Tamanhos por tipo de peça (roupa, numeração, calçado, único)
+- [x] Looks desenhados a partir das peças — não são mais blocos de cor
+- [x] Parte de venda removida (nada é vendido por enquanto)
 
 ---
 
@@ -87,10 +91,10 @@ Depende do Bloco 3.
 - [ ] Armazenamento privado das fotos (Cloudflare R2 ou S3)
 - [ ] **Endereços de foto que expiram em 15 minutos** ([#37](https://github.com/Lopesloro/App/issues/37))
 - [ ] Criptografia das fotos em trânsito e guardadas ([#35](https://github.com/Lopesloro/App/issues/35))
-- [ ] Remover localização da foto antes de enviar
-- [ ] Fotografar peça do closet com recorte de fundo ([#11](https://github.com/Lopesloro/App/issues/11))
-- [ ] Categorizar peças ([#12](https://github.com/Lopesloro/App/issues/12))
-- [ ] Editar e excluir peças ([#13](https://github.com/Lopesloro/App/issues/13))
+- [x] Remover localização da foto (`exif: false` na captura — falta confirmar em aparelho real)
+- [x] Fotografar peça do closet — captura por câmera e galeria, com localização removida (falta só o recorte de fundo, que precisa de servidor) ([#11](https://github.com/Lopesloro/App/issues/11))
+- [x] Categorizar peças — 14 categorias, 11 cores e tamanho por tipo ([#12](https://github.com/Lopesloro/App/issues/12))
+- [x] Editar e excluir peças ([#13](https://github.com/Lopesloro/App/issues/13))
 
 ---
 

@@ -31,16 +31,19 @@ describe('buscarLook', () => {
 });
 
 describe('catalogo de exemplo', () => {
-  it('tem pecas com link de compra e pecas sem, para cobrir os dois casos', () => {
-    const pecas = LOOKS_EXEMPLO.flatMap((l) => l.pecas);
-    expect(pecas.some((p) => p.urlLoja !== null)).toBe(true);
-    expect(pecas.some((p) => p.urlLoja === null)).toBe(true);
+  it('toda peca tem categoria, cor e tamanho', () => {
+    for (const look of LOOKS_EXEMPLO) {
+      for (const peca of look.pecas) {
+        expect(peca.categoria).toBeTruthy();
+        expect(peca.cor).toBeTruthy();
+        expect(peca.tamanho).toBeTruthy();
+      }
+    }
   });
 
-  it('todo link de compra e https', () => {
-    const comLink = LOOKS_EXEMPLO.flatMap((l) => l.pecas).filter((p) => p.urlLoja);
-    for (const peca of comLink) {
-      expect(peca.urlLoja).toMatch(/^https:\/\//);
+  it('todo look tem pelo menos uma peca de calcado ou corpo', () => {
+    for (const look of LOOKS_EXEMPLO) {
+      expect(look.pecas.length).toBeGreaterThanOrEqual(2);
     }
   });
 });

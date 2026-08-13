@@ -68,6 +68,15 @@ const config: ExpoConfig = {
     'expo-router',
     'expo-secure-store',
     [
+      'expo-image-picker',
+      {
+        photosPermission:
+          'Usamos sua galeria só para você adicionar peças ao seu closet. As fotos ficam no seu aparelho.',
+        cameraPermission:
+          'Usamos a câmera só para você fotografar suas peças. As fotos ficam no seu aparelho.',
+      },
+    ],
+    [
       'expo-local-authentication',
       {
         faceIDPermission: 'Use Face ID para proteger o acesso ao seu closet.',
