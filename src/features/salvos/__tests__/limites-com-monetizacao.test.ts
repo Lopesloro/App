@@ -1,14 +1,16 @@
-jest.mock('@/lib/flags', () => ({
-  ...jest.requireActual<typeof import('@/lib/flags')>('@/lib/flags'),
-  MONETIZACAO_ATIVA: true,
-}));
-
 import {
   limiteVigente,
   mensagemLimite,
   podeSalvarMais,
   vagasRestantes,
 } from '../limites';
+
+// `jest.mock` e movido para o topo pelo babel, entao os imports acima ja
+// recebem a chave trocada. Ficam aqui em cima para o lint nao reclamar.
+jest.mock('@/lib/flags', () => ({
+  ...jest.requireActual<typeof import('@/lib/flags')>('@/lib/flags'),
+  MONETIZACAO_ATIVA: true,
+}));
 
 /**
  * A monetizacao esta desligada hoje, mas o codigo dela continua no app para

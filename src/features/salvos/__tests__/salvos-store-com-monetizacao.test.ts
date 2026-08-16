@@ -1,11 +1,13 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import { useSalvos } from '../salvos-store';
+
+// `jest.mock` e movido para o topo pelo babel, entao os imports acima ja
+// recebem a chave trocada. Ficam aqui em cima para o lint nao reclamar.
 jest.mock('@/lib/flags', () => ({
   ...jest.requireActual<typeof import('@/lib/flags')>('@/lib/flags'),
   MONETIZACAO_ATIVA: true,
 }));
-
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-import { useSalvos } from '../salvos-store';
 
 /**
  * Caminho de volta da monetizacao: o gating por plano no store continua
