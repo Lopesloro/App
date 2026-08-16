@@ -1,11 +1,14 @@
 import { create } from 'zustand';
 
+import { limparDadosLocais } from '@/lib/armazenamento-local';
 import {
   CHAVES,
   guardar,
   ler,
   limparCredenciais,
 } from '@/lib/armazenamento-seguro';
+import { limparTudoDaSessao } from '@/lib/limpeza-sessao';
+import { queryClient } from '@/lib/query-client';
 import type { Sessao, Usuaria } from './schemas';
 
 /**
@@ -53,8 +56,24 @@ export const useSessao = create<EstadoSessao>((set) => ({
     set({ usuaria: sessao.usuaria, autenticada: true, carregando: false });
   },
 
+  /**
+   * Sair apaga TUDO que a sessao deixou no aparelho, nao so o token.
+   *
+   * Um celular passa de mao em mao. Se a saida limpasse so a credencial, a
+   * proxima pessoa a entrar herdaria a colecao de looks, o guarda-roupa e o
+   * perfil de estilo de quem usou antes — dado pessoal de uma usuaria
+   * aparecendo na conta de outra (docs/06-seguranca.md).
+   */
   sair: async () => {
     await limparCredenciais();
+    await limparDadosLocais();
+    // Cada store esquece o que tinha em memoria (looks salvos, guarda-roupa,
+    // perfil de estilo). Sem isto, apagar o arquivo do aparelho nao adianta:
+    // o estado ja lido continua na tela.
+    await limparTudoDaSessao();
+    // O cache guarda respostas da conta anterior; sem limpar, elas reaparecem
+    // na tela antes da primeira busca da conta nova.
+    queryClient.clear();
     set({ usuaria: null, autenticada: false, carregando: false });
   },
 

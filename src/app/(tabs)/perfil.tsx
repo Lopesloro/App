@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Botao } from '@/components/ui/botao';
 import { Texto } from '@/components/ui/texto';
 import { useSessao } from '@/features/auth/sessao-store';
+import { MONETIZACAO_ATIVA } from '@/lib/flags';
 import { useTema } from '@/theme/tema-store';
 import { espaco } from '@/theme/tokens';
 
@@ -23,7 +24,8 @@ export default function Perfil() {
     <SafeAreaView style={estilos.tela}>
       <Texto variante="display">Perfil</Texto>
       <Texto variante="corpo" tom="suave">
-        {usuaria?.nome ?? 'Visitante'} · plano {usuaria?.plano ?? 'gratis'}
+        {usuaria?.nome ?? 'Visitante'}
+        {MONETIZACAO_ATIVA ? ` · plano ${usuaria?.plano ?? 'gratis'}` : ''}
       </Texto>
 
       <View style={estilos.acoes}>
@@ -32,11 +34,13 @@ export default function Perfil() {
           variante="secundario"
           onPress={() => router.push('/escolher-visual')}
         />
-        <Botao
-          titulo="Ver planos"
-          variante="secundario"
-          onPress={() => router.push('/paywall')}
-        />
+        {MONETIZACAO_ATIVA ? (
+          <Botao
+            titulo="Ver planos"
+            variante="secundario"
+            onPress={() => router.push('/paywall')}
+          />
+        ) : null}
         <Botao titulo="Sair" variante="texto" onPress={encerrarSessao} />
       </View>
     </SafeAreaView>
