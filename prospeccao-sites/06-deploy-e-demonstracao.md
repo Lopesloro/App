@@ -42,9 +42,15 @@ empresa-demo.github.io  →   www.empresa.com.br
 - Botões funcionando de verdade (WhatsApp, telefone, menu) — validados pelo QA automático.
 - Perfeito no celular, porque é onde o cliente vai abrir.
 
+## ✅ Publicação automática (17/08/2026)
+
+- [x] `automacao/src/publicar.ts`: sobe a pasta da demo para o repositório de demos e publica no Pages.
+- [x] **Verificação pós-publicação** (pedido do fundador): depois de publicar, o sistema busca a **página no ar** e roda o mesmo QA de 12 itens contra ela. O link só é liberado se a página publicada passar — se não responder ou reprovar, o link **não** é enviado.
+- [ ] **Passo manual pendente:** criar o repositório público `prospeccao-demos` e ativar o Pages (o token desta sessão não tem permissão para criar repositório — 403).
+
 ## ⏭️ Próximos passos
 
-- [ ] Automatizar a criação de repositório + GitHub Pages por lead (nomenclatura, limpeza de demos antigas).
+- [ ] Limpeza de demos antigas não convertidas.
 - [ ] Definir prazo de expiração/remoção de demos não convertidas.
 - [ ] Escolher o hosting padrão de produção e o processo de apontar domínio.
 

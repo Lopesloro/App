@@ -7,10 +7,11 @@
   "scripts": {
     "analisar": "node --experimental-strip-types src/cli.ts analisar",
     "lote": "node --experimental-strip-types src/cli.ts lote",
-    "teste": "node --experimental-strip-types --test src/score.test.ts src/checks.test.ts src/estilo.test.ts src/demo/gerador.test.ts src/whatsapp/guardrail.test.ts",
+    "teste": "node --experimental-strip-types --test src/score.test.ts src/checks.test.ts src/estilo.test.ts src/demo/gerador.test.ts src/whatsapp/conversa.test.ts src/publicar.test.ts",
     "demo": "node --experimental-strip-types src/cli.ts demo",
     "typecheck": "tsc --noEmit",
-    "capturas": "node --experimental-strip-types src/capturas.ts"
+    "capturas": "node --experimental-strip-types src/capturas.ts",
+    "publicar": "node --experimental-strip-types src/publicar.ts"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",

@@ -14,6 +14,15 @@ status: estruturado
 > [!summary] Em uma frase
 > A primeira mensagem é automação simples (zero tokens); a inteligência só entra **depois da resposta**, para classificar quem respondeu — e na hora da demonstração, **menos IA, não mais**.
 
+> [!warning] Decisão do fundador em 17/08/2026 — simplificação
+> O funil de conversa foi **simplificado**. Valem estas regras, que substituem o que estiver em conflito abaixo:
+> 1. **Não bloquear nada** — nem grupo, nem número desconhecido. A automação responde.
+> 2. **Não identificar mais nada** — acabou a etapa de classificar "é o responsável pela decisão?".
+> 3. **Um único ponto de parada:** quando o lead diz se **gostou ou não** do site. Aí a automação cala e o fundador assume.
+> 4. **Extração do site antigo só depois do "quero ver"** — nada é extraído antes do aceite.
+>
+> Implementado em `automacao/src/whatsapp/conversa.ts` (máquina de estados) — ver [[12-automacao]].
+
 ## ✅ O que foi feito neste assunto
 
 - [x] Decidido que a primeira mensagem **não usa agente de IA** — é lógica simples.
