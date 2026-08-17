@@ -1,5 +1,5 @@
 import { api } from '@/lib/api-client';
-import { config } from '@/lib/config';
+import { USAR_DADOS_EXEMPLO } from '@/lib/flags';
 import { LOOKS_EXEMPLO } from './dados-exemplo';
 import {
   lookSchema,
@@ -24,9 +24,6 @@ export type FiltroFeed = {
   ocasiao?: Ocasiao;
 };
 
-/** Usa dados de exemplo ate a API de looks entrar no ar (issue #22). */
-const USAR_EXEMPLO = config.apiUrl.includes('localhost');
-
 function buscarNoExemplo(cursor: number, filtro: FiltroFeed): LooksPagina {
   const filtrados = filtro.ocasiao
     ? LOOKS_EXEMPLO.filter((look) => look.ocasiao === filtro.ocasiao)
@@ -46,7 +43,7 @@ export async function buscarLooks(
   cursor = 0,
   filtro: FiltroFeed = {},
 ): Promise<LooksPagina> {
-  if (USAR_EXEMPLO) {
+  if (USAR_DADOS_EXEMPLO) {
     // Valida tambem o exemplo: se o formato divergir do schema, o erro
     // aparece em desenvolvimento e nao so quando a API real chegar.
     return looksPaginaSchema.parse(buscarNoExemplo(cursor, filtro));
@@ -61,7 +58,7 @@ export async function buscarLooks(
 
 /** Busca um look pelo id. Devolve null quando nao existe. */
 export async function buscarLook(id: string): Promise<Look | null> {
-  if (USAR_EXEMPLO) {
+  if (USAR_DADOS_EXEMPLO) {
     const look = LOOKS_EXEMPLO.find((l) => l.id === id);
     return look ? lookSchema.parse(look) : null;
   }

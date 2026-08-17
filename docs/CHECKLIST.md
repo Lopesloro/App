@@ -18,19 +18,26 @@ Ordem de execução. Cada bloco depende do anterior. Marque `[x]` conforme fecha
 
 ---
 
+> [!warning] Decisão do fundador — 16/08/2026
+> **Nada será vendido por enquanto.** O bloco 6 (dinheiro) sai do caminho crítico. O app agora faz uma coisa: procurar tipo de roupa, marcar e montar o guarda-roupa. Ver [[09-mercado-sem-venda]].
+
 ## ✅ Já está pronto
 
 - [x] Documentação completa (mercado, concorrentes, planos, segurança, backlog, testes)
 - [x] Repositório com CI e 5 verificações de segurança automáticas
 - [x] Proteção da branch principal (nada entra sem revisão e testes verdes)
-- [x] App Expo criado, compila e gera pacote de 4,6 MB
+- [x] App Expo criado, compila e gera pacote de 4,7 MB
 - [x] Cofre de credenciais (Keychain/Keystore) com testes
-- [x] Feed de indicações com filtros e rolagem infinita
-- [x] Detalhe do look com peças e link de compra rastreado
-- [x] Salvar looks com limite por plano
-- [x] Aba "Meus looks salvos"
 - [x] Dois visuais completos, trocáveis dentro do app
-- [x] 146 testes automatizados, todos passando
+- [x] **Catálogo com 66 tipos de roupa, com busca sem acento e por apelido**
+- [x] **Guarda-roupa: marcar peça, ver o armário por categoria, sem limite**
+- [x] **Algoritmo de estilo que aprende no celular, explicável, sem enviar dado**
+- [x] **Monetização desligada por chave, com o caminho de volta testado**
+- [x] **Code review completo, com 7 dos 8 achados corrigidos**
+- [x] **Entrar sem conta** — o app abre e funciona sem cadastro e sem servidor
+- [x] **Dá para ver o app hoje, de graça**, no navegador (`npm run web`)
+- [x] 280 testes automatizados + teste de navegador ponta a ponta (8/8)
+- [x] Guardado, funcionando e fora das abas: feed de indicações, detalhe do look, salvar looks, meus looks salvos
 
 ---
 
@@ -74,9 +81,17 @@ Depois do Bloco 1.
 - [ ] Login com Google e Apple ([#7](https://github.com/Lopesloro/App/issues/7))
 - [ ] Recuperação de senha ([#8](https://github.com/Lopesloro/App/issues/8))
 - [ ] Exclusão de conta com apagamento real dos dados ([#10](https://github.com/Lopesloro/App/issues/10))
-- [ ] **Trava dos limites de plano no servidor** ([#32](https://github.com/Lopesloro/App/issues/32)) — hoje o limite pode ser burlado
+- [ ] Trava dos limites de plano no servidor ([#32](https://github.com/Lopesloro/App/issues/32)) — só volta a importar quando a venda religar
 - [ ] Proteção contra abuso da API ([#39](https://github.com/Lopesloro/App/issues/39))
-- [ ] Sincronizar looks salvos entre celulares
+- [ ] **Sincronizar o guarda-roupa entre celulares** — hoje trocar de aparelho apaga o armário
+- [ ] Recarregar o perfil da usuária ao abrir o app (achado nº 8 do code review — depende de [#6](https://github.com/Lopesloro/App/issues/6))
+
+> [!important] O perfil de estilo é caso à parte
+> Sincronizar o guarda-roupa entre celulares é desejável. Sincronizar o **perfil
+> de estilo** significa mandar para um servidor o que a usuária gosta de vestir —
+> exatamente o que hoje o app não faz, e que é o argumento de privacidade do
+> produto ([[09-mercado-sem-venda]]). Se for feito, tem que ser decisão consciente,
+> com consentimento separado.
 
 ---
 
@@ -94,19 +109,31 @@ Depende do Bloco 3.
 
 ---
 
-## 🟡 Bloco 5 — O conteúdo (sem isto o feed é vazio)
+## 🟡 Bloco 5 — O conteúdo
 
-- [ ] **Painel de curadoria** para publicar as fotos dos looks ([#45](https://github.com/Lopesloro/App/issues/45))
+> [!note] Este bloco encolheu
+> Ele existia porque o feed de indicações precisava de foto de look para não ser
+> uma tela vazia. O feed saiu das abas, e o catálogo de **tipos** de roupa não
+> depende de curadoria nenhuma — funciona hoje. O que sobra aqui é o que volta a
+> importar quando o feed voltar.
+
+- [ ] Foto de cada tipo de roupa no catálogo — melhora muito o reconhecimento visual
+- [ ] Painel de curadoria para publicar as fotos dos looks ([#45](https://github.com/Lopesloro/App/issues/45))
 - [ ] Pipeline que gera as imagens dos looks ([#22](https://github.com/Lopesloro/App/issues/22))
 - [ ] Cadastrar catálogo real de peças e marcas ([#26](https://github.com/Lopesloro/App/issues/26))
-- [ ] **Fechar contratos de afiliado com as lojas** (Renner, C&A, Amaro, Arezzo…)
-  - [ ] Sem isso, os links não geram comissão — hoje são endereços de exemplo
+- [ ] Fechar contratos de afiliado com as lojas (Renner, C&A, Amaro, Arezzo…) — só faz sentido com base de usuárias
 - [ ] Publicar os primeiros 50–100 looks com foto de verdade
 
 ---
 
-## 🟢 Bloco 6 — Dinheiro
+## 🟢 Bloco 6 — Dinheiro (congelado por decisão do fundador)
 
+> [!warning] Não comece este bloco ainda
+> Nada será vendido por enquanto. Este bloco fica registrado como o caminho de
+> volta: o código já existe e é testado ([[features/09-sem-monetizacao/o-que-e|Sem monetização]]),
+> falta o mundo real. Religar antes disto mostra preço que ninguém consegue pagar.
+
+- [ ] Base de usuárias que justifique a conversa com varejista
 - [ ] Criar conta na [RevenueCat](https://revenuecat.com)
 - [ ] Cadastrar os produtos nas lojas: `medium_mensal` R$ 19,90 e `premium_mensal` R$ 24,90
 - [ ] Ligar a compra dentro do app ([#30](https://github.com/Lopesloro/App/issues/30))
@@ -114,6 +141,7 @@ Depende do Bloco 3.
 - [ ] Aplicar os limites por plano de verdade ([#32](https://github.com/Lopesloro/App/issues/32))
 - [ ] Cancelamento sem pegadinha ([#33](https://github.com/Lopesloro/App/issues/33))
 - [ ] Testar compra em modo sandbox e registrar
+- [ ] Trocar `MONETIZACAO_ATIVA` para `true` em `src/lib/flags.ts` — **último passo, não o primeiro**
 
 ---
 
@@ -141,7 +169,10 @@ Depende do Bloco 3.
 - [ ] Testar que a foto some mesmo quando a conta é excluída
 - [ ] Testar que o endereço da foto expira
 - [ ] **Teste com 5 a 8 mulheres do público-alvo** — sentar do lado e observar
-- [ ] Medir se o feed roda liso num Android baratinho
+  - [ ] Elas acham no catálogo as peças que têm de verdade? (cada busca vazia é peça faltando)
+  - [ ] O estilo que o app diz bate com o que elas diriam de si mesmas?
+  - [ ] Elas entendem e confiam na frase "calculado no seu celular"?
+- [ ] Medir se a lista de roupas rola lisa num Android baratinho
 - [ ] **Auditoria de segurança independente** (a automatizada falhou por limite de conta e nunca rodou)
 
 ---
@@ -173,12 +204,14 @@ Depende do Bloco 3.
 | Pergunta | Resposta |
 |---|---|
 | O app existe? | Sim, compila e navega |
-| Dá para usar? | Só com dados de exemplo |
+| Dá para usar? | **Sim, de verdade** — procurar roupa, marcar e montar o guarda-roupa funciona sem servidor, sem internet e sem parceiro |
 | Alguém já viu num celular? | **Não** |
-| Dá para ganhar dinheiro hoje? | Não — falta contrato com as lojas e cobrança |
-| Dá para cadastrar usuária? | Não — falta backend |
-| Está seguro? | A base está bem construída, mas **nunca foi auditada por terceiro** |
+| Dá para ganhar dinheiro hoje? | Não, e por decisão — nada será vendido por enquanto |
+| Dá para cadastrar usuária? | Não — falta backend. O app funciona sem conta, mas o armário fica só neste celular |
+| O algoritmo de estilo funciona? | Faz o que foi projetado (43 testes). **Se o projeto está certo, só o teste com usuárias responde** |
+| Está seguro? | A base está bem construída, e o algoritmo não envia dado nenhum — mas **nunca foi auditada por terceiro** |
 
-**O que trava mais coisa:** conta Expo (Bloco 1) e backend (Bloco 3).
+**O que trava mais coisa:** conta Expo (Bloco 1). Sem ela, ninguém viu o app num
+celular ainda — e o app agora tem algo de verdade para ser visto.
 
 Ver o app hoje: [[COMO-VER-O-APP]] · Features prontas: [[features/README]] · Índice: [[00-INDEX]]

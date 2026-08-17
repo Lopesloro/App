@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import { usePreventScreenCapture } from 'expo-screen-capture';
 
 /**
@@ -17,8 +18,22 @@ import { usePreventScreenCapture } from 'expo-screen-capture';
  *
  * @param chave identifica a tela; use um valor estavel e unico por rota.
  */
+/**
+ * No navegador o modulo nao existe, e chamar o hook derruba a tela com
+ * "preventScreenCaptureAsync is not available on web".
+ *
+ * A escolha acontece uma vez, no carregamento do modulo — e nao dentro do
+ * componente. Isso mantem a ordem dos hooks estavel, que e o que as regras
+ * do React exigem: o que nao pode variar e a ordem entre renderizacoes, e
+ * aqui ela nunca varia.
+ */
+const semBloqueio = (_chave: string): void => {};
+
+const useBloqueioDeCaptura =
+  Platform.OS === 'web' ? semBloqueio : usePreventScreenCapture;
+
 export function useTelaPrivada(chave: string): void {
-  usePreventScreenCapture(chave);
+  useBloqueioDeCaptura(chave);
 }
 
 /** Versao declarativa, para usar dentro do JSX de uma rota. */

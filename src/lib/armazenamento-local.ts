@@ -16,6 +16,12 @@ export const CHAVES_LOCAIS = {
   looksSalvos: 'ml.looks_salvos',
   ocasiaoPreferida: 'ml.ocasiao_preferida',
   tema: 'ml.tema',
+  /** Pecas que a usuaria marcou como suas. */
+  guardaRoupa: 'ml.guarda_roupa',
+  /** Perfil de estilo aprendido no aparelho — nunca sai daqui. */
+  perfilEstilo: 'ml.perfil_estilo',
+  /** Entrou sem conta. Nao e credencial: e so "a porta ja foi aberta". */
+  modoVisitante: 'ml.modo_visitante',
 } as const;
 
 export type ChaveLocal = (typeof CHAVES_LOCAIS)[keyof typeof CHAVES_LOCAIS];
