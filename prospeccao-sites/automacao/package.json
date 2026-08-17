@@ -7,14 +7,16 @@
   "scripts": {
     "analisar": "node --experimental-strip-types src/cli.ts analisar",
     "lote": "node --experimental-strip-types src/cli.ts lote",
-    "teste": "node --experimental-strip-types --test src/score.test.ts src/checks.test.ts src/estilo.test.ts src/demo/gerador.test.ts src/whatsapp/conversa.test.ts src/publicar.test.ts src/integracao/wpp-server.test.ts",
+    "teste": "node --experimental-strip-types --test src/score.test.ts src/checks.test.ts src/estilo.test.ts src/demo/gerador.test.ts src/whatsapp/conversa.test.ts src/publicar.test.ts src/integracao/wpp-server.test.ts src/preparar-planilha.test.ts",
     "demo": "node --experimental-strip-types src/cli.ts demo",
     "typecheck": "tsc --noEmit",
     "capturas": "node --experimental-strip-types src/capturas.ts",
-    "publicar": "node --experimental-strip-types src/publicar.ts"
+    "publicar": "node --experimental-strip-types src/publicar.ts",
+    "planilha": "node --experimental-strip-types src/preparar-planilha.ts"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",
+    "exceljs": "^4.4.0",
     "playwright-core": "^1.62.1",
     "typescript": "~6.0.3"
   }
