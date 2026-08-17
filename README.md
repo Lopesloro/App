@@ -29,13 +29,21 @@ looks e meus looks salvos — a parte comercial.
 
 ```bash
 npm install
-npm start          # abre o Expo; leia o QR code com o Expo Go
-npm test           # 275 testes
+npm run web        # abre no navegador — o jeito mais rápido de ver
+npm test           # 280 testes
 npm run typecheck
 npm run lint
 ```
 
-Instruções completas para ver no celular: [`docs/COMO-VER-O-APP.md`](docs/COMO-VER-O-APP.md).
+O app abre **sem cadastro**: toque em *Começar* e você já está dentro.
+
+> **Por que o navegador, e não o iPhone?** O Expo Go da App Store está travado
+> no SDK 54 (a Apple não aprova as submissões novas do Expo) e este projeto usa
+> o SDK 57. No iPhone só funciona pelo simulador do Xcode ou com conta de
+> desenvolvedor Apple. A web está aqui como janela de desenvolvimento — o
+> produto continua sendo aplicativo de celular.
+
+Todas as formas de ver o app: [`docs/COMO-VER-O-APP.md`](docs/COMO-VER-O-APP.md).
 
 ## Documentação
 

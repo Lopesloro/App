@@ -34,7 +34,9 @@ Ordem de execução. Cada bloco depende do anterior. Marque `[x]` conforme fecha
 - [x] **Algoritmo de estilo que aprende no celular, explicável, sem enviar dado**
 - [x] **Monetização desligada por chave, com o caminho de volta testado**
 - [x] **Code review completo, com 7 dos 8 achados corrigidos**
-- [x] 275 testes automatizados, todos passando
+- [x] **Entrar sem conta** — o app abre e funciona sem cadastro e sem servidor
+- [x] **Dá para ver o app hoje, de graça**, no navegador (`npm run web`)
+- [x] 280 testes automatizados + teste de navegador ponta a ponta (8/8)
 - [x] Guardado, funcionando e fora das abas: feed de indicações, detalhe do look, salvar looks, meus looks salvos
 
 ---

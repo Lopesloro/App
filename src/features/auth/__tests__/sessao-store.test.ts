@@ -4,7 +4,7 @@ import { CHAVES_LOCAIS } from '@/lib/armazenamento-local';
 import { CHAVES, ler, limparCredenciais } from '@/lib/armazenamento-seguro';
 import { queryClient } from '@/lib/query-client';
 import { useSalvos } from '@/features/salvos/salvos-store';
-import { useSessao } from '../sessao-store';
+import { podeUsarOApp, useSessao } from '../sessao-store';
 import type { Sessao } from '../schemas';
 
 const SESSAO: Sessao = {
@@ -24,7 +24,12 @@ beforeEach(async () => {
   // O cofre falso do jest-setup vive no modulo e sobrevive entre os testes.
   await limparCredenciais();
   queryClient.clear();
-  useSessao.setState({ usuaria: null, autenticada: false, carregando: false });
+  useSessao.setState({
+    usuaria: null,
+    autenticada: false,
+    visitante: false,
+    carregando: false,
+  });
   useSalvos.setState({ ids: [], carregado: true });
 });
 
@@ -46,6 +51,58 @@ describe('entrar', () => {
 
     expect(useSessao.getState().autenticada).toBe(true);
     expect(useSessao.getState().usuaria?.nome).toBe('Ana');
+  });
+});
+
+describe('entrar sem conta', () => {
+  it('abre o app sem token e sem cofre', async () => {
+    await useSessao.getState().entrarSemConta();
+
+    expect(useSessao.getState().visitante).toBe(true);
+    expect(useSessao.getState().autenticada).toBe(false);
+    expect(await ler(CHAVES.tokenAcesso)).toBeNull();
+  });
+
+  it('a porta do app abre com conta OU sem conta', () => {
+    expect(podeUsarOApp({ autenticada: false, visitante: false })).toBe(false);
+    expect(podeUsarOApp({ autenticada: false, visitante: true })).toBe(true);
+    expect(podeUsarOApp({ autenticada: true, visitante: false })).toBe(true);
+  });
+
+  it('continua sem conta na proxima abertura do app', async () => {
+    await useSessao.getState().entrarSemConta();
+
+    // Simula fechar e abrir: memoria zerada, dados no aparelho.
+    useSessao.setState({ visitante: false, autenticada: false, carregando: true });
+    await useSessao.getState().restaurar();
+
+    expect(useSessao.getState().visitante).toBe(true);
+    expect(useSessao.getState().carregando).toBe(false);
+  });
+
+  it('sem cofre disponivel, quem entrou sem conta nao e expulso', async () => {
+    // E o caso do navegador: `ler` nao encontra cofre nenhum. Antes disso
+    // ser tratado, a pessoa voltava para a tela de boas-vindas a cada
+    // abertura, sem entender por que.
+    await useSessao.getState().entrarSemConta();
+
+    const cofre = jest.requireMock<{ getItemAsync: jest.Mock }>('expo-secure-store');
+    cofre.getItemAsync.mockRejectedValueOnce(
+      new Error('sem cofre nesta plataforma'),
+    );
+
+    useSessao.setState({ visitante: false, carregando: true });
+    await useSessao.getState().restaurar();
+
+    expect(useSessao.getState().visitante).toBe(true);
+  });
+
+  it('apagar tudo devolve o app ao estado de quem nunca entrou', async () => {
+    await useSessao.getState().entrarSemConta();
+    await useSessao.getState().sair();
+
+    expect(useSessao.getState().visitante).toBe(false);
+    expect(podeUsarOApp(useSessao.getState())).toBe(false);
   });
 });
 

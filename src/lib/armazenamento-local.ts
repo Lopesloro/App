@@ -20,6 +20,8 @@ export const CHAVES_LOCAIS = {
   guardaRoupa: 'ml.guarda_roupa',
   /** Perfil de estilo aprendido no aparelho — nunca sai daqui. */
   perfilEstilo: 'ml.perfil_estilo',
+  /** Entrou sem conta. Nao e credencial: e so "a porta ja foi aberta". */
+  modoVisitante: 'ml.modo_visitante',
 } as const;
 
 export type ChaveLocal = (typeof CHAVES_LOCAIS)[keyof typeof CHAVES_LOCAIS];

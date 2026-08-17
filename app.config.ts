@@ -52,12 +52,21 @@ const config: ExpoConfig = {
     },
     permissions: ['android.permission.USE_BIOMETRIC'],
   },
-  // Sem plataforma web: o produto e exclusivamente de celular.
-  // docs/05-frontend.md descartou PWA como produto principal — sem compra
-  // dentro do app, camera fraca no iOS e push limitado. Manter a web ativa
-  // custaria testar e manter uma versao que ninguem usa. A web volta so como
-  // landing page separada (Next.js), fora deste projeto.
-  platforms: ['ios', 'android'],
+  // A web esta aqui como JANELA DE DESENVOLVIMENTO, nao como produto.
+  //
+  // docs/05-frontend.md descartou o PWA como produto principal, e isso nao
+  // mudou: sem compra dentro do app, camera fraca no iOS e push limitado.
+  // O produto continua sendo celular, e a landing page continua sendo um
+  // projeto Next.js separado.
+  //
+  // O que mudou foi o acesso: o Expo Go da App Store esta travado no SDK 54
+  // porque a Apple nao aprova as submissoes novas do Expo, e este projeto usa
+  // o SDK 57. Sem a web, as unicas formas de ver o app em um iPhone sao o
+  // Xcode (uns 10 GB) ou uma conta de desenvolvedor Apple (US$ 99/ano).
+  //
+  // `npm run web` abre o app no navegador em segundos, sem instalar nada.
+  // Ver docs/COMO-VER-O-APP.md.
+  platforms: ['ios', 'android', 'web'],
   plugins: [
     'expo-router',
     'expo-secure-store',

@@ -25,6 +25,7 @@ export default function Perfil() {
   const router = useRouter();
 
   const usuaria = useSessao((estado) => estado.usuaria);
+  const visitante = useSessao((estado) => estado.visitante);
   const sair = useSessao((estado) => estado.sair);
   const tema = useTema();
 
@@ -52,9 +53,15 @@ export default function Perfil() {
       <ScrollView contentContainerStyle={estilos.conteudo}>
         <Texto variante="display">Perfil</Texto>
         <Texto variante="corpo" tom="suave">
-          {usuaria?.nome ?? 'Visitante'}
+          {usuaria?.nome ?? 'Sem conta'}
           {MONETIZACAO_ATIVA ? ` · plano ${usuaria?.plano ?? 'gratis'}` : ''}
         </Texto>
+        {visitante ? (
+          <Texto variante="legenda" tom="suave">
+            Você está usando sem conta. Tudo o que marcar fica só neste
+            aparelho — trocar de celular começa do zero.
+          </Texto>
+        ) : null}
 
         <ReguaDeEstilo perfil={perfil} />
 
@@ -78,7 +85,13 @@ export default function Perfil() {
               onPress={() => void recomecarEstilo()}
             />
           ) : null}
-          <Botao titulo="Sair" variante="texto" onPress={encerrarSessao} />
+          {/* Sem conta, "Sair" nao descreve o que acontece: nao ha sessao a
+              encerrar, e o toque apaga o guarda-roupa. O rotulo diz isso. */}
+          <Botao
+            titulo={visitante ? 'Apagar tudo deste aparelho' : 'Sair'}
+            variante="texto"
+            onPress={encerrarSessao}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
