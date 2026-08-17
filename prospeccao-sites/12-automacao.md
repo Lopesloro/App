@@ -26,6 +26,12 @@ status: em-andamento
 - [x] CLI: `npm run analisar -- <url>` e `npm run lote -- lista.txt` (com resumo por faixa e contagem de liberados para IA).
 - [x] **18 testes automatizados verdes** + typecheck estrito. Teste ponta a ponta com 2 sites locais de fixture: site "antigo" marcou 100/100 (7 critérios, evidências corretas), site moderno marcou 10 (ignorar). Registro: `docs/testes/2026-08-17-analisador-prospeccao.md`.
 
+## ✅ Adicionado depois: geração das demos (mesma data)
+
+- [x] **6 modelos de site completos** implementados, com QA automático de 12 itens e capturas mobile/desktop → detalhes em [[14-modelos-de-site]].
+- [x] Comando `npm run demo` e `npm run capturas` na CLI.
+- [x] Suíte subiu para **27 testes verdes**.
+
 ## Como rodar
 
 ```bash
@@ -33,6 +39,8 @@ cd prospeccao-sites/automacao
 npm install
 npm run analisar -- https://site-da-empresa.com.br --nome "Empresa"
 npm run lote -- lista.txt      # uma URL por linha
+npm run demo -- --nome "Empresa" --segmento clinica --todas   # gera as demos
+npm run capturas               # PNGs mobile + desktop das demos
 npm run teste                  # suíte de testes
 ```
 
@@ -45,7 +53,7 @@ Detalhes no `automacao/README.md`.
 - [ ] Calibrar pesos do score com os primeiros 100 sites reais.
 - [ ] Banco de leads persistente (hoje o estado vive nas notas do vault — suficiente para o MVP manual).
 - [ ] WhatsApp (Fase 3) — depende da escolha de API oficial ([[04-conversas-whatsapp]], [[08-riscos]]).
-- [ ] Pipeline de geração de demo com Claude Code (Fase 4; [[05-producao-claude-code]]) usando a variante reservada de cada lead.
+- [x] ~~Pipeline de geração de demo~~ → os 6 modelos estão implementados e passando no QA ([[14-modelos-de-site]]); falta ligar aos dados reais do lead e publicar no Pages.
 - [ ] Notificação automática para o fundador nos eventos importantes.
 
 > [!note] Limite de rede deste ambiente

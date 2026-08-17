@@ -20,17 +20,18 @@ status: aguardando-links
 - [x] **6 variantes visuais** definidas em `automacao/referencias/referencias-design.json`, cada uma com paleta, tipografia, layout e tom — pensadas para tipos de negócio diferentes ([[09-variacoes-de-abordagem]]).
 - [x] **Atribuição determinística**: o mesmo lead recebe sempre a mesma variante (hash do domínio); em lote, a distribuição evita repetir a mesma base em sequência (testado).
 - [x] A variante reservada aparece na nota de cada lead, com aviso quando ainda não há links.
+- [x] **Cada variante virou um modelo de site real** — layout, tipografia e estrutura próprios, não um template com a cor trocada ([[14-modelos-de-site]]).
 
 ## As 6 variantes
 
-| ID | Nome | Para quem | Links |
-|---|---|---|---|
-| `v01-minimal-claro` | Minimal claro | Clínicas, consultórios | ⏳ aguardando |
-| `v02-premium-escuro` | Premium escuro | Advogados, arquitetos, B2B (ângulo 13) | ⏳ aguardando |
-| `v03-vibrante-comercial` | Vibrante comercial | Comércio local, foco WhatsApp (ângulos 8–9) | ⏳ aguardando |
-| `v04-editorial-serifado` | Editorial serifado | Restaurantes, ateliês, boutiques | ⏳ aguardando |
-| `v05-blocos-coloridos` | Blocos coloridos | Oficinas, escolas, salões | ⏳ aguardando |
-| `v06-foto-imersiva` | Foto imersiva | Estética, gastronomia, interiores | ⏳ aguardando |
+| ID | Nome | Para quem | Modelo | Links |
+|---|---|---|---|---|
+| `v01-minimal-claro` | Minimal claro | Clínicas, consultórios | ✅ pronto | ⏳ aguardando |
+| `v02-premium-escuro` | Premium escuro | Advogados, arquitetos, B2B (ângulo 13) | ✅ pronto | ⏳ aguardando |
+| `v03-vibrante-comercial` | Vibrante comercial | Comércio local, foco WhatsApp (ângulos 8–9) | ✅ pronto | ⏳ aguardando |
+| `v04-editorial-serifado` | Editorial serifado | Restaurantes, ateliês, boutiques | ✅ pronto | ⏳ aguardando |
+| `v05-blocos-coloridos` | Blocos coloridos | Oficinas, escolas, salões | ✅ pronto | ⏳ aguardando |
+| `v06-foto-imersiva` | Foto imersiva | Estética, gastronomia, interiores | ✅ pronto | ⏳ aguardando |
 
 ## ⏭️ Como os links do fundador entram
 

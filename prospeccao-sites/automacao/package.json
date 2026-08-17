@@ -7,11 +7,14 @@
   "scripts": {
     "analisar": "node --experimental-strip-types src/cli.ts analisar",
     "lote": "node --experimental-strip-types src/cli.ts lote",
-    "teste": "node --experimental-strip-types --test src/score.test.ts src/checks.test.ts src/estilo.test.ts",
-    "typecheck": "tsc --noEmit"
+    "teste": "node --experimental-strip-types --test src/score.test.ts src/checks.test.ts src/estilo.test.ts src/demo/gerador.test.ts",
+    "demo": "node --experimental-strip-types src/cli.ts demo",
+    "typecheck": "tsc --noEmit",
+    "capturas": "node --experimental-strip-types src/capturas.ts"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",
+    "playwright-core": "^1.62.1",
     "typescript": "~6.0.3"
   }
 }

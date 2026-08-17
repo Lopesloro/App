@@ -174,7 +174,7 @@
       "x": 880,
       "y": 80,
       "width": 560,
-      "height": 700,
+      "height": 880,
       "label": "Implementação",
       "color": "6"
     },
@@ -193,8 +193,17 @@
       "x": 920,
       "y": 460,
       "width": 480,
-      "height": 260,
+      "height": 200,
       "file": "prospeccao-sites/13-referencias-de-design.md"
+    },
+    {
+      "id": "f1a2b3c4d5e6a022",
+      "type": "file",
+      "x": 920,
+      "y": 700,
+      "width": 480,
+      "height": 200,
+      "file": "prospeccao-sites/14-modelos-de-site.md"
     }
   ],
   "edges": [

@@ -35,6 +35,7 @@ Captação de clientes com sites desatualizados → análise automática → con
 | [[11-arquitetura-e-stack]] | Arquitetura ponta a ponta e stack por camada | ✅ Desenhada |
 | [[12-automacao]] | Analisador + score implementados e testados (Fase 2 em código) | 🔨 Em andamento |
 | [[13-referencias-de-design]] | 6 variantes visuais para as demos não saírem da mesma base | ⏳ Aguardando links |
+| [[14-modelos-de-site]] | Os 6 modelos de demo implementados + QA automático de 12 itens | ✅ Implementado |
 | [[99-documento-original]] | Documento de planejamento completo (fonte das conversas) | 📄 Arquivo |
 
 Leads analisados pela automação: pasta [[leads/README|leads/]] (uma nota por site, com score e funil).
