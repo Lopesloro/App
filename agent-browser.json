@@ -1,0 +1,11 @@
+{
+  "$schema": "https://agent-browser.dev/schema.json",
+  "headed": false,
+  "engine": "chrome",
+  "contentBoundaries": true,
+  "maxOutput": 50000,
+  "confirmActions": "download,upload",
+  "screenshotDir": "./.agent-browser/screenshots",
+  "downloadPath": "./.agent-browser/downloads",
+  "idleTimeout": "10m"
+}

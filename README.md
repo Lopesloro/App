@@ -21,6 +21,7 @@ Toda a documentação de produto, mercado e engenharia está em [`docs/`](docs/)
 - [`docs/06-seguranca.md`](docs/06-seguranca.md) — threat model, MASVS, LGPD
 - [`docs/07-backlog-github.md`](docs/07-backlog-github.md) — backlog, fluxo de PR, CI
 - [`docs/08-plano-de-testes.md`](docs/08-plano-de-testes.md) — plano de testes e registro
+- [`docs/09-agent-browser.md`](docs/09-agent-browser.md) — agent-browser: automação de navegador/QA web para agentes
 
 Regras e convenções do projeto: [`AGENTS.md`](AGENTS.md).
 
