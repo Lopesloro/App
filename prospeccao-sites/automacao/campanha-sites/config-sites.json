@@ -1,0 +1,21 @@
+{
+  "_uso": "Config da campanha 'sites'. Copiar para a pasta do wpp-server como config-sites.json e preencher geminiKey. Rodar com: CAMPANHA=sites node server.js (porta 21468).",
+  "_anti_ban": "Os limites abaixo são conservadores de propósito. O motor já trava o intervalo ANTES de enviar, então mexer nestes números é o que mais arrisca a conta.",
+
+  "geminiKey": "COLE_A_CHAVE_AQUI",
+  "model": "gemini-3.5-flash-lite",
+  "senderName": "Gabriel",
+  "onlyCountry": "BR",
+
+  "windowStart": 9,
+  "windowEnd": 18,
+  "intervalMinutes": 75,
+  "dailyMax": 8,
+  "minDelaySeconds": 8,
+  "maxDelaySeconds": 35,
+
+  "myNumber": "5519998334896",
+  "autopilot": false,
+
+  "_autopilot": "Começa DESLIGADO de propósito. Ligar só depois de rodar o /test e ver a mensagem chegando certa."
+}

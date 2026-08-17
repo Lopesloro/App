@@ -1,0 +1,34 @@
+{
+  "_uso": "Oferta da campanha 'sites' — copiar para a pasta do wpp-server e rodar: CAMPANHA=sites node server.js. Lido a cada mensagem: editar aqui muda o robô sem reiniciar.",
+  "_escopo": "So o que esta escrito aqui pode ser prometido: analise do site atual + uma versao demonstrativa da PAGINA INICIAL, sem custo. Site completo, dominio, formularios e integracoes NAO entram na conversa automatica — isso e negociacao do fundador depois do 'gostei'.",
+
+  "publico": "empresas com site desatualizado",
+  "descricao": "uma versão moderna do site, com foco total na experiência pelo celular",
+  "registro": "cordial, direto e humano — nunca parecer robô",
+  "tratamento": "pelo",
+
+  "_saudacao": "Primeira mensagem (etapa 1). Template puro, sem IA — sai exatamente o que está escrito. Placeholders: {SAUDACAO}, {REMETENTE}, {EMPRESA}, {SITE}. Curta de propósito: não explica o serviço ainda, só confirma que chegamos na pessoa certa.",
+  "saudacao": "{SAUDACAO}! Aqui é o {REMETENTE}. Falo com o responsável pelo site da {EMPRESA}?",
+
+  "_pitch": "Segunda mensagem (etapa 2, com IA), disparada quando o lead RESPONDE. Regras abaixo são obrigatórias.",
+  "regras_pitch": [
+    "Mensagem CURTA — no máximo 4 linhas. Mensagem longa no WhatsApp não é lida.",
+    "Tom amigável e humano. Nunca parecer automático, nunca usar linguagem de propaganda.",
+    "Agradecer o retorno em uma linha, sem formalidade exagerada.",
+    "Citar UM problema concreto encontrado no site (vem do campo PROBLEMA do lead) — provar, não opinar.",
+    "Oferecer preparar uma versão demonstrativa da página inicial, SEM CUSTO e SEM COMPROMISSO.",
+    "Deixar explícito que, se não gostar ou não for o momento, é só dizer — sem problema nenhum.",
+    "Terminar com uma pergunta simples de sim/não: 'posso preparar e te mostrar?'",
+    "NUNCA falar de preço, prazo, contrato ou tecnologia (React, IA, GitHub). O cliente compra resultado.",
+    "NUNCA prometer site completo — o que se oferece é a demonstração da página inicial.",
+    "Não chamar o site atual de feio, velho ou ruim. Falar de oportunidade, não de defeito."
+  ],
+
+  "_exemplo_pitch": "Referência de tom e tamanho para a IA — não copiar literalmente.",
+  "exemplo_pitch": "Obrigado pelo retorno! Dei uma olhada no site de vocês pelo celular e o botão de contato fica difícil de achar — provavelmente algumas pessoas desistem antes de chamar. Posso preparar uma versão demonstrativa da página inicial pra você comparar, sem custo e sem compromisso? Se não fizer sentido, é só me dizer, tranquilo.",
+
+  "_pos_demo": "Mensagem que acompanha o link da demo. Curta: o trabalho fala por si.",
+  "mensagem_demo": "Pronto! Fiz uma demonstração de como a página inicial poderia ficar: {LINK}\n\nDá uma olhada pelo celular também. O que achou?",
+
+  "_parada": "Quando o lead responder se gostou ou não da demo, o robô PARA de responder e avisa o fundador. Daí em diante quem fala é o Gabriel."
+}
