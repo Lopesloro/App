@@ -24,6 +24,8 @@ Toda a documentação de produto, mercado e engenharia está em [`docs/`](docs/)
 
 Regras e convenções do projeto: [`AGENTS.md`](AGENTS.md).
 
+Projeto separado no mesmo vault: [`prospeccao-sites/`](prospeccao-sites/) — planejamento da máquina de prospecção e reconstrução de sites (índice em [`prospeccao-sites/00-INDEX-prospeccao.md`](prospeccao-sites/00-INDEX-prospeccao.md)).
+
 ## Regras de ouro
 
 1. Nada entra em `main` sem pull request revisado e checks verdes (incluindo gates de segurança).

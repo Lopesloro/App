@@ -1,0 +1,217 @@
+{
+  "nodes": [
+    {
+      "id": "f1a2b3c4d5e6a001",
+      "type": "file",
+      "x": -900,
+      "y": -560,
+      "width": 300,
+      "height": 200,
+      "file": "prospeccao-sites/00-INDEX-prospeccao.md",
+      "color": "6"
+    },
+    {
+      "id": "f1a2b3c4d5e6a002",
+      "type": "file",
+      "x": -900,
+      "y": -320,
+      "width": 300,
+      "height": 160,
+      "file": "prospeccao-sites/99-documento-original.md"
+    },
+    {
+      "id": "f1a2b3c4d5e6a003",
+      "type": "text",
+      "x": -220,
+      "y": -560,
+      "width": 440,
+      "height": 280,
+      "color": "1",
+      "text": "# Máquina de Prospecção de Sites\n\nEncontrar empresas com site ruim → **provar o problema** → demonstração gratuita (antes/depois) → entrada de 10% → site completo → manutenção mensal.\n\n- Mensagens curtas e amigáveis\n- IA só quando aumenta o valor da decisão\n- Notificação para o fundador em tudo"
+    },
+    {
+      "id": "f1a2b3c4d5e6a004",
+      "type": "file",
+      "x": -220,
+      "y": -220,
+      "width": 440,
+      "height": 220,
+      "file": "prospeccao-sites/01-ideia-original.md"
+    },
+    {
+      "id": "f1a2b3c4d5e6a005",
+      "type": "group",
+      "x": -960,
+      "y": 80,
+      "width": 560,
+      "height": 920,
+      "label": "Aquisição",
+      "color": "2"
+    },
+    {
+      "id": "f1a2b3c4d5e6a006",
+      "type": "file",
+      "x": -920,
+      "y": 160,
+      "width": 480,
+      "height": 180,
+      "file": "prospeccao-sites/03-score-de-qualidade.md"
+    },
+    {
+      "id": "f1a2b3c4d5e6a007",
+      "type": "file",
+      "x": -920,
+      "y": 380,
+      "width": 480,
+      "height": 180,
+      "file": "prospeccao-sites/04-conversas-whatsapp.md"
+    },
+    {
+      "id": "f1a2b3c4d5e6a008",
+      "type": "file",
+      "x": -920,
+      "y": 600,
+      "width": 480,
+      "height": 180,
+      "file": "prospeccao-sites/02-funil-de-vendas.md"
+    },
+    {
+      "id": "f1a2b3c4d5e6a009",
+      "type": "file",
+      "x": -920,
+      "y": 820,
+      "width": 480,
+      "height": 160,
+      "file": "prospeccao-sites/09-variacoes-de-abordagem.md"
+    },
+    {
+      "id": "f1a2b3c4d5e6a010",
+      "type": "group",
+      "x": -340,
+      "y": 80,
+      "width": 560,
+      "height": 700,
+      "label": "Produção e Entrega",
+      "color": "5"
+    },
+    {
+      "id": "f1a2b3c4d5e6a011",
+      "type": "file",
+      "x": -300,
+      "y": 160,
+      "width": 480,
+      "height": 260,
+      "file": "prospeccao-sites/05-producao-claude-code.md"
+    },
+    {
+      "id": "f1a2b3c4d5e6a012",
+      "type": "file",
+      "x": -300,
+      "y": 460,
+      "width": 480,
+      "height": 260,
+      "file": "prospeccao-sites/06-deploy-e-demonstracao.md"
+    },
+    {
+      "id": "f1a2b3c4d5e6a013",
+      "type": "group",
+      "x": 280,
+      "y": 80,
+      "width": 560,
+      "height": 700,
+      "label": "Negócio",
+      "color": "4"
+    },
+    {
+      "id": "f1a2b3c4d5e6a014",
+      "type": "file",
+      "x": 320,
+      "y": 160,
+      "width": 480,
+      "height": 260,
+      "file": "prospeccao-sites/07-cobranca-e-niveis.md"
+    },
+    {
+      "id": "f1a2b3c4d5e6a015",
+      "type": "file",
+      "x": 320,
+      "y": 460,
+      "width": 480,
+      "height": 260,
+      "file": "prospeccao-sites/10-mvp-e-metricas.md"
+    },
+    {
+      "id": "f1a2b3c4d5e6a016",
+      "type": "group",
+      "x": 280,
+      "y": -560,
+      "width": 560,
+      "height": 560,
+      "label": "Base e Riscos",
+      "color": "3"
+    },
+    {
+      "id": "f1a2b3c4d5e6a017",
+      "type": "file",
+      "x": 320,
+      "y": -480,
+      "width": 480,
+      "height": 220,
+      "file": "prospeccao-sites/08-riscos.md"
+    },
+    {
+      "id": "f1a2b3c4d5e6a018",
+      "type": "file",
+      "x": 320,
+      "y": -220,
+      "width": 480,
+      "height": 180,
+      "file": "prospeccao-sites/11-arquitetura-e-stack.md"
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1a2b3c4d5e6b001",
+      "fromNode": "f1a2b3c4d5e6a003",
+      "fromSide": "bottom",
+      "toNode": "f1a2b3c4d5e6a004",
+      "toSide": "top",
+      "toEnd": "arrow",
+      "label": "rascunho original"
+    },
+    {
+      "id": "e1a2b3c4d5e6b002",
+      "fromNode": "f1a2b3c4d5e6a003",
+      "fromSide": "left",
+      "toNode": "f1a2b3c4d5e6a005",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "e1a2b3c4d5e6b003",
+      "fromNode": "f1a2b3c4d5e6a003",
+      "fromSide": "right",
+      "toNode": "f1a2b3c4d5e6a016",
+      "toSide": "left",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "e1a2b3c4d5e6b004",
+      "fromNode": "f1a2b3c4d5e6a005",
+      "fromSide": "right",
+      "toNode": "f1a2b3c4d5e6a010",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "label": "lead aceitou"
+    },
+    {
+      "id": "e1a2b3c4d5e6b005",
+      "fromNode": "f1a2b3c4d5e6a010",
+      "fromSide": "right",
+      "toNode": "f1a2b3c4d5e6a013",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "label": "cliente aprovou"
+    }
+  ]
+}

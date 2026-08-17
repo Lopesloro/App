@@ -36,6 +36,10 @@ App brasileiro que monta looks para mulheres, com **indicações fotográficas**
 - [[07-backlog-github]] — épicos, issues iniciais, templates de issue/PR, CI com gates
 - [[08-plano-de-testes]] — plano de testes e sistema de registro em markdown
 
+## Outros projetos no vault
+
+- [[00-INDEX-prospeccao|Máquina de Prospecção de Sites]] — projeto separado do app: captação de clientes com sites desatualizados (pasta `prospeccao-sites/`, mapa visual em [[ProspeccaoSites.canvas]])
+
 ## Regras fixas do fundador
 
 > [!warning] Não mudar sem decisão explícita
