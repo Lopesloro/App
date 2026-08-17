@@ -1,0 +1,17 @@
+{
+  "name": "prospeccao-automacao",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Automação da máquina de prospecção de sites — Fase 2 (analisador + score) e sistema de variantes de design",
+  "scripts": {
+    "analisar": "node --experimental-strip-types src/cli.ts analisar",
+    "lote": "node --experimental-strip-types src/cli.ts lote",
+    "teste": "node --experimental-strip-types --test src/score.test.ts src/checks.test.ts src/estilo.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "typescript": "~6.0.3"
+  }
+}

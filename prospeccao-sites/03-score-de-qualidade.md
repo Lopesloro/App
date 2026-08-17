@@ -70,8 +70,8 @@ A IA recebe URL, HTML, screenshot, dados da empresa (nome, telefone, WhatsApp, s
 
 ## ⏭️ Próximos passos
 
-- [ ] Definir o corte X do score que libera análise por IA.
-- [ ] Implementar os checks objetivos (HTTP, tempo de resposta, viewport/responsividade, HTTPS, links).
+- [x] Definir o corte X do score que libera análise por IA → **61** (início da faixa "prospectar"), constante `CORTE_IA` em `automacao/src/score.ts`.
+- [x] Implementar os checks objetivos (HTTP, tempo de resposta, viewport/responsividade, HTTPS, links) → feito em [[12-automacao]], com testes.
 - [ ] Calibrar os pesos com os primeiros 100 sites reais do nicho escolhido.
 
 ## Relacionado

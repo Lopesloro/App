@@ -33,7 +33,11 @@ Captação de clientes com sites desatualizados → análise automática → con
 | [[09-variacoes-de-abordagem]] | 18 ângulos de oferta, tipos de lead A–H, 5 melhores apostas | ✅ Catalogados |
 | [[10-mvp-e-metricas]] | MVP mínimo (100 empresas, 1 nicho), CAC e as 5 fases | ✅ Planejado |
 | [[11-arquitetura-e-stack]] | Arquitetura ponta a ponta e stack por camada | ✅ Desenhada |
+| [[12-automacao]] | Analisador + score implementados e testados (Fase 2 em código) | 🔨 Em andamento |
+| [[13-referencias-de-design]] | 6 variantes visuais para as demos não saírem da mesma base | ⏳ Aguardando links |
 | [[99-documento-original]] | Documento de planejamento completo (fonte das conversas) | 📄 Arquivo |
+
+Leads analisados pela automação: pasta [[leads/README|leads/]] (uma nota por site, com score e funil).
 
 Mapa visual do projeto: [[ProspeccaoSites.canvas]].
 

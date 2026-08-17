@@ -1,0 +1,77 @@
+{
+  "comentario": "Variantes visuais para as demos NÃO saírem todas da mesma base. Preencha `links` de cada variante com referências reais (sites que o fundador mandar). Uma variante sem links ainda pode ser sorteada, mas o relatório marca 'aguardando links'. Como preencher: ver README.md ao lado e a nota 13-referencias-de-design.md no vault.",
+  "variantes": [
+    {
+      "id": "v01-minimal-claro",
+      "nome": "Minimal claro",
+      "descricao": "Fundo claro, muito espaço em branco, uma cor de destaque só, foto grande no topo. Para negócios que precisam passar limpeza e ordem (clínicas, consultórios).",
+      "links": [],
+      "tokens": {
+        "paleta": "base clara (branco/areia), 1 cor de destaque forte",
+        "tipografia": "sans-serif geométrica, títulos grandes",
+        "layout": "hero com foto + seções largas de coluna única",
+        "tom": "calmo, profissional, direto"
+      }
+    },
+    {
+      "id": "v02-premium-escuro",
+      "nome": "Premium escuro",
+      "descricao": "Fundo escuro, dourado/âmbar como destaque, tipografia elegante. Para ticket alto: advogados, arquitetos, consultorias (nota 09, ângulo 13).",
+      "links": [],
+      "tokens": {
+        "paleta": "grafite/preto com destaque quente (dourado, âmbar)",
+        "tipografia": "serifada nos títulos, sans no corpo",
+        "layout": "hero de texto forte, grid de serviços 2 colunas",
+        "tom": "sóbrio, confiança, autoridade"
+      }
+    },
+    {
+      "id": "v03-vibrante-comercial",
+      "nome": "Vibrante comercial",
+      "descricao": "Cores fortes, botões grandes, CTA de WhatsApp onipresente. Para comércio local que vive de contato rápido (nota 09, ângulos 8 e 9).",
+      "links": [],
+      "tokens": {
+        "paleta": "2 cores vivas complementares + neutro",
+        "tipografia": "sans-serif robusta, peso alto",
+        "layout": "CTA fixo no rodapé mobile, cartões de serviço",
+        "tom": "energético, convite direto à conversa"
+      }
+    },
+    {
+      "id": "v04-editorial-serifado",
+      "nome": "Editorial serifado",
+      "descricao": "Ar de revista: serifa grande, fotos com legenda, ritmo de leitura. Para negócios com história para contar (restaurantes, ateliês, imobiliárias boutique).",
+      "links": [],
+      "tokens": {
+        "paleta": "neutros quentes, destaque discreto",
+        "tipografia": "serifa de display + sans humanista",
+        "layout": "blocos alternados texto/foto, margens generosas",
+        "tom": "narrativo, acolhedor"
+      }
+    },
+    {
+      "id": "v05-blocos-coloridos",
+      "nome": "Blocos coloridos",
+      "descricao": "Seções em cartões/blocos com cantos arredondados e cores de fundo alternadas. Para serviços variados que precisam de organização visual clara (oficinas, escolas, salões).",
+      "links": [],
+      "tokens": {
+        "paleta": "3 tons pastéis + 1 cor de ação",
+        "tipografia": "sans arredondada, amigável",
+        "layout": "grid de cartões, ícones grandes",
+        "tom": "leve, acessível, organizado"
+      }
+    },
+    {
+      "id": "v06-foto-imersiva",
+      "nome": "Foto imersiva",
+      "descricao": "Fotografia em tela cheia com texto sobreposto mínimo. Para negócios em que a imagem vende sozinha (estética, gastronomia, arquitetura de interiores).",
+      "links": [],
+      "tokens": {
+        "paleta": "neutra — a foto dá a cor",
+        "tipografia": "sans fina, caixa alta espaçada nos títulos",
+        "layout": "hero fullscreen, seções com paralaxe leve",
+        "tom": "sofisticado, sensorial"
+      }
+    }
+  ]
+}

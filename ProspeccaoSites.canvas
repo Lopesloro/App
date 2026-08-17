@@ -167,6 +167,34 @@
       "width": 480,
       "height": 180,
       "file": "prospeccao-sites/11-arquitetura-e-stack.md"
+    },
+    {
+      "id": "f1a2b3c4d5e6a019",
+      "type": "group",
+      "x": 880,
+      "y": 80,
+      "width": 560,
+      "height": 700,
+      "label": "Implementação",
+      "color": "6"
+    },
+    {
+      "id": "f1a2b3c4d5e6a020",
+      "type": "file",
+      "x": 920,
+      "y": 160,
+      "width": 480,
+      "height": 260,
+      "file": "prospeccao-sites/12-automacao.md"
+    },
+    {
+      "id": "f1a2b3c4d5e6a021",
+      "type": "file",
+      "x": 920,
+      "y": 460,
+      "width": 480,
+      "height": 260,
+      "file": "prospeccao-sites/13-referencias-de-design.md"
     }
   ],
   "edges": [
@@ -212,6 +240,15 @@
       "toSide": "left",
       "toEnd": "arrow",
       "label": "cliente aprovou"
+    },
+    {
+      "id": "e1a2b3c4d5e6b006",
+      "fromNode": "f1a2b3c4d5e6a013",
+      "fromSide": "right",
+      "toNode": "f1a2b3c4d5e6a019",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "label": "em código"
     }
   ]
 }
