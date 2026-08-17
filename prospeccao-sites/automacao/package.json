@@ -7,7 +7,7 @@
   "scripts": {
     "analisar": "node --experimental-strip-types src/cli.ts analisar",
     "lote": "node --experimental-strip-types src/cli.ts lote",
-    "teste": "node --experimental-strip-types --test src/score.test.ts src/checks.test.ts src/estilo.test.ts src/demo/gerador.test.ts",
+    "teste": "node --experimental-strip-types --test src/score.test.ts src/checks.test.ts src/estilo.test.ts src/demo/gerador.test.ts src/whatsapp/guardrail.test.ts",
     "demo": "node --experimental-strip-types src/cli.ts demo",
     "typecheck": "tsc --noEmit",
     "capturas": "node --experimental-strip-types src/capturas.ts"
