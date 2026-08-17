@@ -24,13 +24,6 @@ GoogleService-Info.plist
 # testes / cobertura
 coverage/
 
-# agent-browser — screenshots, downloads, HAR, estado de sessao (pode conter token)
-.agent-browser/
-agent-browser.local.json
-*.har
-*-auth.json
-*.trace.zip
-
 # logs e SO
 *.log
 .DS_Store

@@ -35,7 +35,6 @@ App brasileiro que monta looks para mulheres, com **indicações fotográficas**
 - [[06-seguranca]] — threat model, OWASP MASVS, LGPD, checklist de segurança
 - [[07-backlog-github]] — épicos, issues iniciais, templates de issue/PR, CI com gates
 - [[08-plano-de-testes]] — plano de testes e sistema de registro em markdown
-- [[09-agent-browser]] — agent-browser: automação de navegador e QA web para agentes (conector MCP + skill)
 
 ## Regras fixas do fundador
 

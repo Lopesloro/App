@@ -10,12 +10,7 @@
     "web": "expo start --web",
     "lint": "expo lint",
     "typecheck": "tsc --noEmit",
-    "test": "jest",
-    "browser": "npx -y agent-browser",
-    "browser:setup": "npx -y agent-browser install",
-    "browser:doctor": "npx -y agent-browser doctor",
-    "browser:qa": "npx -y agent-browser --session monta-looks --allowed-domains localhost,127.0.0.1 open http://localhost:8081",
-    "browser:dashboard": "npx -y agent-browser dashboard start"
+    "test": "jest"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "2.2.0",

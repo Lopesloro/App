@@ -39,24 +39,6 @@ Ler `docs/00-INDEX.md` antes de qualquer tarefa de produto. Os arquivos usam Obs
 
 MVP: Expo + React Native (TypeScript). Web complementar: Next.js (landing + admin). Detalhes, alternativas e justificativas no documento — consultar antes de gerar código.
 
-## Automação de navegador (agent-browser)
-
-Ferramenta oficial de automação/QA web do projeto: [`agent-browser`](https://github.com/vercel-labs/agent-browser) (Vercel Labs, Apache-2.0). Usar em vez de qualquer ferramenta interna de navegador. Guia completo em pt-BR: `docs/09-agent-browser.md`.
-
-```bash
-npm run browser:setup     # baixa o Chrome for Testing (1ª vez)
-npm run browser:qa        # abre o app web (expo start --web) em sessão isolada
-```
-
-Fluxo padrão: `open <url>` → `snapshot -i` (refs `@e1`, `@e2`) → `click @e1` / `fill @e2 "texto"` → novo `snapshot` quando a página muda.
-
-- Config do projeto: `agent-browser.json` (headless, `--content-boundaries`, `--max-output`, confirmação obrigatória para `download`/`upload`).
-- Conector MCP: `.mcp.json` expõe o servidor `agent-browser` (perfis `core,debug,react`).
-- Skill do Claude Code: `.claude/skills/agent-browser/SKILL.md` (stub; conteúdo real vem de `agent-browser skills get core`).
-- Artefatos (screenshot, download, HAR, state) caem em `.agent-browser/`, fora do git. Evidência que entra no repositório é copiada para `docs/testes/evidencias/` e **jamais** contém foto ou dado pessoal real.
-- Site externo só com allowlist: `--allowed-domains "dominio.com,*.dominio.com"`.
-- Toda sessão de teste com agent-browser gera registro em `docs/testes/` (mesma regra dos demais testes).
-
 ## Status
 
 Fase de descoberta/documentação (agosto 2026). Sem código ainda. Próximo passo: validar docs, criar repositório e abrir as issues do backlog.
