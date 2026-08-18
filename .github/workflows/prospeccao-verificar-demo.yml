@@ -1,0 +1,48 @@
+# Verifica uma demo publicada no GitHub Pages, rodando DENTRO do GitHub —
+# onde a rede e livre. A sessao do Claude Code nao alcanca github.io por
+# politica de proxy, entao a verificacao acontece aqui e o resultado fica
+# no log e no resumo da execucao.
+name: prospeccao-verificar-demo
+
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: "URL da demo publicada"
+        required: true
+        default: "https://lopesloro.github.io/prospecao-demos-/maisfamiliaclinica/"
+      whatsapp:
+        description: "WhatsApp esperado nos botoes (so digitos, com DDI)"
+        required: true
+        default: "5511934489686"
+
+permissions:
+  contents: read
+
+jobs:
+  verificar:
+    name: verificar demo no ar
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 24
+      - name: Verificar a pagina publicada
+        id: qa
+        working-directory: prospeccao-sites/automacao
+        run: |
+          set -o pipefail
+          npm run verificar -- "${{ inputs.url }}" "${{ inputs.whatsapp }}" 2>&1 | tee /tmp/resultado.txt
+      - name: Resumo
+        if: always()
+        run: |
+          {
+            echo "## Verificacao da demo"
+            echo ""
+            echo "**URL:** ${{ inputs.url }}"
+            echo ""
+            echo '```'
+            cat /tmp/resultado.txt || echo "sem saida"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
