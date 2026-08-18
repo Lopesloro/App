@@ -20,7 +20,9 @@ fi
 echo
 
 azul "== 3. Que mensagem o motor monta agora? =="
-curl -s --max-time 45 "http://localhost:$PORTA/test" || echo "(sem resposta do /test)"
+echo "ATENCAO: o envio espera de 20s a 3 MINUTOS de proposito (delay anti-robo)."
+echo "Aguarde ate 4 minutos — nao interrompa."
+curl -s --max-time 260 "http://localhost:$PORTA/test" || echo "(sem resposta em 4 min)"
 echo; echo
 
 azul "== 4. As saudacoes SEM NOME chegaram na pasta do motor? =="

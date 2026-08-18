@@ -158,9 +158,12 @@ cat > "$AQUI/testar.sh" << 'ATALHO'
 #!/usr/bin/env bash
 # Testa a campanha no proprio numero. Gerado pelo instalar.sh.
 echo "== status =="
-curl -s http://localhost:21468/status; echo; echo
+curl -s --max-time 15 http://localhost:21468/status; echo; echo
 echo "== enviando a mensagem do proximo lead para o SEU numero =="
-curl -s http://localhost:21468/test; echo
+echo "O motor espera de 20s a 3 MINUTOS antes de enviar (delay anti-robo)."
+echo "Isso e proposital. Aguarde — nao interrompa."
+echo
+curl -s --max-time 260 http://localhost:21468/test; echo
 ATALHO
 
 chmod +x "$AQUI/subir.sh" "$AQUI/qr.sh" "$AQUI/testar.sh" "$AQUI/reiniciar.sh"
