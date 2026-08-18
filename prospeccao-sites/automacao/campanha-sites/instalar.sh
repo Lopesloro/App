@@ -68,8 +68,12 @@ for arquivo in leads-sites.csv oferta-sites.json config-sites.json; do
 done
 echo
 
-# ---------- 3. ligar as 8 variacoes no motor ----------
+# ---------- 3. patches no motor ----------
+echo "Ligando as 8 variacoes da primeira mensagem..."
 node "$AQUI/aplicar-patch-variacoes.cjs" "$DESTINO/server.js"
+echo
+echo "Tirando nome e marca das mensagens (identidade passa a vir da campanha)..."
+node "$AQUI/aplicar-patch-sem-nome.cjs" "$DESTINO/server.js"
 echo
 
 # ---------- 4. dependencias ----------
