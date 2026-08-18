@@ -1,34 +1,50 @@
 {
-  "_uso": "Oferta da campanha 'sites' — copiar para a pasta do wpp-server e rodar: CAMPANHA=sites node server.js. Lido a cada mensagem: editar aqui muda o robô sem reiniciar.",
-  "_escopo": "So o que esta escrito aqui pode ser prometido: analise do site atual + uma versao demonstrativa da PAGINA INICIAL, sem custo. Site completo, dominio, formularios e integracoes NAO entram na conversa automatica — isso e negociacao do fundador depois do 'gostei'.",
+  "_uso": "Oferta da campanha 'sites'. Copiar para a pasta do wpp-server. Lido a cada mensagem: editar aqui muda o robo sem reiniciar.",
+  "_escopo": "So o que esta escrito aqui pode ser prometido: analise do site atual + versao demonstrativa da PAGINA INICIAL, sem custo. Site completo, dominio, formularios e integracoes NAO entram na conversa automatica.",
 
   "publico": "empresas com site desatualizado",
-  "descricao": "uma versão moderna do site, com foco total na experiência pelo celular",
-  "registro": "cordial, direto e humano — nunca parecer robô",
+  "descricao": "uma versao moderna do site, com foco total na experiencia pelo celular",
+  "registro": "cordial, direto e humano — nunca parecer robo",
   "tratamento": "pelo",
 
-  "_saudacao": "Primeira mensagem (etapa 1). Template puro, sem IA — sai exatamente o que está escrito. Placeholders: {SAUDACAO}, {REMETENTE}, {EMPRESA}, {SITE}. Curta de propósito: não explica o serviço ainda, só confirma que chegamos na pessoa certa.",
-  "saudacao": "{SAUDACAO}! Aqui é o {REMETENTE}. Falo com o responsável pelo site da {EMPRESA}?",
-
-  "_pitch": "Segunda mensagem (etapa 2, com IA), disparada quando o lead RESPONDE. Regras abaixo são obrigatórias.",
-  "regras_pitch": [
-    "Mensagem CURTA — no máximo 4 linhas. Mensagem longa no WhatsApp não é lida.",
-    "Tom amigável e humano. Nunca parecer automático, nunca usar linguagem de propaganda.",
-    "Agradecer o retorno em uma linha, sem formalidade exagerada.",
-    "Citar UM problema concreto encontrado no site (vem do campo PROBLEMA do lead) — provar, não opinar.",
-    "Oferecer preparar uma versão demonstrativa da página inicial, SEM CUSTO e SEM COMPROMISSO.",
-    "Deixar explícito que, se não gostar ou não for o momento, é só dizer — sem problema nenhum.",
-    "Terminar com uma pergunta simples de sim/não: 'posso preparar e te mostrar?'",
-    "NUNCA falar de preço, prazo, contrato ou tecnologia (React, IA, GitHub). O cliente compra resultado.",
-    "NUNCA prometer site completo — o que se oferece é a demonstração da página inicial.",
-    "Não chamar o site atual de feio, velho ou ruim. Falar de oportunidade, não de defeito."
+  "_saudacoes": "ETAPA 1 — o robo SORTEIA uma destas a cada lead. Variar evita que a mesma frase saia 20x por dia (padrao e o que faz o WhatsApp marcar como spam). Todas curtas, sem vender nada ainda. Placeholders: {SAUDACAO} = Bom dia/Boa tarde/Boa noite pela hora, {REMETENTE}, {EMPRESA}, {SITE}.",
+  "saudacoes": [
+    "{SAUDACAO}! Aqui e o {REMETENTE}. Falo com o responsavel pelo site da {EMPRESA}?",
+    "{SAUDACAO}, tudo bem? Meu nome e {REMETENTE}. Voce cuida do site da {EMPRESA}?",
+    "{SAUDACAO}! {REMETENTE} falando. Quem cuida do site da {EMPRESA} por ai?",
+    "{SAUDACAO}, tudo certo? Aqui e o {REMETENTE}. Consigo falar com quem responde pelo site da {EMPRESA}?",
+    "{SAUDACAO}! Sou o {REMETENTE}. Estou tentando falar com o responsavel pelo site da {EMPRESA}, e voce mesmo?",
+    "{SAUDACAO}, tudo bem? {REMETENTE} aqui. Voce e a pessoa certa pra falar sobre o site da {EMPRESA}?",
+    "{SAUDACAO}! Aqui e o {REMETENTE}. Uma pergunta rapida: quem cuida do site da {EMPRESA}?",
+    "{SAUDACAO}, tudo bom? Me chamo {REMETENTE}. Falo com voce sobre o site da {EMPRESA}?"
   ],
 
-  "_exemplo_pitch": "Referência de tom e tamanho para a IA — não copiar literalmente.",
-  "exemplo_pitch": "Obrigado pelo retorno! Dei uma olhada no site de vocês pelo celular e o botão de contato fica difícil de achar — provavelmente algumas pessoas desistem antes de chamar. Posso preparar uma versão demonstrativa da página inicial pra você comparar, sem custo e sem compromisso? Se não fizer sentido, é só me dizer, tranquilo.",
+  "saudacao": "{SAUDACAO}! Aqui e o {REMETENTE}. Falo com o responsavel pelo site da {EMPRESA}?",
+
+  "_pitch": "ETAPA 2 (com IA), disparada quando o lead RESPONDE. Regras obrigatorias abaixo.",
+  "regras_pitch": [
+    "Mensagem CURTA — no maximo 4 linhas. Mensagem longa no WhatsApp nao e lida.",
+    "Tom amigavel e humano. Nunca parecer automatico, nunca linguagem de propaganda.",
+    "Agradecer o retorno em uma linha, sem formalidade exagerada.",
+    "Citar UM problema concreto do site (campo PROBLEMA do lead) — provar, nao opinar.",
+    "Oferecer preparar uma versao demonstrativa da pagina inicial, SEM CUSTO e SEM COMPROMISSO.",
+    "Deixar explicito que, se nao gostar ou nao for o momento, e so dizer — sem problema nenhum.",
+    "Terminar com pergunta simples de sim/nao: 'posso preparar e te mostrar?'",
+    "NUNCA falar de preco, prazo, contrato ou tecnologia (React, IA, GitHub).",
+    "NUNCA prometer site completo — o que se oferece e a demonstracao da pagina inicial.",
+    "Nao chamar o site atual de feio, velho ou ruim. Falar de oportunidade, nao de defeito.",
+    "Variar a abertura: nem toda mensagem deve comecar com 'Obrigado pelo retorno'."
+  ],
+
+  "_exemplos_pitch": "Referencias de tom e tamanho para a IA — nao copiar literalmente.",
+  "exemplos_pitch": [
+    "Obrigado pelo retorno! Dei uma olhada no site de voces pelo celular e o botao de contato fica dificil de achar — provavelmente algumas pessoas desistem antes de chamar. Posso preparar uma versao demonstrativa da pagina inicial pra voce comparar, sem custo e sem compromisso? Se nao fizer sentido, e so me dizer.",
+    "Que bom falar com voce! Reparei que o site de voces demora bastante pra abrir no celular, e isso costuma fazer o visitante desistir antes de ver os servicos. Posso montar uma demonstracao de como a pagina inicial poderia ficar? E sem custo, e se nao gostar tudo bem.",
+    "Legal, obrigado! Olhando o site pelo celular, o menu fica meio apertado e a pessoa demora pra achar o WhatsApp. Se quiser, preparo uma versao demonstrativa da pagina inicial pra voce ver a diferenca — sem custo nenhum. Faz sentido pra voce?"
+  ],
 
   "_pos_demo": "Mensagem que acompanha o link da demo. Curta: o trabalho fala por si.",
-  "mensagem_demo": "Pronto! Fiz uma demonstração de como a página inicial poderia ficar: {LINK}\n\nDá uma olhada pelo celular também. O que achou?",
+  "mensagem_demo": "Pronto! Fiz uma demonstracao de como a pagina inicial poderia ficar: {LINK}\n\nDa uma olhada pelo celular tambem. O que achou?",
 
-  "_parada": "Quando o lead responder se gostou ou não da demo, o robô PARA de responder e avisa o fundador. Daí em diante quem fala é o Gabriel."
+  "_parada": "Quando o lead disser se gostou ou nao da demo, o robo PARA de responder e avisa o fundador. Dai em diante quem fala e o Gabriel."
 }
