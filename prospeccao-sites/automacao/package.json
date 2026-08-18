@@ -12,7 +12,8 @@
     "typecheck": "tsc --noEmit",
     "capturas": "node --experimental-strip-types src/capturas.ts",
     "publicar": "node --experimental-strip-types src/publicar.ts",
-    "planilha": "node --experimental-strip-types src/preparar-planilha.ts"
+    "planilha": "node --experimental-strip-types src/preparar-planilha.ts",
+    "verificar": "node --experimental-strip-types src/verificar.ts"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",
