@@ -98,14 +98,53 @@ if grep -q 'COLE_A_CHAVE_AQUI' "$DESTINO/config-sites.json"; then
 fi
 echo
 
-azul "== Pronto. Agora rode: =="
+# ---------- 6. gerar atalhos com o caminho ja embutido ----------
+# Sem isso o usuario tem que digitar o caminho longo do servidor toda vez.
+cat > "$AQUI/subir.sh" << ATALHO
+#!/usr/bin/env bash
+# Sobe o motor da campanha sites. Gerado pelo instalar.sh.
+cd "$DESTINO" || exit 1
+echo "Subindo o motor em: \$PWD"
+echo "QR vai aparecer em: $DESTINO/qr-sites.png"
 echo
-echo "  cd \"$DESTINO\""
-echo "  CAMPANHA=sites node server.js"
+CAMPANHA=sites node server.js
+ATALHO
+
+cat > "$AQUI/qr.sh" << ATALHO
+#!/usr/bin/env bash
+# Abre o QR para parear o WhatsApp. Gerado pelo instalar.sh.
+ARQ="$DESTINO/qr-sites.png"
+for i in \$(seq 1 30); do
+  [ -f "\$ARQ" ] && break
+  echo "esperando o QR aparecer... (\$i)"; sleep 2
+done
+if [ -f "\$ARQ" ]; then
+  open "\$ARQ" 2>/dev/null || xdg-open "\$ARQ" 2>/dev/null || echo "abra: \$ARQ"
+else
+  echo "QR ainda nao existe. O motor esta rodando? (bash subir.sh)"
+fi
+ATALHO
+
+cat > "$AQUI/testar.sh" << 'ATALHO'
+#!/usr/bin/env bash
+# Testa a campanha no proprio numero. Gerado pelo instalar.sh.
+echo "== status =="
+curl -s http://localhost:21468/status; echo; echo
+echo "== enviando a mensagem do proximo lead para o SEU numero =="
+curl -s http://localhost:21468/test; echo
+ATALHO
+
+chmod +x "$AQUI/subir.sh" "$AQUI/qr.sh" "$AQUI/testar.sh"
+ok "atalhos criados (ja com o caminho do servidor dentro)"
 echo
-echo "Depois, em outra aba do terminal:"
-echo "  open \"$DESTINO/qr-sites.png\"        # QR para parear o WhatsApp"
-echo "  curl http://localhost:21468/status    # tem que dizer connected"
-echo "  curl http://localhost:21468/test      # manda a mensagem no SEU numero"
+
+azul "== Pronto. Daqui em diante, so estes 3 comandos: =="
+echo
+echo "  bash subir.sh      # sobe o motor (deixe esta aba aberta)"
+echo "  bash qr.sh         # em outra aba: abre o QR para parear"
+echo "  bash testar.sh     # em outra aba: manda a mensagem no SEU numero"
+echo
+echo "Rode todos de dentro desta pasta:"
+echo "  $AQUI"
 echo
 echo "So depois do teste chegar certo, edite config-sites.json: autopilot: true"
