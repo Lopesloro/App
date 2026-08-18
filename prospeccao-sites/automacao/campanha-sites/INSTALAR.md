@@ -1,9 +1,32 @@
 # Pasta pronta — é só copiar e rodar
 
-Tudo nesta pasta vai para a pasta do seu **wpp-server**. Nada precisa ser editado
-além da chave do Gemini.
+Tudo nesta pasta vai para a pasta do seu **wpp-server**.
 
-## O que tem aqui
+## Instalação em um comando
+
+No seu Mac, abra o Terminal e cole:
+
+```bash
+git clone -b claude/ideias-principais-obsidian-x6l6z4 https://github.com/Lopesloro/App.git ~/prospeccao
+cd ~/prospeccao/prospeccao-sites/automacao/campanha-sites
+bash instalar.sh
+```
+
+O `instalar.sh` procura o wpp-server sozinho, copia os arquivos (com backup do
+que já existia), liga as 8 variações no motor e instala as dependências.
+
+Se ele não achar o servidor, é porque este Mac não tem o wpp-server ainda — o
+que existe é o backup no repositório `nada`. Nesse caso:
+
+```bash
+git clone https://github.com/Lopesloro/nada.git ~/nada
+cp -R ~/nada/BACKUP-PC-ANTIGO/wpp-server ~/wpp-server
+cd ~/wpp-server && npm install
+cd ~/prospeccao/prospeccao-sites/automacao/campanha-sites
+bash instalar.sh ~/wpp-server
+```
+
+## O que tem nesta pasta
 
 | Arquivo | O que é |
 |---|---|
@@ -11,36 +34,28 @@ além da chave do Gemini.
 | `leads-sites.xlsx` | A mesma lista em planilha, com filtro e resumo |
 | `oferta-sites.json` | As mensagens — 8 variações + regras do pitch |
 | `config-sites.json` | Ritmo: 25 min, delay até 3 min, janela 9h–18h |
+| `instalar.sh` | Instala tudo sozinho |
 | `aplicar-patch-variacoes.cjs` | Liga o sorteio das 8 variações no server.js |
 | `FALAS.md` | **Todas** as falas que o robô pode dizer |
 
-## Passo a passo (5 minutos)
+## Subir o motor
 
 ```bash
-# 1. copiar tudo para a pasta do wpp-server
-cp leads-sites.csv oferta-sites.json config-sites.json /caminho/do/wpp-server/
-
-# 2. ligar as variações no motor (faz backup sozinho, roda quantas vezes quiser)
-node aplicar-patch-variacoes.cjs /caminho/do/wpp-server/server.js
-
-# 3. colocar a chave do Gemini
-#    abrir config-sites.json e trocar COLE_A_CHAVE_AQUI
-
-# 4. subir o motor da campanha
-cd /caminho/do/wpp-server
-CAMPANHA=sites node server.js          # porta 21468
+cd ~/wpp-server               # ou a pasta que o instalar.sh mostrou
+CAMPANHA=sites node server.js
 ```
 
 ## Parear o WhatsApp
 
-Depois do passo 4, o QR aparece de duas formas:
+Em outra aba do terminal:
 
-- **arquivo:** `qr-sites.png` na pasta do wpp-server — abre e escaneia
-- **navegador:** `http://localhost:21468/qr.png`
+```bash
+open ~/wpp-server/qr-sites.png
+```
 
 No celular: **WhatsApp → Aparelhos conectados → Conectar um aparelho**.
 
-Confirme que pareou: `http://localhost:21468/status` deve mostrar `connected`.
+Confirme: `curl http://localhost:21468/status` deve dizer `connected`.
 
 ## Testar no seu número (antes de qualquer lead)
 
@@ -48,11 +63,10 @@ Confirme que pareou: `http://localhost:21468/status` deve mostrar `connected`.
 curl http://localhost:21468/test
 ```
 
-Isso monta a mensagem **do próximo lead real da fila** e manda para o **seu**
-número (`myNumber` do config = 5519998334896). Nenhum lead é marcado como
-enviado. Você vê exatamente o que a empresa veria.
+Monta a mensagem do **próximo lead real da fila** e manda para o **seu** número
+(`myNumber` = 5519998334896). Nenhum lead é marcado como enviado.
 
-Para ver o pitch (etapa 2) sem enviar nada:
+Ver o pitch da etapa 2 sem enviar nada:
 
 ```bash
 curl "http://localhost:21468/test-pitch?resposta=Sou%20eu%20sim"
@@ -66,14 +80,13 @@ Com o teste OK, edite `config-sites.json`:
 "autopilot": true
 ```
 
-O motor relê o arquivo sozinho — não precisa reiniciar.
+O motor relê sozinho — não precisa reiniciar.
 
 ## Acompanhar
 
-- `http://localhost:21468/status` — estado e o que ele está fazendo agora
-- `http://localhost:21468/leads` — quantos já receberam mensagem
-- `state-sites.json` — estado de cada lead
+- `curl http://localhost:21468/status` — o que ele está fazendo agora
+- `curl http://localhost:21468/leads` — quantos já receberam mensagem
 
-## Se precisar parar na hora
+## Parar na hora
 
-Troque `"autopilot": false` no config. Efeito imediato, sem reiniciar.
+Troque para `"autopilot": false`. Efeito imediato.
