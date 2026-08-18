@@ -107,11 +107,36 @@ echo
 cat > "$AQUI/subir.sh" << ATALHO
 #!/usr/bin/env bash
 # Sobe o motor da campanha sites. Gerado pelo instalar.sh.
+# Derruba primeiro qualquer motor antigo na porta: sem isso o novo nao sobe
+# (EADDRINUSE) e quem continua respondendo e a versao velha.
+ANTIGO=\$(lsof -ti:21468 2>/dev/null || true)
+if [ -n "\$ANTIGO" ]; then
+  echo "Havia um motor antigo rodando (PID \$ANTIGO). Derrubando..."
+  kill \$ANTIGO 2>/dev/null || true
+  sleep 2
+  RESTO=\$(lsof -ti:21468 2>/dev/null || true)
+  [ -n "\$RESTO" ] && kill -9 \$RESTO 2>/dev/null || true
+  sleep 1
+fi
 cd "$DESTINO" || exit 1
 echo "Subindo o motor em: \$PWD"
 echo "QR vai aparecer em: $DESTINO/qr-sites.png"
 echo
 CAMPANHA=sites node server.js
+ATALHO
+
+# Um comando so: derruba o antigo, reinstala os arquivos e sobe de novo.
+cat > "$AQUI/reiniciar.sh" << ATALHO
+#!/usr/bin/env bash
+# Atualiza tudo e reinicia o motor. Gerado pelo instalar.sh.
+set -e
+cd "$AQUI"
+echo "1/3 Buscando atualizacoes..."
+git pull --quiet || echo "  (git pull falhou; seguindo com o que ja esta aqui)"
+echo "2/3 Reinstalando arquivos e patches..."
+bash instalar.sh "$DESTINO"
+echo "3/3 Subindo o motor..."
+bash subir.sh
 ATALHO
 
 cat > "$AQUI/qr.sh" << ATALHO
@@ -138,13 +163,14 @@ echo "== enviando a mensagem do proximo lead para o SEU numero =="
 curl -s http://localhost:21468/test; echo
 ATALHO
 
-chmod +x "$AQUI/subir.sh" "$AQUI/qr.sh" "$AQUI/testar.sh"
+chmod +x "$AQUI/subir.sh" "$AQUI/qr.sh" "$AQUI/testar.sh" "$AQUI/reiniciar.sh"
 ok "atalhos criados (ja com o caminho do servidor dentro)"
 echo
 
 azul "== Pronto. Daqui em diante, so estes 3 comandos: =="
 echo
-echo "  bash subir.sh      # sobe o motor (deixe esta aba aberta)"
+echo "  bash reiniciar.sh  # atualiza + derruba o antigo + sobe (use este)"
+echo "  bash subir.sh      # so sobe o motor (deixe esta aba aberta)"
 echo "  bash qr.sh         # em outra aba: abre o QR para parear"
 echo "  bash testar.sh     # em outra aba: manda a mensagem no SEU numero"
 echo
