@@ -28,6 +28,7 @@ Pilares inegociáveis:
 | `docs/07-backlog-github.md` | Épicos, issues iniciais, templates de issue/PR, CI |
 | `docs/08-plano-de-testes.md` | Plano de testes e sistema de registro em md |
 | `docs/09-mercado-sem-venda.md` | Mercado do app sem venda: guarda-roupa, privacidade no aparelho, quando religar |
+| `docs/10-ia-e-chaves.md` | Por que nenhuma chave de API entra no app, e como a IA vai funcionar |
 | `docs/features/` | Uma pasta por feature construída: o que é, como funciona, testes |
 | `docs/CHECKLIST.md` | Estado atual e o que falta até a loja, em ordem de execução |
 
@@ -43,6 +44,7 @@ Ler `docs/00-INDEX.md` antes de qualquer tarefa de produto. Os arquivos usam Obs
 - **Preços dos planos:** Grátis / R$ 19,90 / R$ 24,90 são fixos. Análises podem questionar, código não muda sem decisão do fundador.
 - **Vocabulário de moda:** os termos vivem em `src/features/estilo/vocabulario.ts` e são compartilhados por catálogo, busca e algoritmo. Só **acrescentar** termo, no fim da lista — remover ou renomear invalida o perfil já aprendido no aparelho das usuárias.
 - **Dado da usuária no aparelho:** todo store que guarda algo dela se inscreve em `registrarLimpezaDeSessao` (`src/lib/limpeza-sessao.ts`). Sem isso, a próxima pessoa a usar o celular herda os dados da anterior.
+- **Nenhuma chave de API no app:** nem do Gemini, nem de nenhum outro provedor. O pacote inteiro vai para o aparelho e é legível. Toda chamada de IA passa pelo nosso servidor (`src/features/ia/cliente-ia.ts`), e `src/lib/__tests__/sem-chave-exposta.test.ts` quebra o CI se alguém tentar — ver `docs/10-ia-e-chaves.md`.
 - **Público:** mulheres primeiro. Toda decisão de UX, tom de voz e estética considera esse público (ver direções estéticas em `docs/05-frontend.md`).
 
 ## Stack (definida em docs/05-frontend.md)
@@ -51,6 +53,8 @@ MVP: Expo + React Native (TypeScript). Web complementar: Next.js (landing + admi
 
 ## Status
 
-Agosto/2026. O app funciona de ponta a ponta (busca de roupas, guarda-roupa, algoritmo de estilo), com 275 testes automatizados, sem backend e sem nada à venda.
+Agosto/2026. O app funciona de ponta a ponta (busca de roupas, guarda-roupa, algoritmo de estilo, identidade visual própria), com **295 testes automatizados em 24 suítes** e **23 passos de teste em navegador de verdade** (`npm run e2e`), sem backend e sem nada à venda.
 
-O que trava mais coisa: **ninguém viu o app num celular ainda** — depende de uma conta no expo.dev (bloco 1 de `docs/CHECKLIST.md`).
+A web está ligada como **janela de desenvolvimento** (`npm run web`), não como produto: o Expo Go da App Store está travado no SDK 54 e o projeto usa o 57.
+
+O que trava mais coisa: **ninguém viu o app num celular físico ainda** — depende de uma conta no expo.dev (bloco 1 de `docs/CHECKLIST.md`).
