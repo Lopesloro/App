@@ -25,6 +25,7 @@ App brasileiro de moda feminina. Hoje ele faz uma coisa: **procurar tipo de roup
 - [[features/06-catalogo-de-roupas/o-que-e|Catálogo de roupas]] — a aba principal: 66 tipos de roupa para procurar e marcar
 - [[features/07-guarda-roupa/o-que-e|Guarda-roupa]] — o armário dela, organizado por categoria
 - [[features/08-algoritmo-de-estilo/o-que-e|Algoritmo de estilo]] — como o app aprende o gosto sem perguntar nada
+- [[features/10-identidade-visual/o-que-e|Identidade visual]] — a marca, o visual futurista e a tela de abertura
 
 ## Produto
 
@@ -41,6 +42,7 @@ App brasileiro de moda feminina. Hoje ele faz uma coisa: **procurar tipo de roup
 
 - [[05-frontend]] — comparação de opções de front-end e stack recomendada
 - [[06-seguranca]] — threat model, OWASP MASVS, LGPD, checklist de segurança
+- [[10-ia-e-chaves]] — por que nenhuma chave de API pode entrar no app, e como a IA vai funcionar
 - [[07-backlog-github]] — épicos, issues iniciais, templates de issue/PR, CI com gates
 - [[08-plano-de-testes]] — plano de testes e sistema de registro em markdown
 
@@ -53,3 +55,4 @@ App brasileiro de moda feminina. Hoje ele faz uma coisa: **procurar tipo de roup
 > 4. Todo teste executado fica registrado em arquivo `.md` (`docs/testes/`).
 > 5. Segurança é diferencial de produto — checklist de [[06-seguranca]] antes de qualquer merge que toque foto, dado pessoal ou pagamento.
 > 6. **O perfil de estilo não sai do aparelho.** Qualquer proposta de enviá-lo a servidor é decisão de produto, não detalhe técnico.
+> 7. **Nenhuma chave de API entra no aplicativo.** Nem do Gemini, nem de nenhum outro serviço — ver [[10-ia-e-chaves]]. Há teste automatizado travando isso.

@@ -24,8 +24,14 @@ export function Texto({
     suave: paleta.inkSoft,
     destaque: paleta.primary,
     erro: paleta.danger,
-    /** Texto sobre fundo colorido (botao primario). */
-    sobreDestaque: paleta.surface,
+    /**
+     * Texto sobre fundo colorido (botao primario).
+     *
+     * Vem da paleta, e nao de `surface`: no tema claro o primario e escuro e
+     * pede texto branco; no escuro o primario e neon e pede texto quase
+     * preto. Usar `surface` dava branco sobre neon — ilegivel.
+     */
+    sobreDestaque: paleta.inkSobrePrimario,
   };
 
   return (

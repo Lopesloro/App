@@ -36,7 +36,10 @@ Ordem de execução. Cada bloco depende do anterior. Marque `[x]` conforme fecha
 - [x] **Code review completo, com 7 dos 8 achados corrigidos**
 - [x] **Entrar sem conta** — o app abre e funciona sem cadastro e sem servidor
 - [x] **Dá para ver o app hoje, de graça**, no navegador (`npm run web`)
-- [x] 280 testes automatizados + teste de navegador ponta a ponta (8/8)
+- [x] **Marca própria, visual futurista e tela de abertura animada**
+- [x] **Contraste medido em AA nas três direções visuais**
+- [x] **Trava automática impedindo chave de API de entrar no app**
+- [x] 295 testes automatizados + teste de navegador ponta a ponta (23/23)
 - [x] Guardado, funcionando e fora das abas: feed de indicações, detalhe do look, salvar looks, meus looks salvos
 
 ---
@@ -195,6 +198,7 @@ Depende do Bloco 3.
 - [ ] Voltar o CI para `npm ci` ([#63](https://github.com/Lopesloro/App/issues/63))
 - [ ] Exigir aprovação de revisor no PR quando entrar o segundo desenvolvedor
 - [ ] Embarcar as fontes de cada visual (hoje usa a fonte do sistema)
+- [ ] Gerar ícone e splash a partir da marca nova (os PNG ainda são do scaffold)
 - [ ] Observabilidade e relatório de erro ([#49](https://github.com/Lopesloro/App/issues/49))
 
 ---

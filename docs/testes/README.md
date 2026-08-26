@@ -16,3 +16,4 @@ Regra do projeto: **todo teste executado vira registro em markdown nesta pasta**
 | 2026-08-16 | [`2026-08-16-desligar-monetizacao.md`](2026-08-16-desligar-monetizacao.md) | Desligar a monetização + 7 correções do code review | ✅ 167 testes verdes |
 | 2026-08-16 | [`2026-08-16-guarda-roupa-e-estilo.md`](2026-08-16-guarda-roupa-e-estilo.md) | Catálogo de roupas, guarda-roupa, algoritmo de estilo e telas | ✅ 275 testes, lint e typecheck limpos, pacote de 4,7 MB |
 | 2026-08-17 | [`2026-08-17-abrir-o-app.md`](2026-08-17-abrir-o-app.md) | Entrar sem conta, web como janela de desenvolvimento, teste de navegador ponta a ponta | ✅ 280 testes + 8/8 no navegador; 2 problemas graves corrigidos |
+| 2026-08-26 | [`2026-08-26-identidade-e-seguranca.md`](2026-08-26-identidade-e-seguranca.md) | Marca, tema futurista, tela de abertura, auditoria e trava de chaves | ✅ 295 testes + 23/23 no navegador; trava validada com chave falsa |

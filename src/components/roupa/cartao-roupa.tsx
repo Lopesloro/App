@@ -3,8 +3,8 @@ import { Pressable, StyleSheet, View } from 'react-native';
 
 import { Texto } from '@/components/ui/texto';
 import { ROTULO_CATEGORIA, ROTULO_ESTILO } from '@/features/estilo/vocabulario';
-import { matizDaRoupa, type TipoRoupa } from '@/features/roupas/tipos';
-import { usePaleta } from '@/theme/tema-store';
+import { corDaRoupa, type TipoRoupa } from '@/features/roupas/tipos';
+import { usePaleta, useTema } from '@/theme/tema-store';
 import { espaco, raio, type Paleta } from '@/theme/tokens';
 
 type Props = {
@@ -30,8 +30,9 @@ type Props = {
  */
 function CartaoRoupaBase({ roupa, guardada, onMarcar, motivo }: Props) {
   const paleta = usePaleta();
+  const tema = useTema();
   const estilos = useMemo(() => criarEstilos(paleta), [paleta]);
-  const matiz = matizDaRoupa(roupa.id);
+  const corDaFaixa = corDaRoupa(roupa.id, tema.escuro);
 
   const estiloPrincipal = ROTULO_ESTILO[roupa.estilos[0]];
 
@@ -51,9 +52,7 @@ function CartaoRoupaBase({ roupa, guardada, onMarcar, motivo }: Props) {
         pressed ? estilos.pressionado : null,
       ]}
     >
-      <View
-        style={[estilos.faixa, { backgroundColor: `hsl(${matiz}, 34%, 86%)` }]}
-      >
+      <View style={[estilos.faixa, { backgroundColor: corDaFaixa }]}>
         <View style={[estilos.marca, guardada ? estilos.marcaAtiva : null]}>
           <Texto variante="titulo" tom={guardada ? 'sobreDestaque' : 'suave'}>
             {guardada ? '✓' : '+'}

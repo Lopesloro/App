@@ -34,3 +34,17 @@ export const MONETIZACAO_ATIVA = false;
  * Agora e uma decisao declarada, que so muda quando a API existir de fato.
  */
 export const USAR_DADOS_EXEMPLO = true;
+
+/**
+ * Reconhecimento de peca por foto, usando modelo de IA.
+ *
+ * DESLIGADO: depende de um servidor que ainda nao existe. E precisa ser pelo
+ * servidor — a chave do Gemini nunca pode entrar no aplicativo, porque o
+ * bundle vai inteiro para o aparelho e qualquer pessoa consegue le-lo.
+ * Ver `src/features/ia/cliente-ia.ts` e docs/10-ia-e-chaves.md.
+ *
+ * Antes de ligar, tres coisas de LGPD precisam estar prontas, porque foto de
+ * pessoa e dado sensivel: consentimento separado (issue #36), remocao de EXIF
+ * antes do envio e registro de acesso (issue #40).
+ */
+export const IA_ATIVA = false;

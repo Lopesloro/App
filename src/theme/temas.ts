@@ -1,4 +1,4 @@
-import { EDITORIAL_AREIA, VINHO_MODERNO, type Paleta } from './tokens';
+import { EDITORIAL_AREIA, NEON_FUTURO, VINHO_MODERNO, type Paleta } from './tokens';
 
 /**
  * Os dois fronts (direcoes esteticas) do app, lado a lado.
@@ -12,7 +12,7 @@ import { EDITORIAL_AREIA, VINHO_MODERNO, type Paleta } from './tokens';
  * componentes leem sempre `useTema()`, nunca uma paleta fixa.
  */
 
-export type IdTema = 'editorial-areia' | 'vinho-moderno';
+export type IdTema = 'editorial-areia' | 'vinho-moderno' | 'neon-futuro';
 
 export type Tema = {
   id: IdTema;
@@ -22,9 +22,20 @@ export type Tema = {
   paleta: Paleta;
   /** Raios de borda: cada direcao tem uma "dureza" propria. */
   raio: { card: number; chip: number; botao: number };
+  /** Fundo escuro? Decide a cor da barra de status e o peso das sombras. */
+  escuro: boolean;
 };
 
 export const TEMAS: Record<IdTema, Tema> = {
+  'neon-futuro': {
+    id: 'neon-futuro',
+    nome: 'Neon Futuro',
+    descricao: 'Instrumento, não revista. Fundo escuro, leitura em neon, vidro.',
+    paleta: NEON_FUTURO,
+    // Cantos quase retos: linguagem de painel e de instrumento, nao de cartao.
+    raio: { card: 14, chip: 999, botao: 10 },
+    escuro: true,
+  },
   'editorial-areia': {
     id: 'editorial-areia',
     nome: 'Editorial Areia',
@@ -32,6 +43,7 @@ export const TEMAS: Record<IdTema, Tema> = {
     paleta: EDITORIAL_AREIA,
     // Cantos mais suaves: reforca a sensacao calma e editorial.
     raio: { card: 16, chip: 999, botao: 12 },
+    escuro: false,
   },
   'vinho-moderno': {
     id: 'vinho-moderno',
@@ -40,10 +52,16 @@ export const TEMAS: Record<IdTema, Tema> = {
     paleta: VINHO_MODERNO,
     // Cantos mais secos: leitura urbana e mais grafica.
     raio: { card: 10, chip: 999, botao: 8 },
+    escuro: false,
   },
 };
 
-export const TEMA_PADRAO: IdTema = 'editorial-areia';
+/**
+ * O padrao e o Neon Futuro por decisao do fundador (agosto/2026): o app deve
+ * parecer futurista. As duas direcoes claras continuam disponiveis na tela de
+ * escolha — a decisao de qual fica so vale depois do teste com usuarias.
+ */
+export const TEMA_PADRAO: IdTema = 'neon-futuro';
 
 export const LISTA_TEMAS: Tema[] = Object.values(TEMAS);
 

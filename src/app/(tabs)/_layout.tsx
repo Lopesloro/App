@@ -1,7 +1,12 @@
 import { Tabs } from 'expo-router';
 
+import {
+  IconeGuardaRoupa,
+  IconePerfil,
+  IconeRoupas,
+} from '@/components/ui/icones';
 import { usePaleta } from '@/theme/tema-store';
-import { tipografia } from '@/theme/tokens';
+import { espaco, tipografia } from '@/theme/tokens';
 
 /**
  * Tres abas, e nao cinco.
@@ -24,17 +29,40 @@ export default function LayoutTabs() {
         headerShown: false,
         tabBarActiveTintColor: paleta.primary,
         tabBarInactiveTintColor: paleta.inkSoft,
-        tabBarLabelStyle: { fontSize: tipografia.legenda.fontSize },
+        tabBarLabelStyle: {
+          fontSize: tipografia.legenda.fontSize,
+          marginTop: 2,
+        },
         tabBarStyle: {
           backgroundColor: paleta.surface,
           borderTopColor: paleta.border,
+          height: 62,
+          paddingTop: espaco.sm,
         },
         sceneStyle: { backgroundColor: paleta.bg },
       }}
     >
-      <Tabs.Screen name="index" options={{ title: 'Roupas' }} />
-      <Tabs.Screen name="guarda-roupa" options={{ title: 'Guarda-roupa' }} />
-      <Tabs.Screen name="perfil" options={{ title: 'Perfil' }} />
+      <Tabs.Screen
+        name="index"
+        options={{
+          title: 'Roupas',
+          tabBarIcon: ({ color }) => <IconeRoupas cor={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="guarda-roupa"
+        options={{
+          title: 'Guarda-roupa',
+          tabBarIcon: ({ color }) => <IconeGuardaRoupa cor={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="perfil"
+        options={{
+          title: 'Perfil',
+          tabBarIcon: ({ color }) => <IconePerfil cor={color} />,
+        }}
+      />
 
       {/* Fora da barra, vivas no codigo. Ver o comentario acima. */}
       <Tabs.Screen name="feed" options={{ href: null }} />

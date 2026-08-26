@@ -37,6 +37,7 @@ aprende o seu estilo a partir disso, **sem enviar nada para lugar nenhum**, e
 | 07 | [[07-guarda-roupa/o-que-e\|Guarda-roupa]] | O armário dela, organizado por categoria | ✅ Pronta (só neste celular) |
 | 08 | [[08-algoritmo-de-estilo/o-que-e\|Algoritmo de estilo]] | Aprende o estilo pelo que ela marca, no próprio celular | ✅ Pronta |
 | 09 | [[09-sem-monetizacao/o-que-e\|Sem monetização]] | Nada à venda; o código comercial fica guardado e testado | ✅ Pronta |
+| 10 | [[10-identidade-visual/o-que-e\|Identidade visual]] | Marca, visual futurista e a tela de abertura | ✅ Pronta |
 
 ## Features guardadas (código vivo, fora das abas)
 

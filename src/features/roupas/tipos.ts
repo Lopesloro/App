@@ -74,6 +74,24 @@ export function matizDaRoupa(id: string): number {
   return soma;
 }
 
+/**
+ * A cor do cartao, ajustada ao tema.
+ *
+ * O matiz e o mesmo nos dois casos — e o que faz a peca ser reconhecivel. O
+ * que muda e a luz: num tema claro, um pastel; num escuro, um tom fundo e
+ * saturado.
+ *
+ * Sem esta distincao, os pasteis claros vinham para o tema escuro e ficavam
+ * seis retangulos brilhantes numa tela preta, puxando a atencao para longe do
+ * nome da peca, que e o que importa.
+ */
+export function corDaRoupa(id: string, temaEscuro: boolean): string {
+  const matiz = matizDaRoupa(id);
+  return temaEscuro
+    ? `hsl(${matiz}, 42%, 24%)`
+    : `hsl(${matiz}, 34%, 86%)`;
+}
+
 /** Agrupa por categoria, na ordem em que o corpo é vestido. */
 export function agruparPorCategoria(
   roupas: readonly TipoRoupa[],
