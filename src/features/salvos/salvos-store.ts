@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 
 import { CHAVES_LOCAIS, gravarJson, lerJson } from '@/lib/armazenamento-local';
+import { registrarLimpezaDeSessao } from '@/lib/limpeza-sessao';
 import type { IdPlano } from '@/features/assinatura/planos';
 import { podeSalvarMais } from './limites';
 
@@ -14,7 +15,7 @@ import { podeSalvarMais } from './limites';
 
 export type ResultadoSalvar =
   | { ok: true; salvo: boolean }
-  | { ok: false; motivo: 'limite-atingido' };
+  | { ok: false; motivo: 'limite-atingido' | 'ainda-carregando' };
 
 type EstadoSalvos = {
   ids: string[];
@@ -39,7 +40,15 @@ export const useSalvos = create<EstadoSalvos>((set, get) => ({
   estaSalvo: (id: string) => get().ids.includes(id),
 
   alternar: async (id: string, plano: IdPlano): Promise<ResultadoSalvar> => {
-    const { ids } = get();
+    const { ids, carregado } = get();
+
+    // Salvar antes de `restaurar()` terminar gravaria uma lista de um item so
+    // por cima de tudo que ja estava no aparelho — a usuaria perderia a
+    // colecao inteira por ter tocado no coracao rapido demais na abertura.
+    if (!carregado) {
+      return { ok: false, motivo: 'ainda-carregando' };
+    }
+
     const jaSalvo = ids.includes(id);
 
     // Remover sempre pode: limite de plano nunca prende a usuaria aos
@@ -67,3 +76,10 @@ export const useSalvos = create<EstadoSalvos>((set, get) => ({
     await gravarJson(CHAVES_LOCAIS.looksSalvos, []);
   },
 }));
+
+// Sair da conta esquece os looks salvos desta usuaria. O arquivo no aparelho
+// ja foi apagado por `limparDadosLocais()`; aqui zeramos a memoria, e
+// `carregado: false` obriga a proxima sessao a ler do zero.
+registrarLimpezaDeSessao(() => {
+  useSalvos.setState({ ids: [], carregado: false });
+});

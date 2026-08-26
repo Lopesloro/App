@@ -13,6 +13,25 @@ import { CHAVES, ler, limparCredenciais } from './armazenamento-seguro';
 
 const TIMEOUT_PADRAO_MS = 15_000;
 
+/**
+ * Aviso de sessao perdida.
+ *
+ * Limpar o cofre no 401 nao basta: o app continuava com `autenticada: true`
+ * em memoria, entao o roteador mantinha a usuaria dentro das abas e toda
+ * requisicao seguinte saia sem token — sem caminho de volta para o login a
+ * nao ser fechar o app.
+ *
+ * A ligacao e por callback, e nao por import do store, para `lib/` continuar
+ * sem depender de `features/`. Quem liga os dois e o layout raiz.
+ */
+type AoPerderSessao = () => void;
+
+let aoPerderSessao: AoPerderSessao | null = null;
+
+export function definirAoPerderSessao(callback: AoPerderSessao | null): void {
+  aoPerderSessao = callback;
+}
+
 export class ErroApi extends Error {
   constructor(
     readonly status: number,
@@ -86,6 +105,7 @@ export async function requisitar<T>(caminho: string, opcoes: Opcoes = {}): Promi
   if (resposta.status === 401 && autenticada) {
     // Credencial invalida ou revogada: nao insistir com ela.
     await limparCredenciais();
+    aoPerderSessao?.();
     throw new ErroApi(401, 'nao_autenticada', mensagemPorStatus(401));
   }
 

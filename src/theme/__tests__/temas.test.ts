@@ -9,9 +9,35 @@ beforeEach(async () => {
   useTemaStore.setState({ id: TEMA_PADRAO, carregado: false });
 });
 
-describe('os dois fronts', () => {
-  it('existem exatamente dois', () => {
-    expect(LISTA_TEMAS).toHaveLength(2);
+/**
+ * Contraste no criterio WCAG. Duplicado aqui de proposito: o teste precisa
+ * ser independente do codigo que ele verifica, senao um erro na formula
+ * passaria despercebido nos dois lados.
+ */
+function razaoDeContraste(corA: string, corB: string): number {
+  const canal = (v: number) => {
+    const c = v / 255;
+    return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+  };
+  const luminancia = (hex: string) => {
+    const n = parseInt(hex.slice(1), 16);
+    return (
+      0.2126 * canal((n >> 16) & 255) +
+      0.7152 * canal((n >> 8) & 255) +
+      0.0722 * canal(n & 255)
+    );
+  };
+  const [claro, escuro] = [luminancia(corA), luminancia(corB)].sort((x, y) => y - x);
+  return (claro + 0.05) / (escuro + 0.05);
+}
+
+describe('as tres direcoes visuais', () => {
+  it('existem exatamente tres', () => {
+    expect(LISTA_TEMAS).toHaveLength(3);
+  });
+
+  it('o padrao e o futurista, por decisao do fundador', () => {
+    expect(TEMA_PADRAO).toBe('neon-futuro');
   });
 
   it('cada um tem nome e descricao para a tela de escolha', () => {
@@ -25,6 +51,7 @@ describe('os dois fronts', () => {
     const campos = [
       'bg', 'surface', 'ink', 'inkSoft', 'primary',
       'primarySoft', 'accent', 'gold', 'danger', 'border',
+      'inkSobrePrimario',
     ] as const;
 
     for (const tema of LISTA_TEMAS) {
@@ -34,16 +61,62 @@ describe('os dois fronts', () => {
     }
   });
 
-  it('as duas direcoes sao visualmente distintas', () => {
-    const [a, b] = LISTA_TEMAS;
-    expect(a.paleta.primary).not.toBe(b.paleta.primary);
-    expect(a.paleta.bg).not.toBe(b.paleta.bg);
+  it('nenhuma direcao se parece com outra', () => {
+    const primarios = LISTA_TEMAS.map((t) => t.paleta.primary);
+    const fundos = LISTA_TEMAS.map((t) => t.paleta.bg);
+
+    expect(new Set(primarios).size).toBe(LISTA_TEMAS.length);
+    expect(new Set(fundos).size).toBe(LISTA_TEMAS.length);
   });
 
   it('texto principal nunca e preto puro nem igual ao fundo', () => {
     for (const tema of LISTA_TEMAS) {
       expect(tema.paleta.ink.toUpperCase()).not.toBe('#000000');
       expect(tema.paleta.ink).not.toBe(tema.paleta.bg);
+    }
+  });
+
+  it('a marca de escuro bate com o fundo de verdade', () => {
+    // Se isto divergir, a barra de status fica invisivel: relogio escuro em
+    // fundo escuro, ou claro em fundo claro.
+    for (const tema of LISTA_TEMAS) {
+      const fundoEscuro = razaoDeContraste(tema.paleta.bg, '#FFFFFF') > 4.5;
+      expect(tema.escuro).toBe(fundoEscuro);
+    }
+  });
+});
+
+describe('acessibilidade de cor (WCAG AA)', () => {
+  it('texto principal passa em AA sobre o fundo e sobre a superficie', () => {
+    for (const tema of LISTA_TEMAS) {
+      expect(razaoDeContraste(tema.paleta.ink, tema.paleta.bg)).toBeGreaterThanOrEqual(4.5);
+      expect(
+        razaoDeContraste(tema.paleta.ink, tema.paleta.surface),
+      ).toBeGreaterThanOrEqual(4.5);
+    }
+  });
+
+  it('texto suave passa em AA — e o mais usado nas legendas', () => {
+    for (const tema of LISTA_TEMAS) {
+      expect(
+        razaoDeContraste(tema.paleta.inkSoft, tema.paleta.bg),
+      ).toBeGreaterThanOrEqual(4.5);
+    }
+  });
+
+  it('texto sobre o botao primario passa em AA', () => {
+    // Este e o par que quebrava no tema escuro antes de existir
+    // `inkSobrePrimario`: branco sobre neon claro.
+    for (const tema of LISTA_TEMAS) {
+      expect(
+        razaoDeContraste(tema.paleta.inkSobrePrimario, tema.paleta.primary),
+      ).toBeGreaterThanOrEqual(4.5);
+    }
+  });
+
+  it('a cor de erro se distingue do fundo', () => {
+    for (const tema of LISTA_TEMAS) {
+      expect(razaoDeContraste(tema.paleta.danger, tema.paleta.bg)).toBeGreaterThanOrEqual(3);
     }
   });
 });

@@ -18,7 +18,7 @@
       "width": 440,
       "height": 280,
       "color": "1",
-      "text": "# App Monta Looks\n\nApp feminino que monta looks com **indicações fotográficas** das melhores opções do mercado.\n\n- Segurança máxima (LGPD, fotos privadas)\n- 3 planos: Grátis / R$ 19,90 / R$ 24,90\n- Fase 1: só mulheres"
+      "text": "# App Monta Looks\n\nProcurar tipo de roupa, marcar e montar o **guarda-roupa**.\n\n- O estilo é aprendido **no celular** e não sai de lá\n- **Nada à venda** — código comercial guardado atrás de uma chave\n- Fase 1: só mulheres"
     },
     {
       "id": "c3d4e5f6a7b80923",
@@ -141,6 +141,56 @@
       "height": 200,
       "file": "docs/00-INDEX.md",
       "color": "6"
+    },
+    {
+      "id": "n1catalogoroupas01",
+      "type": "file",
+      "x": -940,
+      "y": 220,
+      "width": 480,
+      "height": 240,
+      "file": "docs/features/06-catalogo-de-roupas/o-que-e.md",
+      "color": "4"
+    },
+    {
+      "id": "n2guardaroupa00002",
+      "type": "file",
+      "x": -420,
+      "y": 220,
+      "width": 480,
+      "height": 240,
+      "file": "docs/features/07-guarda-roupa/o-que-e.md",
+      "color": "4"
+    },
+    {
+      "id": "n3algoritmoestilo03",
+      "type": "file",
+      "x": 100,
+      "y": 220,
+      "width": 480,
+      "height": 240,
+      "file": "docs/features/08-algoritmo-de-estilo/o-que-e.md",
+      "color": "4"
+    },
+    {
+      "id": "n4semmonetizacao004",
+      "type": "file",
+      "x": 620,
+      "y": 220,
+      "width": 480,
+      "height": 240,
+      "file": "docs/features/09-sem-monetizacao/o-que-e.md",
+      "color": "5"
+    },
+    {
+      "id": "n5mercadosemvenda05",
+      "type": "file",
+      "x": 1160,
+      "y": -480,
+      "width": 480,
+      "height": 260,
+      "file": "docs/09-mercado-sem-venda.md",
+      "color": "3"
     }
   ],
   "edges": [
@@ -184,6 +234,41 @@
       "toNode": "d0e1f2a3b4c5109a",
       "toSide": "top",
       "toEnd": "arrow"
+    },
+    {
+      "id": "edgenova00000000",
+      "fromNode": "b2c3d4e5f6a70812",
+      "fromSide": "bottom",
+      "toNode": "n1catalogoroupas01",
+      "toSide": "top"
+    },
+    {
+      "id": "edgenova00000001",
+      "fromNode": "b2c3d4e5f6a70812",
+      "fromSide": "bottom",
+      "toNode": "n2guardaroupa00002",
+      "toSide": "top"
+    },
+    {
+      "id": "edgenova00000002",
+      "fromNode": "b2c3d4e5f6a70812",
+      "fromSide": "bottom",
+      "toNode": "n3algoritmoestilo03",
+      "toSide": "top"
+    },
+    {
+      "id": "edgenova00000003",
+      "fromNode": "b2c3d4e5f6a70812",
+      "fromSide": "bottom",
+      "toNode": "n4semmonetizacao004",
+      "toSide": "top"
+    },
+    {
+      "id": "edgenova00000004",
+      "fromNode": "b2c3d4e5f6a70812",
+      "fromSide": "bottom",
+      "toNode": "n5mercadosemvenda05",
+      "toSide": "top"
     }
   ]
 }

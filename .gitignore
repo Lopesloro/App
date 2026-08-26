@@ -32,3 +32,7 @@ Thumbs.db
 # IDE
 .idea/
 .vscode/
+
+# build web temporario e saida do teste de ponta a ponta
+.web-build
+.e2e

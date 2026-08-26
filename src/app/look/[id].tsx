@@ -15,6 +15,7 @@ import { useLook } from '@/features/feed/use-look';
 import { precoTotalLook, type Peca, type Look } from '@/features/feed/tipos';
 import { mensagemLimite } from '@/features/salvos/limites';
 import { useSalvos } from '@/features/salvos/salvos-store';
+import { MONETIZACAO_ATIVA } from '@/lib/flags';
 import { usePaleta } from '@/theme/tema-store';
 import { espaco, raio, PROPORCAO_FOTO, type Paleta } from '@/theme/tokens';
 
@@ -57,7 +58,10 @@ export default function DetalheLook() {
   }
 
   const total = precoTotalLook(look);
-  const disponiveis = look.pecas.filter((p) => p.urlLoja !== null).length;
+  // Sem monetizacao nao ha link de compra na tela, entao tambem nao ha
+  // comissao a declarar. O aviso so aparece junto com o que ele explica.
+  const comLinkDeCompra =
+    MONETIZACAO_ATIVA && look.pecas.some((p) => p.urlLoja !== null);
 
   return (
     <SafeAreaView style={estilos.tela} edges={['bottom', 'left', 'right']}>
@@ -93,7 +97,7 @@ export default function DetalheLook() {
             <LinhaPeca key={peca.id} peca={peca} look={look} />
           ))}
 
-          {disponiveis > 0 ? (
+          {comLinkDeCompra ? (
             <Texto variante="legenda" tom="suave" style={estilos.aviso}>
               {AVISO_COMISSAO}
             </Texto>
@@ -132,7 +136,11 @@ export default function DetalheLook() {
 function LinhaPeca({ peca, look }: { peca: Peca; look: Look }) {
   const paleta = usePaleta();
   const estilos = useMemo(() => criarEstilos(paleta), [paleta]);
-  const url = montarUrlCompra(peca, look, { origemInterna: 'detalhe-look' });
+  // A montagem do link continua testada e pronta; o que decide se ela chega
+  // na tela e a chave de monetizacao (src/lib/flags.ts).
+  const url = MONETIZACAO_ATIVA
+    ? montarUrlCompra(peca, look, { origemInterna: 'detalhe-look' })
+    : null;
 
   async function abrirLoja() {
     if (!url) return;
@@ -161,11 +169,14 @@ function LinhaPeca({ peca, look }: { peca: Peca; look: Look }) {
             Ver na loja
           </Texto>
         </Pressable>
-      ) : (
+      ) : MONETIZACAO_ATIVA ? (
+        // "Indisponivel" so faz sentido quando existe a possibilidade de
+        // comprar. Com a loja desligada, a coluna some inteira em vez de
+        // avisar a usuaria de uma falta que ela nao sentiu.
         <Texto variante="legenda" tom="suave">
           Indisponível
         </Texto>
-      )}
+      ) : null}
     </View>
   );
 }

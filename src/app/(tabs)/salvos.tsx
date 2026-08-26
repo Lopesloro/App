@@ -8,7 +8,7 @@ import { CartaoLook } from '@/components/look/cartao-look';
 import { Botao } from '@/components/ui/botao';
 import { Texto } from '@/components/ui/texto';
 import { useSessao } from '@/features/auth/sessao-store';
-import { limiteDoPlano, vagasRestantes } from '@/features/salvos/limites';
+import { limiteVigente, vagasRestantes } from '@/features/salvos/limites';
 import { useSalvos } from '@/features/salvos/salvos-store';
 import { useLooksSalvos } from '@/features/salvos/use-looks-salvos';
 import { usePaleta } from '@/theme/tema-store';
@@ -21,11 +21,15 @@ export default function Salvos() {
   const router = useRouter();
   const plano = useSessao((estado) => estado.usuaria?.plano ?? 'gratis');
   const alternarSalvo = useSalvos((estado) => estado.alternar);
+  const quantidadeSalva = useSalvos((estado) => estado.ids.length);
   const { looks, indisponiveis, carregando } = useLooksSalvos();
 
-  const limite = limiteDoPlano(plano);
-  const restantes = vagasRestantes(plano, looks.length);
-  const ilimitado = limite === Infinity;
+  // A conta das vagas usa o mesmo numero que o store usa para bloquear: a
+  // quantidade de ids salvos. Contar os looks resolvidos no catalogo
+  // prometeria vaga que o salvar em seguida recusaria, porque look que saiu
+  // do catalogo continua ocupando lugar.
+  const restantes = vagasRestantes(plano, quantidadeSalva);
+  const ilimitado = !Number.isFinite(limiteVigente(plano));
 
   if (carregando) {
     return (
@@ -56,7 +60,9 @@ export default function Salvos() {
           <Botao
             titulo="Ver indicações"
             variante="secundario"
-            onPress={() => router.push('/(tabs)')}
+            // `navigate` troca de aba; `push` empilhava um segundo navegador
+            // de abas por cima, e o voltar caia nesta mesma tela vazia.
+            onPress={() => router.navigate('/feed')}
           />
         </View>
       ) : (

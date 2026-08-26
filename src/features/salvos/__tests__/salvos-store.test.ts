@@ -5,7 +5,9 @@ import { useSalvos } from '../salvos-store';
 
 beforeEach(async () => {
   await AsyncStorage.clear();
-  useSalvos.setState({ ids: [], carregado: false });
+  // `carregado: true` = o app ja leu o que estava no aparelho. E o estado em
+  // que a usuaria consegue tocar no coracao; ver o teste de corrida abaixo.
+  useSalvos.setState({ ids: [], carregado: true });
 });
 
 describe('salvar e remover look', () => {
@@ -42,40 +44,38 @@ describe('salvar e remover look', () => {
   });
 });
 
-describe('limite do plano', () => {
-  async function encher(quantidade: number) {
-    for (let i = 0; i < quantidade; i++) {
+describe('sem monetizacao, nada barra a usuaria', () => {
+  it('salva muito acima do antigo limite do plano Gratis', async () => {
+    for (let i = 0; i < 30; i++) {
       await useSalvos.getState().alternar(`look-${i}`, 'gratis');
     }
-  }
 
-  it('bloqueia ao passar do limite do plano Gratis', async () => {
-    await encher(10);
-    const resultado = await useSalvos.getState().alternar('look-extra', 'gratis');
-
-    expect(resultado).toEqual({ ok: false, motivo: 'limite-atingido' });
-    expect(useSalvos.getState().estaSalvo('look-extra')).toBe(false);
+    expect(useSalvos.getState().ids).toHaveLength(30);
   });
+});
 
-  it('o mesmo usuario no Medium consegue salvar o 11o', async () => {
-    await encher(10);
-    const resultado = await useSalvos.getState().alternar('look-extra', 'medium');
+describe('corrida com a leitura do aparelho', () => {
+  it('nao grava por cima do que ainda esta sendo lido', async () => {
+    // Coloca uma colecao no aparelho, como se fosse de outra sessao.
+    await AsyncStorage.setItem(
+      CHAVES_LOCAIS.looksSalvos,
+      JSON.stringify(['look-antigo-1', 'look-antigo-2']),
+    );
+    useSalvos.setState({ ids: [], carregado: false });
 
-    expect(resultado).toEqual({ ok: true, salvo: true });
-  });
-
-  it('nao prende a usuaria: remover funciona mesmo no limite', async () => {
-    await encher(10);
-    const resultado = await useSalvos.getState().alternar('look-0', 'gratis');
-
-    expect(resultado).toEqual({ ok: true, salvo: false });
-  });
-
-  it('apos remover no limite, abre vaga para outro', async () => {
-    await encher(10);
-    await useSalvos.getState().alternar('look-0', 'gratis');
+    // Toque no coracao antes de `restaurar()` terminar.
     const resultado = await useSalvos.getState().alternar('look-novo', 'gratis');
+    expect(resultado).toEqual({ ok: false, motivo: 'ainda-carregando' });
 
+    await useSalvos.getState().restaurar();
+    expect(useSalvos.getState().ids).toEqual(['look-antigo-1', 'look-antigo-2']);
+  });
+
+  it('depois de carregar, o mesmo toque funciona', async () => {
+    useSalvos.setState({ ids: [], carregado: false });
+    await useSalvos.getState().restaurar();
+
+    const resultado = await useSalvos.getState().alternar('look-novo', 'gratis');
     expect(resultado).toEqual({ ok: true, salvo: true });
   });
 });

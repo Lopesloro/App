@@ -1,22 +1,32 @@
 import { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { useRouter } from 'expo-router';
+import { Redirect, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Botao } from '@/components/ui/botao';
 import { Texto } from '@/components/ui/texto';
 import { PLANOS } from '@/features/assinatura/planos';
+import { MONETIZACAO_ATIVA } from '@/lib/flags';
 import { usePaleta } from '@/theme/tema-store';
 import { espaco, raio, type Paleta } from '@/theme/tokens';
 
 /**
  * Tela de planos. O motor de compra (RevenueCat) entra na issue #30;
  * aqui fica a apresentacao, ja com os precos oficiais do projeto.
+ *
+ * Nao ha caminho ate aqui enquanto `MONETIZACAO_ATIVA` for `false` — nenhum
+ * botao aponta para esta rota. A guarda abaixo cobre o que a navegacao nao
+ * cobre: link externo (`montalooks://paywall`) e rota digitada. Mostrar
+ * preco de algo que nao esta a venda seria promessa falsa.
  */
 export default function Paywall() {
   const paleta = usePaleta();
   const estilos = useMemo(() => criarEstilos(paleta), [paleta]);
   const router = useRouter();
+
+  if (!MONETIZACAO_ATIVA) {
+    return <Redirect href="/(tabs)" />;
+  }
 
   return (
     <SafeAreaView style={estilos.tela}>

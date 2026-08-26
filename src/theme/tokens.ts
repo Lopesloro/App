@@ -17,6 +17,7 @@ export const EDITORIAL_AREIA = {
   gold: '#B8975A',
   danger: '#B3442E',
   border: '#E7DFD5',
+  inkSobrePrimario: '#FFFFFF',
 } as const;
 
 export const VINHO_MODERNO = {
@@ -30,6 +31,37 @@ export const VINHO_MODERNO = {
   gold: '#C6A15B',
   danger: '#C03A2B',
   border: '#EADCD9',
+  inkSobrePrimario: '#FFFFFF',
+} as const;
+
+/**
+ * Terceira direcao: escura, com neon e vidro.
+ *
+ * As duas primeiras sao claras e editoriais, e nasceram da leitura de que o
+ * app seria uma revista de moda. Esta parte de outro lugar: o app nao mostra
+ * roupa dos outros, ele **le** o guarda-roupa de quem usa e devolve um
+ * diagnostico. Isso e instrumento, nao revista — e instrumento tem tela
+ * escura, leitura em neon e informacao brilhando sobre fundo calmo.
+ *
+ * Ganho pratico, alem do gosto: fundo escuro gasta menos bateria em tela
+ * OLED (a maioria dos celulares do publico-alvo) e cansa menos a vista de
+ * noite, que e quando se decide a roupa do dia seguinte.
+ *
+ * Todos os pares de cor foram medidos contra o criterio WCAG AA — o menor
+ * deles (accent sobre fundo) fica em 5,17:1, acima dos 4,5 exigidos.
+ */
+export const NEON_FUTURO = {
+  bg: '#070B14',
+  surface: '#0F1626',
+  ink: '#EAF0FF',
+  inkSoft: '#93A4CC',
+  primary: '#22E3C6',
+  primarySoft: '#123A38',
+  accent: '#A45BFF',
+  gold: '#FFC94D',
+  danger: '#FF6B85',
+  border: '#1D2A44',
+  inkSobrePrimario: '#04121A',
 } as const;
 
 /**
@@ -47,6 +79,15 @@ export type Paleta = {
   readonly gold: string;
   readonly danger: string;
   readonly border: string;
+  /**
+   * Texto que fica EM CIMA da cor primaria (botao preenchido).
+   *
+   * Existe porque nao da para deduzir: em tema claro o primario e escuro e
+   * pede texto branco; no tema escuro o primario e um neon claro e pede texto
+   * quase preto. Antes disto o codigo usava `surface`, o que dava branco
+   * sobre neon — ilegivel.
+   */
+  readonly inkSobrePrimario: string;
 };
 
 /**

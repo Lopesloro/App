@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 
 /**
@@ -27,18 +28,35 @@ const OPCOES: SecureStore.SecureStoreOptions = {
   keychainAccessible: SecureStore.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
 };
 
+/**
+ * O navegador nao tem cofre do sistema.
+ *
+ * A web existe aqui so como janela de desenvolvimento (ver app.config.ts), e
+ * a saida honesta e nao ter credencial nenhuma nela — em vez de cair no
+ * localStorage, que qualquer script da pagina le. Guardar recusa alto e
+ * claro; ler devolve "nao ha nada", que e a verdade.
+ */
+const SEM_COFRE = Platform.OS === 'web';
+
 export async function guardar(chave: ChaveSegura, valor: string): Promise<void> {
   if (valor.length === 0) {
     throw new Error(`Valor vazio para a chave segura ${chave}`);
+  }
+  if (SEM_COFRE) {
+    throw new Error(
+      'Sem cofre do sistema nesta plataforma: credencial nao pode ser guardada.',
+    );
   }
   await SecureStore.setItemAsync(chave, valor, OPCOES);
 }
 
 export async function ler(chave: ChaveSegura): Promise<string | null> {
+  if (SEM_COFRE) return null;
   return SecureStore.getItemAsync(chave, OPCOES);
 }
 
 export async function remover(chave: ChaveSegura): Promise<void> {
+  if (SEM_COFRE) return;
   await SecureStore.deleteItemAsync(chave, OPCOES);
 }
 
@@ -52,6 +70,7 @@ export async function limparCredenciais(): Promise<void> {
 
 /** O SecureStore nao existe em web; a chamada precisa degradar sem quebrar. */
 export async function disponivel(): Promise<boolean> {
+  if (SEM_COFRE) return false;
   try {
     return await SecureStore.isAvailableAsync();
   } catch {

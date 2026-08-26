@@ -1,5 +1,10 @@
 import { z } from 'zod';
 
+import {
+  ESTILOS as ESTILOS_VOCABULARIO,
+  OCASIOES as OCASIOES_VOCABULARIO,
+} from '@/features/estilo/vocabulario';
+
 /**
  * Tipos do feed de indicacoes — o coracao do produto.
  *
@@ -8,28 +13,16 @@ import { z } from 'zod';
  * inesperado ou faltando vira erro claro no lugar de tela quebrada.
  */
 
-export const OCASIOES = [
-  'trabalho',
-  'casual',
-  'festa',
-  'encontro',
-  'academia',
-  'praia',
-] as const;
+/**
+ * Ocasiao e estilo vem do vocabulario compartilhado, e nao sao redefinidos
+ * aqui: o feed, o catalogo de roupas e o algoritmo de estilo precisam falar
+ * exatamente a mesma lingua. Ver `features/estilo/vocabulario.ts`.
+ */
+export { ESTILOS, OCASIOES } from '@/features/estilo/vocabulario';
+export type { Estilo, Ocasiao } from '@/features/estilo/vocabulario';
 
-export const ocasiaoSchema = z.enum(OCASIOES);
-export type Ocasiao = z.infer<typeof ocasiaoSchema>;
-
-export const ESTILOS = [
-  'classico',
-  'moderno',
-  'romantico',
-  'esportivo',
-  'boho',
-] as const;
-
-export const estiloSchema = z.enum(ESTILOS);
-export type Estilo = z.infer<typeof estiloSchema>;
+export const ocasiaoSchema = z.enum(OCASIOES_VOCABULARIO);
+export const estiloSchema = z.enum(ESTILOS_VOCABULARIO);
 
 /**
  * Identificador seguro para uso em rota.

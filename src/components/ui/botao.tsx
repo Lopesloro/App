@@ -58,7 +58,7 @@ export function Botao({
         {carregando ? (
           <ActivityIndicator
             size="small"
-            color={variante === 'primario' ? paleta.surface : paleta.primary}
+            color={variante === 'primario' ? paleta.inkSobrePrimario : paleta.primary}
           />
         ) : (
           <Texto

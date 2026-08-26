@@ -2,18 +2,21 @@ import { useMemo } from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { Redirect } from 'expo-router';
 
-import { useSessao } from '@/features/auth/sessao-store';
+import { podeUsarOApp, useSessao } from '@/features/auth/sessao-store';
 import { usePaleta } from '@/theme/tema-store';
 import type { Paleta } from '@/theme/tokens';
 
 /**
- * Porta de entrada: decide entre onboarding e app conforme a sessao
- * restaurada do cofre.
+ * Porta de entrada: decide entre a boas-vindas e o app.
+ *
+ * Entra quem tem conta E quem escolheu entrar sem conta. Como tudo funciona
+ * no aparelho, nao ha motivo para barrar quem so quer usar.
  */
 export default function Entrada() {
   const paleta = usePaleta();
   const estilos = useMemo(() => criarEstilos(paleta), [paleta]);
-  const { carregando, autenticada } = useSessao();
+  const estado = useSessao();
+  const { carregando } = estado;
 
   if (carregando) {
     return (
@@ -23,7 +26,7 @@ export default function Entrada() {
     );
   }
 
-  return <Redirect href={autenticada ? '/(tabs)' : '/boas-vindas'} />;
+  return <Redirect href={podeUsarOApp(estado) ? '/(tabs)' : '/boas-vindas'} />;
 }
 
 const criarEstilos = (paleta: Paleta) =>
